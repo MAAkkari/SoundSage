@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use vich\UploaderBundle\Mapping\Annotation as vich;
 
 #[ORM\Entity(repositoryClass: MusiqueRepository::class)]
 class Musique
@@ -48,6 +49,9 @@ class Musique
 
     #[ORM\OneToMany(mappedBy: 'musique', targetEntity: Historique::class, orphanRemoval: true)]
     private Collection $historiques;
+
+    #[ORM\Column(length: 255)]
+    private ?string $fichier = null;
 
     public function __construct()
     {
@@ -266,6 +270,22 @@ class Musique
                 $historique->setMusique(null);
             }
         }
+
+        return $this;
+    }
+    public function __toString(){
+        return $this->nom;
+    }
+    
+
+    public function getFichier(): ?string
+    {
+        return $this->fichier;
+    }
+
+    public function setFichier(string $fichier): static
+    {
+        $this->fichier = $fichier;
 
         return $this;
     }

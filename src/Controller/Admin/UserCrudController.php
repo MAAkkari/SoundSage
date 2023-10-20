@@ -21,5 +21,6 @@ class UserCrudController extends AbstractCrudController
             TextEditorField::new('description'),
         ];
     }
+    ->setUploadedFileNamePattern('[year]/[month]/[day]/[slug]-[uuid].[extension]')
     */
 }
