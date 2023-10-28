@@ -53,7 +53,7 @@ class DashboardController extends AbstractDashboardController
         ]);
 
         yield MenuItem::submenu('Musiques','fas fa-bars')->setSubItems([
-            MenuItem::linkToCrud('ajouter un Musique','fas fa-plus', Musique::class)->setAction(Crud::PAGE_NEW),
+            MenuItem::linkToCrud('ajouter une Musique','fas fa-plus', Musique::class)->setAction(Crud::PAGE_NEW),
             MenuItem::linkToCrud('liste des Musiques','fas fa-eye', Musique::class)
         ]);
 

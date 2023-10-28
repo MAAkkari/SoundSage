@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Groupe;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -37,4 +38,15 @@ class GroupeCrudController extends AbstractCrudController
         ];
     }
     
+
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance):void {
+        
+        foreach($entityInstance->getAlbums() as $album){
+            $album->addGroupe($entityInstance);  
+        }
+        foreach($entityInstance->getArtistes() as $artiste){
+            $artiste->addGroupe($entityInstance);  
+        }
+        parent::persistEntity($entityManager, $entityInstance);
+    }
 }

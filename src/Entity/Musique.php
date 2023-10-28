@@ -30,7 +30,7 @@ class Musique
     private ?int $duree = null;
 
     #[ORM\Column]
-    private ?int $nbEcoutes = null;
+    private ?int $nbEcoutes = 0;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'musiquesLiker')]
     private Collection $likerPar;
