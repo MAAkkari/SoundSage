@@ -20,6 +20,22 @@ class GroupeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Groupe::class);
     }
+    
+    public function findPopulaire(){
+
+        $em = $this->getEntityManager();
+        $query = $em->createQueryBuilder()
+            ->select('g.id')
+            ->addSelect('SUM(m.nbEcoutes) as totalEcoutes')
+            ->from('App\Entity\Groupe', 'g')
+            ->innerJoin('g.musiques', 'm')
+            ->groupBy('g.id')
+            ->orderBy('totalEcoutes', 'DESC')
+            ->setMaxResults(6);
+        $results = $query->getQuery();
+        return $results->getResult();
+
+    }
 
 //    /**
 //     * @return Groupe[] Returns an array of Groupe objects
