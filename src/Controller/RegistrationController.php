@@ -31,6 +31,13 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $user->setVerified(0);
+            $user->setRoles(['ROLE_USER']);
+            
+            if($user->getImage() == null)[
+                $user->setImage('defaultProfilePicture.png')
+            ];
+            $user->setDateCreation(new \DateTime());
 
             $entityManager->persist($user);
             $entityManager->flush();

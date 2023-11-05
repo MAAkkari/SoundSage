@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pages{% endblock %}
+
+{% block body %}
+<h1>Pages Populaires</h1>
+{% for groupe in populaires %}
+<a href="#">
+    <figure>
+        <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
+    </figure>
+</a>
+<a href="#">{{groupe.nom}}</a>
+{% endfor %}
+<h2>toutes les pages</h2>
+<input type="text">
+{% for groupe in groupes %}
+<a href="#">
+    <figure>
+        <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
+    </figure>
+</a>
+<a href="#">{{groupe.nom}}</a>
+{% endfor %}
+{% endblock %}

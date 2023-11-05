@@ -20,6 +20,21 @@ class GenreRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Genre::class);
     }
+    public function findPopulaire()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT musique_genre.genre_id, COUNT(musique_genre.genre_id) as total
+            FROM musique_genre
+            GROUP BY musique_genre.genre_id
+            ORDER BY total DESC
+            LIMIT 7
+        ';
+
+        $resultSet = $conn->executeQuery($sql);
+        return $resultSet->fetchAllAssociative();
+    }
 
 //    /**
 //     * @return Genre[] Returns an array of Genre objects

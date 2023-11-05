@@ -1,29 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
 
 <p>ECOUTER TOUT LES</p>
-<h2>Albums du moment</h2>
+<h1>Albums du moment</h1>
 
 {% for album in albums %}
-    <img src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
-    <p>{{album.nom}}</p>
+
+    <a href="#">
+        <figure>
+            <img src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
+        </figure>
+    </a>
+    <a href="#">{{album.nom}}</a>
+
+    <audio  controls src="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"></audio>
     
     {# on verifie si l'album a etait fait par un ou plusieurs groupes et on formate l'affichage selon si il n'y en a qu'un ou plusieurs  #}
 
     {% set groupeCount = album.groupes|length %}
     {% if groupeCount == 1 %}
-       <p> {{ album.groupes[0].nom }}</p>
+       <a href="#"> {{ album.groupes[0].nom }}</a>
     {% else %}
     <p>
         {% for key, groupe in album.groupes %}
-            {{ groupe.nom }}
+            <a href="#">{{ groupe.nom }}</a>
             {% if not loop.last %} ft. {% endif %}
         {% endfor %}
     </p>
     {% endif %}
+{% endfor %}
+
+<h2>Groupes Populaires</h2>
+{% for groupe in groupes %}
+    <a href="#">
+        <figure>
+            <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="image de {{groupe.nom}}">
+        </figure>
+    </a>
+    <a href="#">{{groupe.nom}}</a>
 {% endfor %}
 
 

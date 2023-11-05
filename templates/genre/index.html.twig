@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Genres{% endblock %}
+
+{% block body %}
+<h1>Genres recommandés</h1>
+{% for genre in populaires %}
+
+    <a href="#">
+        <figure>
+            <img src="{{ asset('uploads/genres/' ~ genre.image) }}" alt="image de {{genre.nom}}">
+        </figure>
+    </a>
+    <a href="#">{{genre.nom}}</a>
+{% endfor %}
+    <h2>Tout les Genres</h2>
+    {% for genre in genres %}
+    <a href="#">
+        <figure>
+            <img src="{{ asset('uploads/genres/' ~ genre.image) }}" alt="image de {{genre.nom}}">
+        </figure>
+    </a>
+    <a href="#">{{genre.nom}}</a>
+    {% endfor %}
+
+{% endblock %}

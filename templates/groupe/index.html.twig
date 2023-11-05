@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Groupes{% endblock %}
+
+{% block body %}
+<h1>Artistes et Groupes Populaires</h1>
+{% for groupe in populaires %}
+<a href="#">
+    <figure>
+        <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
+    </figure>
+</a>
+<a href="#">{{groupe.nom}}</a>
+{% endfor %}
+<h2>Tout les Artistes Et les Groupes</h2>
+<input type="text">
+{% for groupe in groupes %}
+<a href="#">
+    <figure>
+        <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
+    </figure>
+</a>
+<a href="#">{{groupe.nom}}</a>
+{% endfor %}
+{% endblock %}
