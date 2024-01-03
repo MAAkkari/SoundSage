@@ -5,6 +5,7 @@
 {% block body %}
 <h1>Pages Populaires</h1>
 {% for groupe in populaires %}
+<p><i class="fa-solid fa-users"></i>{{groupe.getLikerPar()|length }} </p>
 <a href="#">
     <figure>
         <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
@@ -15,6 +16,7 @@
 <h2>toutes les pages</h2>
 <input type="text">
 {% for groupe in groupes %}
+<p><i class="fa-solid fa-users"></i>{{groupe.getLikerPar()|length }} </p>
 <a href="#">
     <figure>
         <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">

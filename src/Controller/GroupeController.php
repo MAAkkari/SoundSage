@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Groupe;
 use App\Repository\GroupeRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GroupeController extends AbstractController
 {
@@ -42,5 +43,13 @@ class GroupeController extends AbstractController
             'populaires'=> $populaires , 
             'groupes'=> $groupes
         ]);
+    }
+    #[Route('/page/{id}', name: 'app_page')]
+    public function showPage( Groupe $groupe , GroupeRepository $gr): Response
+    {
+        return $this->render('groupe/showPage.html.twig', [
+            'groupe'=> $groupe
+        ]);
+
     }
 }

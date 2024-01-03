@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pages{% endblock %}
+
+{% block body %}
+    <figure>
+        <img src="{{ asset('uploads/groupes/' ~ groupe.couverture) }}" alt="couverture de {{groupe.nom}}">
+    </figure>
+    <figure>
+        <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
+    </figure>
+    <h1>{{groupe.nom}}</h1>
+    {% if app.user %}
+        {% if groupe.hasLiked(app.user) %}
+            <a href="{{path('like.groupe',{id:groupe.id})}}" data-action="like"><i class="fa-solid fa-heart"></i></a> {{groupe.likerPar|length}} 
+        {% else %}
+            <a href="{{path('like.groupe',{id:groupe.id})}}" data-action="like"><i class="fa-regular fa-heart"></i></a> {{groupe.likerPar|length}} 
+        {% endif %}
+       
+    {% else %}
+        <p> <i class="fa-solid fa-heart"></i> {{groupe.likerPar|length}} </p>
+    {% endif %}
+    
+    <p><i class="fa-solid fa-newspaper"></i> {{groupe.posts|length}} </p>
+    <h2>Présentation</h2>
+    {{groupe.info}}
+    {% if groupe.artistes|length >1 %}
+        <h2>Date de creation</h2>
+        <p>{{groupe.dateCreation|date("m/d/Y")}}</p>
+    {% else %}
+        <h2>Date Naissance</h2>
+        <p>{{groupe.artistes[0].dateNaissance|date("m/d/Y")}}</p>
+    {% endif %}
+
+
+{% endblock %}

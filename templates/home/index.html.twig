@@ -14,9 +14,10 @@
             <img src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
         </figure>
     </a>
+    <audio  controls src="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"></audio>
     <a href="#">{{album.nom}}</a>
 
-    <audio  controls src="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"></audio>
+    
     
     {# on verifie si l'album a etait fait par un ou plusieurs groupes et on formate l'affichage selon si il n'y en a qu'un ou plusieurs  #}
 

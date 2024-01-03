@@ -225,7 +225,7 @@ class Groupe
         if ($this->admins->removeElement($admin)) {
             $admin->removeGroupesAdministrer($this);
         }
-
+        
         return $this;
     }
 
@@ -332,5 +332,18 @@ class Groupe
     }
     public function __toString(){
         return $this->nom;
+    }
+    public function hasLiked(User $user): bool{
+        $users=[];
+        foreach($this->getLikerPar() as $Liked){
+            $users[]=$Liked;
+        }
+        
+        if( in_array($user, $users) ){
+            return true;
+        }
+        else{
+            return false;
+        };
     }
 }
