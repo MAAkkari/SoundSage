@@ -1,3 +1,141 @@
-#pause-button, #stop-button{
-    display:none;
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+
+.custom-audio-player {
+    display:flex;
+    width: 100%;
+    height: 100px;
+    background-color: #171717;
+    color: #ffff;
+    padding: 0px 40px;
+    font-family: Arial, sans-serif;
+    justify-content: space-between;
+    align-items: center;
+    position:fixed;
+    bottom:0px;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width:40%;
+}
+
+#playPauseBtn, .track-btn {
+    background-color: #307AD0;
+    color: white;
+    border: none;
+    border-radius: 1000px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s;
+    width:42px;
+    height:42px;
+    margin-bottom: -5px;
+}
+
+#playPauseBtn:hover, .track-btn:hover {
+    background-color: #0f74e7;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background-color: #f4f1f1;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.progress {
+    height: 100%;
+    background-color: #307AD0;
+    width: 0%;
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+}
+
+#volumeIcon {
+    width:40px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+#volumeSlider {
+    -webkit-appearance: none; 
+    width: 150px; /* Slider width */
+    height: 4px; /* Slider height */
+    background: #ffffff; /* Background color */
+
+     
+}
+
+/* Style for the slider thumb (handle) - in this case, we're hiding it */
+#volumeSlider::-webkit-slider-thumb {
+    appearance: none;
+    width: 0; 
+    height: 0; 
+    background: transparent;
+}
+
+/* #volumeSlider::-moz-range-thumb {
+    width: 0;
+    height: 0;
+    background: transparent;
+} */
+
+.time-info {
+    font-size: 14px;
+    color:#fffefeb9;
+    align-self:self-end;
+}
+
+.track-buttons {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+.track-info {
+    display: flex;
+    align-items: center;
+    width:300px;
+}
+
+#albumCover {
+    width: 80px;
+    border-radius: 5px;
+    margin-right: 20px;
+    
+}
+
+#songName {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 17px;
+}
+#artistName{
+    color: #7D7979;
+    text-decoration: none;
+    font-size: 15px;
+}
+#songName:hover, #artistName:hover {
+    text-decoration: underline;
+}
+.imgAlbumAccueil {
+    width:30%
+
+}
+.imgGroupeAccueil {
+    width:30%
+
 }

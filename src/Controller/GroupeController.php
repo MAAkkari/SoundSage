@@ -32,7 +32,6 @@ class GroupeController extends AbstractController
     {
         $groupesPopulaires = $gr->findPlusLiker();
         $groupes = $gr->findAll();
-
         $populaires=[];
         foreach($groupesPopulaires as $groupe){
             $populaires[]= $gr->find($groupe['groupe_id']);
@@ -44,7 +43,7 @@ class GroupeController extends AbstractController
             'groupes'=> $groupes
         ]);
     }
-    #[Route('/page/{id}', name: 'app_page')]
+    #[Route('/page/{id}', name: 'show_page')]
     public function showPage( Groupe $groupe , GroupeRepository $gr): Response
     {
         return $this->render('groupe/showPage.html.twig', [

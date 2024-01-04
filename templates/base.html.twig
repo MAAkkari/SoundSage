@@ -10,28 +10,184 @@
         {% endblock %}
 
         {% block javascripts %}
-        <script src="{{ asset('js/lecteur.js') }}"></script>
-        <script src="{{ asset('js/like.js') }}"></script>
+        
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                var audio = new Audio('epic.mp3');
+                audio.loop = true;
+                audio.play();
+            
+                // Intercepter les clics sur tous les liens
+                $(document).on('click', 'a', function(e) {
+                    var href = $(this).attr('href');
+            
+                    // Vérifier si le lien doit être traité comme une navigation interne
+                    if (doLoadInternally(href)) {
+                        e.preventDefault();
+                        loadPage(href);
+                    }
+                    // Sinon, le lien est traité normalement
+                });
+            
+                function loadPage(url) {
+                    $('#content').load(url + ' #content');
+                }
+            
+                function doLoadInternally(url) {
+                    // Ajoutez ici la logique pour déterminer si l'URL doit être chargée dans #content
+                    // Par exemple, vous pourriez vérifier si l'URL est relative (ne commence pas par http:// ou https://)
+                    return !url.match(/^http[s]?:\/\//);
+                }
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+            var audio = document.getElementById('audioPlayer');
+            var playPauseBtn = document.getElementById('playPauseBtn');
+            var trackButtons = document.querySelectorAll('.track-btn');
+            var progressBar = document.getElementById('progressBar');
+            var progress = document.getElementById('progress');
+            var volumeSlider = document.getElementById('volumeSlider');
+            var volumeIcon = document.getElementById('volumeIcon');
+            var timeInfo = document.getElementById('timeInfo');
+
+            
+        
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            trackButtons.forEach(button => button.addEventListener('click', changeTrack));
+            progressBar.addEventListener('click', seekAudio);
+            volumeSlider.addEventListener('input', adjustVolume);
+            audio.addEventListener('timeupdate', updateUI);
+        
+            function togglePlayPause() {
+                if (audio.paused) {
+                    audio.play();
+                    playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                } else {
+                    audio.pause();
+                    playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                }
+            }
+        
+            function changeTrack(event) {
+                var trackSource = event.target.getAttribute('data-track');
+                var albumCover = event.target.getAttribute('data-album-cover');
+                var songName = event.target.getAttribute('data-song-name');
+                var artistName = event.target.getAttribute('data-artist-name');
+        
+                if (trackSource) {
+                    audio.src = trackSource;
+                    audio.load();
+                    audio.play();
+                    playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                }
+        
+                // Update track information
+                document.getElementById('albumCover').src = albumCover;
+                document.getElementById('songName').textContent = songName;
+                document.getElementById('artistName').textContent = artistName;
+            }
+        
+            function seekAudio(e) {
+                var rect = progressBar.getBoundingClientRect();
+                var clickPosition = (e.pageX - rect.left) / progressBar.offsetWidth;
+                audio.currentTime = clickPosition * audio.duration;
+            }
+        
+            volumeSlider.addEventListener('input', function () {
+                adjustVolume();
+                updateVolumeSliderBackground(this.value);
+                updateVolumeIcon(volumeSlider.value);
+            });
+        
+            function adjustVolume() {
+                audio.volume = volumeSlider.value;
+            }
+            function updateVolumeSliderBackground(volume) {
+                const percentage = volume * 100;
+                volumeSlider.style.background = 'linear-gradient(to right, #307AD0 ' + percentage + '%, #ffff ' + percentage + '%)';
+            }
+            function updateVolumeIcon(volume) {
+                if (volume == 0) {
+                    volumeIcon.className = 'fa fa-volume-xmark';
+                } else if (volume <= 0.3) {
+                    volumeIcon.className = 'fa fa-volume-off';
+                } else if (volume <= 0.8) {
+                    volumeIcon.className = 'fa fa-volume-low';
+                } else {
+                    volumeIcon.className = 'fa fa-volume-high';
+                }
+            }
+        
+            function updateUI() {
+                updateProgressBar();
+                updateTimeInfo();
+            }
+        
+            function updateProgressBar() {
+                var percentage = (audio.currentTime / audio.duration) * 100;
+                progress.style.width = percentage + '%';
+            }
+        
+            function updateTimeInfo() {
+                timeInfo.textContent = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration);
+            }
+        
+            function formatTime(time) {
+                var minutes = Math.floor(time / 60);
+                var seconds = Math.floor(time % 60);
+                return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+            }
+            updateVolumeSliderBackground(volumeSlider.value);
+        });
+    </script>
         {% endblock %}
     </head>
     <body>
-            <div>
-                <input type="range" id="track" min="0" value="0">
-                <span id="elapsed">0:00</span> / <span id="track-time">1:00</span>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="{{ path('app_home') }}">Home</a></li>
+                    {% if app.user %}
+                        <li><a href="{{ path('app_logout') }}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{{ path('app_login') }}">Login</a></li>
+                        <li><a href="{{ path('app_register') }}">Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
+
+        <div class="custom-audio-player">
+            <div class="track-info">
+                <img id="albumCover" src="{{asset('uploads/defaultTrack.jpg')}}" alt="Default Album Cover">
+                <div>
+                    <a id="songName" href="#" target="_blank">Select a Song</a>
+                    <br>
+                    <a id="artistName" href="#" target="_blank">Artist Name</a>
+                </div>
             </div>
-            <div>
-                <audio id="audio"src="{{ asset('uploads/files/Bodysnatchers.mp3' ) }}"></audio>
-                <i id="play-button" class="fa-solid fa-circle-play" style="color: #307ad0;"></i>
-                <i id="pause-button" class="fa-solid fa-circle-pause" style="color: #307ad0;"></i>
-                <i id="stop-button" class="fa-solid fa-circle-stop"></i>
+
+            <audio id="audioPlayer"  type="audio/mpeg"></audio>
+            <div class="controls">
+                
+                <button id="playPauseBtn"><i class="fa-solid fa-play"></i></button>
+                <div class="time-info" id="timeInfo">0:00 / 0:00</div>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress" id="progress"></div>
+                </div>
             </div>
-            <div>
-                <input type="range" id="volume" min="0" max="1" value="1" step="0.01">
-                <span id="volume-value">100%</span>
+            <div class="volume-control">
+                <i id="volumeIcon" class="fa fa-volume-up"></i>
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
             </div>
-            
-        {% block body %}
-            
-        {% endblock %}
+
+        </div>
+
+        <div id="content">
+            {% block body %}{% endblock %}
+        </div>
     </body>
-</html>
+    </html>

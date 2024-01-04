@@ -11,11 +11,18 @@
 
     <a href="#">
         <figure>
-            <img src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
+            <img class="imgAlbumAccueil" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
         </figure>
     </a>
     <audio  controls src="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"></audio>
-    <a href="#">{{album.nom}}</a>
+    <a href="{{path('app_page',{'id':1})}}">{{album.nom}}</a>
+    <button class="track-btn" 
+                data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
+                data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
+                data-song-name="{{ album.musiques[0].nom }}"
+                data-artist-name="{{ album.groupes[0].nom }}">
+                <i class="fa-solid fa-play"></i>
+    </button>
 
     
     
@@ -38,7 +45,7 @@
 {% for groupe in groupes %}
     <a href="#">
         <figure>
-            <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="image de {{groupe.nom}}">
+            <img class="imgGroupeAccueil" src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="image de {{groupe.nom}}">
         </figure>
     </a>
     <a href="#">{{groupe.nom}}</a>
