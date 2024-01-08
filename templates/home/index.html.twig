@@ -14,7 +14,6 @@
             <img class="imgAlbumAccueil" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
         </figure>
     </a>
-    <audio  controls src="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"></audio>
     <a href="{{path('app_page',{'id':1})}}">{{album.nom}}</a>
     <button class="track-btn" 
         data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
@@ -25,11 +24,11 @@
         <i class="fa-solid fa-play"></i>
     </button>
 
-    {# problematic live-component #}
-    {# {{ component('LikeButtonComponent', {
-        '$entityType': 'Album',
+    
+    {{ component('LikeButtonComponent', {
+        'entityType': 'Album',
         'entityId': album.id
-    }) }}  #} 
+    }) }} 
 
  
 

@@ -1,5 +1,5 @@
 <?php 
-namespace App\LiveComponent;
+namespace App\components;
 
 use App\Entity\Post;
 use App\Entity\User;
@@ -22,22 +22,21 @@ class LikeButtonComponent
     private EntityManagerInterface $entityManager;
     private Security $security;
 
-    #[LiveProp(writable: true)]
-    public string $entityType; 
-
-    #[LiveProp(writable: true)]
-    public int $entityId;
-    
     #[LiveProp]
+    public ?string $entityType=null; 
+
+    #[LiveProp]
+    public ?int $entityId=null;
+    
     public bool $isLiked = false;
 
     public function __construct(EntityManagerInterface $entityManager, Security $security)
-    {
+    {   
         $this->entityManager = $entityManager;
-        $this->security = $security;
+        $this->security = $security;    
     }
 
-    public function mount(): void
+    public function mount()
     {
         $user = $this->security->getUser();
         if (!$user instanceof User) {
@@ -64,7 +63,7 @@ class LikeButtonComponent
         if (!$entity) {
             return;
         }
-
+        $this->mount();
         if ($this->isLiked) {
             $entity->removeLikerPar($user);
         } else {

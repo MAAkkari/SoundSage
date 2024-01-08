@@ -3,6 +3,10 @@
 <div {{ attributes }}>
     <button data-action="live#action"
             data-action-name="toggleLike">
-        like
+        {% if this.isLiked %}
+        <i class="fa-solid fa-heart"></i>
+        {% else %}
+        <i class="fa-regular fa-heart"></i>
+        {% endif %}
     </button>
 </div>
