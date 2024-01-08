@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ album.nom }} {% endblock %}
+
+{% block body %}
+
+{# calcule de la durée total de l'album puis formate en minutes et secondes pour l'affichage#}
+{% set totalDuration = 0 %}
+{% for musique in album.musiques %}
+    {% set totalDuration = totalDuration + musique.duree %}
+{% endfor %}
+
+{% set minutes = (totalDuration // 60) %}
+{% set seconds = (totalDuration % 60) %}
+
+
+    <figure>
+        <img class="imgAlbumShow" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
+    </figure>
+    <div>
+        <p>album</p>
+        <h1>{{ album.nom }} </h1>
+        <div>
+            <a href="#">
+                <figure>
+                    <img class="imgGroupeShow" src="{{ asset('uploads/groupes/' ~ album.groupes[0].photo) }}" alt="image de {{ album.groupes[0].nom }}">
+                </figure>
+            </a>
+            <p><a href="#">{{ album.groupes[0].nom }}</a> . {{ album.dateCreation|date('Y') }} . {{ album.musiques|length }} . {{ minutes }} min {{ seconds }} s </p>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <p>n°</p>
+            <p>titre</p>
+            <p><i class="fa-regular fa-clock"></i></p>
+        </div>
+
+        <div></div>
+        
+        {% for musique in album.musiques %}
+            <div>
+                <p>{{ loop.index }}</p>
+                <div>
+                   <p>{{musique.nom}} </p> 
+                   <a href="#">{{ album.groupes[0].nom }}</a>
+                </div>
+                <p>{{ musique.duree // 60 }}:{{ '%02d'|format(musique.duree % 60) }}</p>
+            </div>
+            
+        {% endfor %}
+    </div>
+
+    <h2>Autres Oeuvres de {{album.groupes[0].nom}} </h2>
+    <div>
+        {% for AutreAlbum in album.groupes[0].albums %}
+            {% if AutreAlbum.nom != album.nom %}
+                <a href="#">
+                    <figure>
+                        <img class="imgAlbumShow" src="{{ asset('uploads/albums/' ~ AutreAlbum.image) }}" alt="jaquette de {{ AutreAlbum.nom }}">
+                    </figure>
+                </a>
+                <a href="{{path('app_page',{'id':1})}}">{{AutreAlbum.nom}}</a>        
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

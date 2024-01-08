@@ -20,7 +20,7 @@
                 audio.play();
             
                 // Intercepter les clics sur tous les liens
-                $(document).on('click', 'a', function(e) {
+                $(document).on('click', 'a:not(.exclude-from-interception)', function(e) {
                     var href = $(this).attr('href');
             
                     // Vérifier si le lien doit être traité comme une navigation interne
@@ -149,12 +149,12 @@
         <header>
             <nav>
                 <ul>
-                    <li><a href="{{ path('app_home') }}">Home</a></li>
+                    <li><a href="{{ path('app_home') }}" >Home</a></li>
                     {% if app.user %}
-                        <li><a href="{{ path('app_logout') }}">Logout</a></li>
+                        <li><a href="{{ path('app_logout') }}" class="exclude-from-interception">Logout</a></li>
                     {% else %}
-                        <li><a href="{{ path('app_login') }}">Login</a></li>
-                        <li><a href="{{ path('app_register') }}">Register</a></li>
+                        <li><a href="{{ path('app_login') }}" class="exclude-from-interception">Login</a></li>
+                        <li><a href="{{ path('app_register') }}" class="exclude-from-interception">Register</a></li>
                     {% endif %}
                 </ul>
             </nav>

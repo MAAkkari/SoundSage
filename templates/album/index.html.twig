@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Albums{% endblock %}
+
+{% block body %}
+<h1>Albums du moment</h1>
+
+{% for album in populaires %}
+
+    <a href="#">
+        <figure>
+            <img class="imgAlbumAccueil" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
+        </figure>
+    </a>
+    <audio  controls src="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"></audio>
+    <a href="{{path('app_page',{'id':1})}}">{{album.nom}}</a>
+    <button class="track-btn" 
+                data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
+                data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
+                data-song-name="{{ album.musiques[0].nom }}"
+                data-artist-name="{{ album.groupes[0].nom }}">
+                <i class="fa-solid fa-play"></i>
+    </button>
+   
+    
+    
+    
+    {# on verifie si l'album a etait fait par un ou plusieurs groupes et on formate l'affichage selon si il n'y en a qu'un ou plusieurs  #}
+
+    {% set groupeCount = album.groupes|length %}
+    {% if groupeCount == 1 %}
+       <a href="#"> {{ album.groupes[0].nom }}</a>
+    {% else %}
+    <p>
+        {% for key, groupe in album.groupes %}
+            <a href="#">{{ groupe.nom }}</a>
+            {% if not loop.last %} ft. {% endif %}
+        {% endfor %}
+    </p>
+    {% endif %}
+{% endfor %}
+
+<h2>tout les Albums</h2>
+{% for album in albums %}
+
+    <a href="#">
+        <figure>
+            <img class="imgAlbumAccueil" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
+        </figure>
+    </a>
+    <audio  controls src="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"></audio>
+    <a href="{{path('app_page',{'id':1})}}">{{album.nom}}</a>
+    <button class="track-btn" 
+                data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
+                data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
+                data-song-name="{{ album.musiques[0].nom }}"
+                data-artist-name="{{ album.groupes[0].nom }}">
+                <i class="fa-solid fa-play"></i>
+    </button>
+   
+    
+    
+    
+    {# on verifie si l'album a etait fait par un ou plusieurs groupes et on formate l'affichage selon si il n'y en a qu'un ou plusieurs  #}
+
+    {% set groupeCount = album.groupes|length %}
+    {% if groupeCount == 1 %}
+       <a href="#"> {{ album.groupes[0].nom }}</a>
+    {% else %}
+    <p>
+        {% for key, groupe in album.groupes %}
+            <a href="#">{{ groupe.nom }}</a>
+            {% if not loop.last %} ft. {% endif %}
+        {% endfor %}
+    </p>
+    {% endif %}
+{% endfor %}
+{% endblock %}

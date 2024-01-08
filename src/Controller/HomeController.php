@@ -21,7 +21,7 @@ class HomeController extends AbstractController
         );
 
         //utilise la fonction définie dans le repository pour recuperer les id des 6 groupes avec le plus d'ecoutes en additionant les ecoutes de 
-        //toutes leurs musiques , puis recupere les objets avec les ids
+        //toutes leurs musiques, puis recupere les objets avec les ids
         $GroupesPopulaires = $gr->findPopulaire();
         $groupes=[];
         foreach($GroupesPopulaires as $groupe){

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Your Listening History{% endblock %}
+
+{% block body %}
+    <h1>Your Listening History</h1>
+    
+    <ul>
+        {% for historique in historiques %}
+            <li>
+                Listened to "{{ historique.musique.nom }}" 
+                on {{ historique.dateEcoute|date('Y-m-d H:i:s') }}
+            </li>
+        {% else %}
+            <li>No history found.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

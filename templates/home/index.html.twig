@@ -17,13 +17,33 @@
     <audio  controls src="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"></audio>
     <a href="{{path('app_page',{'id':1})}}">{{album.nom}}</a>
     <button class="track-btn" 
-                data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
-                data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
-                data-song-name="{{ album.musiques[0].nom }}"
-                data-artist-name="{{ album.groupes[0].nom }}">
-                <i class="fa-solid fa-play"></i>
+        data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
+        data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
+        data-song-name="{{ album.musiques[0].nom }}"
+        data-artist-name="{{ album.groupes[0].nom }}"
+        onclick="addToHistory({{ album.musiques[0].id }})">
+        <i class="fa-solid fa-play"></i>
     </button>
 
+    <script>
+        function addToHistory(musiqueId) {
+            fetch('/add-to-history', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'musiqueId=' + musiqueId
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Historique updated');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+   
+    
     
     
     {# on verifie si l'album a etait fait par un ou plusieurs groupes et on formate l'affichage selon si il n'y en a qu'un ou plusieurs  #}
