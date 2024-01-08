@@ -23,11 +23,16 @@
         onclick="addToHistory({{ album.musiques[0].id }})">
         <i class="fa-solid fa-play"></i>
     </button>
-
     
+    {% if user in album.likerPar %}
+    {% set liked = true %}
+    {% else %}
+    {% set liked = false %}
+    {% endif %}
     {{ component('LikeButtonComponent', {
         'entityType': 'Album',
-        'entityId': album.id
+        'entityId': album.id,
+        'isLiked':liked,
     }) }} 
 
  

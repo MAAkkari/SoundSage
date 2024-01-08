@@ -5,6 +5,30 @@
     list-style: none;
     text-decoration: none;
 }
+#sidebar {
+    width: 250px; /* Width of the sidebar */
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #333; /* Sidebar background color */
+    transition: left 0.3s; /* Smooth transition for showing/hiding */
+}
+
+#main-content {
+    margin-left: 250px; /* Same as the width of the sidebar */
+    transition: margin-left 0.3s;
+}
+
+/* Class to hide the sidebar */
+.hidden-sidebar {
+    left: -250px; /* Hide the sidebar */
+}
+
+/* Class to adjust main content when sidebar is hidden */
+.adjusted-content {
+    margin-left: 0;
+}
 
 .custom-audio-player {
     display:flex;

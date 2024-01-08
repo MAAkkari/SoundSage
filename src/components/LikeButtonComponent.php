@@ -28,6 +28,7 @@ class LikeButtonComponent
     #[LiveProp]
     public ?int $entityId=null;
     
+    #[LiveProp]
     public bool $isLiked = false;
 
     public function __construct(EntityManagerInterface $entityManager, Security $security)

@@ -29,7 +29,7 @@ class GroupeController extends AbstractController
     }
     #[Route('/page', name: 'app_page')]
     public function page(GroupeRepository $gr): Response
-    {
+    { $user = $this->getUser();
         $groupesPopulaires = $gr->findPlusLiker();
         $groupes = $gr->findAll();
         $populaires=[];
@@ -40,7 +40,8 @@ class GroupeController extends AbstractController
 
         return $this->render('groupe/page.html.twig', [
             'populaires'=> $populaires , 
-            'groupes'=> $groupes
+            'groupes'=> $groupes,
+            'user'=>$user
         ]);
     }
     #[Route('/page/{id}', name: 'show_page')]

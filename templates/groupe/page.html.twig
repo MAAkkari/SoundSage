@@ -5,13 +5,30 @@
 {% block body %}
 <h1>Pages Populaires</h1>
 {% for groupe in populaires %}
+
+    
 <p><i class="fa-solid fa-users"></i>{{groupe.getLikerPar()|length }} </p>
 <a href="#">
     <figure>
         <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
     </figure>
 </a>
+
+<div>
 <a href="#">{{groupe.nom}}</a>
+
+{% if user in groupe.likerPar %}
+    {% set liked = true %}
+    {% else %}
+    {% set liked = false %}
+{% endif %}
+{{ component('LikeButtonComponent', {
+    'entityType': 'Groupe',
+    'entityId': groupe.id,
+    'isLiked':liked,
+}) }}
+</div>
+
 {% endfor %}
 <h2>toutes les pages</h2>
 <input type="text">
@@ -22,6 +39,19 @@
         <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
     </figure>
 </a>
-<a href="#">{{groupe.nom}}</a>
+<div>
+    <a href="#">{{groupe.nom}}</a>
+    
+    {% if user in groupe.likerPar %}
+        {% set liked = true %}
+        {% else %}
+        {% set liked = false %}
+    {% endif %}
+    {{ component('LikeButtonComponent', {
+        'entityType': 'Groupe',
+        'entityId': groupe.id,
+        'isLiked':liked,
+    }) }}
+</div>
 {% endfor %}
 {% endblock %}

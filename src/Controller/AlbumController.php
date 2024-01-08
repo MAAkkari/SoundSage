@@ -13,6 +13,7 @@ class AlbumController extends AbstractController
     #[Route('/album', name: 'app_album')]
     public function index(AlbumRepository $ar): Response
     {
+        $user = $this->getUser();
         $populaires = $ar->findBy(
             [],
             ['dateCreation' => 'DESC'],
@@ -20,15 +21,18 @@ class AlbumController extends AbstractController
         );
         return $this->render('album/index.html.twig', [
             'populaires'=>$populaires,
-            'albums'=>$ar->findAll()
+            'albums'=>$ar->findAll(),
+            'user'=>$user
         ]);
     }
 
     #[Route('/album/{id}', name: 'show_album')]
     public function show(Album $album , AlbumRepository $ar): Response
-    {
+    {   
+        $user = $this->getUser();
         return $this->render('album/show.html.twig', [
             'album'=>$ar->find($album->getId()),
+            'user'=>$user
         ]);
     }
     

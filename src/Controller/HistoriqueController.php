@@ -51,23 +51,38 @@ class HistoriqueController extends AbstractController
 
     
     #[Route('/add-to-history', name: 'add_to_history', methods: ['POST'])]
-    public function addToHistory(Request $request, EntityManagerInterface $entityManager): Response
+    public function addToHistory(Request $request, EntityManagerInterface $entityManager, HistoriqueRepository $historiqueRepository): Response
     {
-        $userId = $this->getUser()->getId();
-        $musiqueId = $request->request->get('musiqueId');
-
-        $musique = $entityManager->getRepository(Musique::class)->find($musiqueId);
-
-        if ($musique) {
-            $historique = new Historique();
-            $historique->setUtilisateur($this->getUser());
-            $historique->setMusique($musique);
-            $historique->setDateEcoute(new \DateTime());
-
-            $entityManager->persist($historique);
-            $entityManager->flush();
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->json(['message' => 'User not authenticated'], Response::HTTP_UNAUTHORIZED);
         }
 
-        return new Response(null, Response::HTTP_OK);
+        $musiqueId = $request->request->get('musiqueId');
+        if (!$musiqueId) {
+            return $this->json(['message' => 'Invalid request'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $musique = $entityManager->getRepository(Musique::class)->find($musiqueId);
+        if (!$musique) {
+            throw $this->createNotFoundException('Musique not found');
+        }
+
+        // Remove existing history entries for this musique
+        $existingHistoriques = $historiqueRepository->findBy(['utilisateur' => $user, 'musique' => $musique]);
+        foreach ($existingHistoriques as $historique) {
+            $entityManager->remove($historique);
+        }
+
+        // Add new history entry
+        $newHistorique = new Historique();
+        $newHistorique->setUtilisateur($user);
+        $newHistorique->setMusique($musique);
+        $newHistorique->setDateEcoute(new \DateTime());
+
+        $entityManager->persist($newHistorique);
+        $entityManager->flush();
+
+        return $this->json(['message' => 'History updated'], Response::HTTP_OK);
     }
 }

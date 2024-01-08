@@ -12,7 +12,7 @@ class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
     public function index(AlbumRepository $ar, GroupeRepository $gr): Response
-    {  
+    {  $user = $this->getUser();
         //affiche les 10 derniers albums selon la date de sortie 
         $albums = $ar->findBy(
             [],
@@ -30,7 +30,8 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'albums'=>$albums,
-            'groupes'=>$groupes
+            'groupes'=>$groupes,
+            'user'=>$user
         ]);
     }
 }
