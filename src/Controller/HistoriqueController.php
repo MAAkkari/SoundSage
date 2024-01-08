@@ -13,23 +13,42 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HistoriqueController extends AbstractController
 {
-
-    
     #[Route('/historique', name: 'app_historique')]
-    public function userHistorique(HistoriqueRepository $historiqueRepository): Response
+    public function index(HistoriqueRepository $historiqueRepository): Response
     {
         $user = $this->getUser();
         if (!$user) {
-            // Redirect to login page or handle unauthorized access
-            return $this->redirectToRoute('app_login');
+            // Handle not logged in user
+            throw $this->createAccessDeniedException('Connectez-vous pour accéder a votre historique.');
         }
 
-        $historiques = $historiqueRepository->findBy(['utilisateur' => $user]);
+        $historiques = $historiqueRepository->findBy(
+            ['utilisateur' => $user],
+            ['dateEcoute' => 'DESC']
+        );
+
+        $groupedHistoriques = [];
+        $aujourdhui = new \DateTime('today');
+        $hier = new \DateTime('yesterday');
+
+        foreach ($historiques as $historique) {
+            $dateEcoute = $historique->getDateEcoute();
+            $formattedDate = $dateEcoute->format('Y-m-d');
+
+            if ($dateEcoute >= $aujourdhui) {
+                $groupedHistoriques['aujourdhui'][] = $historique;
+            } elseif ($dateEcoute >= $hier) {
+                $groupedHistoriques['hier'][] = $historique;
+            } else {
+                $groupedHistoriques[$formattedDate][] = $historique;
+            }
+        }
 
         return $this->render('historique/index.html.twig', [
-            'historiques' => $historiques,
+            'groupedHistoriques' => $groupedHistoriques,
         ]);
     }
+
     
     #[Route('/add-to-history', name: 'add_to_history', methods: ['POST'])]
     public function addToHistory(Request $request, EntityManagerInterface $entityManager): Response

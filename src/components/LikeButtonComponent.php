@@ -23,15 +23,13 @@ class LikeButtonComponent
     private Security $security;
 
     #[LiveProp(writable: true)]
-    public string $entityType; // 'Album', 'Groupe', 'Post'
+    public string $entityType; 
 
     #[LiveProp(writable: true)]
     public int $entityId;
     
     #[LiveProp]
     public bool $isLiked = false;
-
-    
 
     public function __construct(EntityManagerInterface $entityManager, Security $security)
     {

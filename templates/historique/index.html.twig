@@ -1,18 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Your Listening History{% endblock %}
+{% block title %}Historique{% endblock %}
 
 {% block body %}
-    <h1>Your Listening History</h1>
-    
-    <ul>
-        {% for historique in historiques %}
-            <li>
-                Listened to "{{ historique.musique.nom }}" 
-                on {{ historique.dateEcoute|date('Y-m-d H:i:s') }}
-            </li>
-        {% else %}
-            <li>No history found.</li>
-        {% endfor %}
-    </ul>
+    <h1>Historique</h1>
+
+    {% for date, historiques in groupedHistoriques %}
+        {% if date != 'aujourdhui' %}
+            <h2>{{ date }}</h2> {# Display 'Yesterday' or the actual date #}
+        {% endif %}
+
+        <ul>
+            {% for historique in historiques %}
+                <li>
+                    {{ historique.musique.nom }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No history found.</p>
+    {% endfor %}
 {% endblock %}
