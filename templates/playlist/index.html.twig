@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vos Playlists{% endblock %}
+
+{% block body %}
+<h1>Vos playlists</h1>
+<div>
+    <div>
+        <p>titre</p>
+        <p>Musiques</p>
+    </div>
+
+    <div class="black-line"></div>
+
+    {% for playlist in playlists %}
+
+    <div>
+        <div>
+            <a href="#">
+                <figure>
+                    {% if playlist.image != null %}
+                        <img class="imgPlaylistIcon" src="{{ asset('uploads/playlists/' ~ playlist.image) }}" alt="image de {{ playlist.nom }}">
+                    {% else %}
+                        <img class="imgPlaylistIcon" src="{{ asset('uploads/defaultTrack.jpg') }}" alt="image par defaut">
+                    {% endif %}
+                </figure>
+            </a>
+            <a href="#">{{ playlist.nom }}</a>
+        </div>
+        <div>
+            count how many musiques in playlist
+
+            {% set musiqueCount = 0 %}
+            {% for musique in playlist.musiques %}
+                {% set musiqueCount = musiqueCount + 1 %}
+            {% endfor %}
+            <p>{{ musiqueCount}} Musiques</p>
+            <a href=""></a>
+            <a href="{{ path('delete_playlist', {'id': playlist.id}) }}"><i class="fa-solid fa-trash" ></i></a>
+        </div>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

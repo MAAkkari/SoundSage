@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    #[Route('/user/favoris', name: 'app_favoris')]
+    #[Route('/favoris', name: 'app_favoris')]
     public function favoris(UserRepository $user): Response
     {
         $user = $this->getUser();
