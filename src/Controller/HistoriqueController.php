@@ -46,6 +46,7 @@ class HistoriqueController extends AbstractController
 
         return $this->render('historique/index.html.twig', [
             'groupedHistoriques' => $groupedHistoriques,
+            'user' => $user
         ]);
     }
 

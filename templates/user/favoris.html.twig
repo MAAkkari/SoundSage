@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Favoris{% endblock %}
+
+{% block body %}
+<h1>Vos Favoris</h1>
+<div>
+    <h2>Musiques</h2>
+    {% for musique in user.musiquesLiker %}
+    <div>
+        {{ musique.nom }}
+        <a href="#">{{musique.groupes[0].nom}}</a>
+    </div>
+    <button class="track-btn" 
+        data-track="{{ asset('uploads/files/' ~ musique.fichier) }}"
+        data-album-cover="{{ asset('uploads/albums/' ~ musique.album.image) }}"
+        data-song-name="{{ musique.nom }}"
+        data-artist-name="{{ musique.album.groupes[0].nom }}"
+        onclick="addToHistory({{ musique.id }})">
+        <i class="fa-solid fa-play"></i>
+    </button>
+
+    {% if user in musique.likerPar %}
+    {% set liked1 = true %}
+    {% else %}
+    {% set liked1 = false %}
+    {% endif %}
+    {{ component('LikeButtonComponent', {
+        'entityType': 'Musique',
+        'entityId': musique.id,
+        'isLiked':liked1,
+    }) }}
+    
+    <p>{{ musique.duree // 60 }}:{{ '%02d'|format(musique.duree % 60) }}</p>
+        
+    {% endfor %}
+</div>
+<div>
+    <h1>Groupes et Artistes</h1>
+    {% for groupe in user.groupesLiker %}
+        <div>
+            <a href="#">
+                <figure>
+                    <img class="artistIcon" src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{ groupe.nom }}">
+                </figure>
+            </a>
+            <a href="#">{{groupe.nom}}</a>
+            {% if user in groupe.likerPar %}
+            {% set liked2 = true %}
+            {% else %}
+            {% set liked2 = false %}
+            {% endif %}
+            {{ component('LikeButtonComponent', {
+                'entityType': 'Groupe',
+                'entityId': groupe.id,
+                'isLiked':liked2,
+            }) }}
+        </div>
+    {% endfor %}
+</div>
+
+    <h1>Albums</h1>
+    <div>
+        {% for album in user.albumsLiker %}
+        <div>
+            <a href="{{path('show_album',{'id':album.id})}}">
+                <figure>
+                    <img class="imgAlbumIcon" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
+                </figure>
+            </a>
+            <div>
+                <a href="{{path('show_album',{'id':album.id})}}">{{album.nom}}</a>
+                <a href="#">{{album.groupes[0].nom}}</a>
+            </div>
+            {% if user in album.likerPar %}
+            {% set liked3 = true %}
+            {% else %}
+            {% set liked3 = false %}
+            {% endif %}
+            {{ component('LikeButtonComponent', {
+                'entityType': 'Album',
+                'entityId': album.id,
+                'isLiked':liked3,
+            }) }}
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

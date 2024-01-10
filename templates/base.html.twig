@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+       
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <script src="https://kit.fontawesome.com/a0cb91d4d8.js" crossorigin="anonymous"></script>
@@ -10,12 +11,14 @@
         {% endblock %}
 
         {% block javascripts %}
+        <script src="{{ asset('js/alert.js') }}"></script>
         
         {% block importmap %}{{ importmap('app') }}{% endblock %}
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             $(document).ready(function() {
-                var audio = new Audio('epic.mp3');
+                var audio = new Audio('/uploads/files/Radiohead - Reckoner (By Clement Picon).mp3');
                 audio.loop = true;
                 audio.play();
             
@@ -146,6 +149,26 @@
         {% endblock %}
     </head>
     <body>
+        {# affichage des messages de succés et d'erreur #}
+        {% set errorFlashes = app.flashes('error') %}
+        {% set successFlashes = app.flashes('success') %}
+        
+        
+        {% if errorFlashes is not empty %}
+            <h3 class="msg_error">  
+                {% for message in errorFlashes %}
+                <i class="fa-solid fa-bullhorn"></i> {{ message }}
+                {% endfor %} 
+            </h3>
+        {% endif %}
+        
+        {% if successFlashes is not empty %}
+            <h3 class="msg_success">
+                {% for message in successFlashes %}
+                <i class="fa-solid fa-bullhorn"></i> {{ message }}
+                {% endfor %}
+            </h3>
+        {% endif %}
         
         <header>
             <nav>

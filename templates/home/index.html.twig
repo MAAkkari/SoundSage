@@ -9,12 +9,12 @@
 
 {% for album in albums %}
 
-    <a href="#">
+    <a href="{{path('show_album',{'id':album.id})}}">
         <figure>
             <img class="imgAlbumAccueil" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
         </figure>
     </a>
-    <a href="{{path('app_page',{'id':1})}}">{{album.nom}}</a>
+    <a href="{{path('show_album',{'id':album.id})}}">{{album.nom}}</a>
     <button class="track-btn" 
         data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
         data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"

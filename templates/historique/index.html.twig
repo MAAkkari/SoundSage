@@ -3,8 +3,13 @@
 {% block title %}Historique{% endblock %}
 
 {% block body %}
-    <h1>Historique</h1>
 
+    <h1>Historique</h1>
+    <div>
+        <p>titre</p>
+        <p><i class="fa-regular fa-clock"></i></p>
+        <div></div>
+    </div>
     {% for date, historiques in groupedHistoriques %}
         {% if date != 'aujourdhui' %}
             <h2>{{ date }}</h2>
@@ -12,8 +17,31 @@
 
         <ul>
             {% for historique in historiques %}
+
+                {% if user in historique.musique.likerPar %}
+                {% set liked = true %}
+                {% else %}
+                {% set liked = false %}
+                {% endif %}
                 <li>
-                    {{ historique.musique.nom }}
+                    <div>
+                        {{ historique.musique.nom }} 
+                        <div>
+                            <button class="track-btn" 
+                                data-track="{{ asset('uploads/files/' ~ historique.musique.fichier) }}"
+                                data-album-cover="{{ asset('uploads/albums/' ~ historique.musique.album.image) }}"
+                                data-song-name="{{ historique.musique.nom }}"
+                                data-artist-name="{{ historique.musique.album.groupes[0].nom }}"
+                                onclick="addToHistory({{ historique.musique.id }})">
+                                <i class="fa-solid fa-play"></i>
+                            </button>
+                            {{ component('LikeButtonComponent', {
+                                'entityType': 'Musique',
+                                'entityId': historique.musique.id,
+                                'isLiked':liked,
+                            }) }} 
+                        </div>
+                    </div>
                 </li>
             {% endfor %}
         </ul>

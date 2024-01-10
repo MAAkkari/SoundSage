@@ -7,16 +7,14 @@ use App\Entity\Album;
 use App\Entity\Groupe;
 use App\Entity\Musique;
 use App\Entity\Commentaire;
-use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class LikeController extends AbstractController
 {
     #[Route('/toggle-like/{type}/{id}', name: 'toggle_like')]
-    public function toggleLike(string $type, int $id, EntityManagerInterface $em ): Response{
+    public function toggleLike(string $type, int $id, EntityManagerInterface $em ){
         $user = $this->getUser();
         if($type === 'groupe'){
             $groupe = $em->getRepository(Groupe::class)->find($id);
@@ -105,7 +103,6 @@ class LikeController extends AbstractController
                 $musique->addLikerPar($user);
                 $em->persist($musique);
                 $em->flush();
-                
             }
         }
         

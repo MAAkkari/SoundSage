@@ -12,7 +12,11 @@
 
 {% set minutes = (totalDuration // 60) %}
 {% set seconds = (totalDuration % 60) %}
-
+{% if user in album.likerPar %}
+{% set liked = true %}
+{% else %}
+{% set liked = false %}
+{% endif %}
 
     <figure>
         <img class="imgAlbumShow" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
@@ -26,7 +30,14 @@
                     <img class="imgGroupeShow" src="{{ asset('uploads/groupes/' ~ album.groupes[0].photo) }}" alt="image de {{ album.groupes[0].nom }}">
                 </figure>
             </a>
-            <p><a href="#">{{ album.groupes[0].nom }}</a> . {{ album.dateCreation|date('Y') }} . {{ album.musiques|length }} . {{ minutes }} min {{ seconds }} s </p>
+            <div>
+                <p><a href="#">{{ album.groupes[0].nom }}</a> . {{ album.dateCreation|date('Y') }} . {{ album.musiques|length }} . {{ minutes }} min {{ seconds }} . </p>
+                {{ component('LikeButtonComponent', {
+                    'entityType':'Album',
+                    'entityId':album.id,
+                    'isLiked':liked,
+                }) }} 
+            </div>
         </div>
     </div>
 
@@ -46,7 +57,31 @@
                    <p>{{musique.nom}} </p> 
                    <a href="#">{{ album.groupes[0].nom }}</a>
                 </div>
+                <button class="track-btn" 
+                    data-track="{{ asset('uploads/files/' ~ musique.fichier) }}"
+                    data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
+                    data-song-name="{{ album.musiques[0].nom }}"
+                    data-artist-name="{{ album.groupes[0].nom }}"
+                    onclick="addToHistory({{ album.musiques[0].id }})">
+                    <i class="fa-solid fa-play"></i>
+                </button>
+                
+                {% if user in musique.likerPar %}
+                {% set liked = true %}
+                {% else %}
+                {% set liked = false %}
+                {% endif %}
+                {{ component('LikeButtonComponent', {
+                    'entityType':'Musique',
+                    'entityId':musique.id,
+                    'isLiked':liked,
+                }) }}
                 <p>{{ musique.duree // 60 }}:{{ '%02d'|format(musique.duree % 60) }}</p>
+                {{ component('AddToPlaylistComponent', {
+                    'entityType':'musique',
+                    'entityId':musique.id,
+                    'playlistName':'test',
+                }) }}
             </div>
             
         {% endfor %}
