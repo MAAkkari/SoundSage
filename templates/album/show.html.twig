@@ -77,11 +77,11 @@
                     'isLiked':liked,
                 }) }}
                 <p>{{ musique.duree // 60 }}:{{ '%02d'|format(musique.duree % 60) }}</p>
-                {{ component('AddToPlaylistComponent', {
-                    'entityType':'musique',
-                    'entityId':musique.id,
-                    'playlistName':'test',
+
+                {{ component('NewPlaylistComponent', {
+                    'musiqueId':musique.id,
                 }) }}
+                
             </div>
             
         {% endfor %}

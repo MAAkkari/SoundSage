@@ -28,8 +28,8 @@ class GroupeController extends AbstractController
         ]);
     }
     #[Route('/page', name: 'app_page')]
-    public function page(GroupeRepository $gr): Response
-    { $user = $this->getUser();
+    public function page(GroupeRepository $gr): Response {
+        $user = $this->getUser();
         $groupesPopulaires = $gr->findPlusLiker();
         $groupes = $gr->findAll();
         $populaires=[];
@@ -45,10 +45,11 @@ class GroupeController extends AbstractController
         ]);
     }
     #[Route('/page/{id}', name: 'show_page')]
-    public function showPage( Groupe $groupe , GroupeRepository $gr): Response
-    {
+    public function showPage( Groupe $groupe , GroupeRepository $gr): Response{
+        $user = $this->getUser();
         return $this->render('groupe/showPage.html.twig', [
-            'groupe'=> $groupe
+            'groupe'=> $groupe,
+            'user'=>$user
         ]);
 
     }

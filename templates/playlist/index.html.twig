@@ -13,6 +13,7 @@
     <div class="black-line"></div>
 
     {% for playlist in playlists %}
+    
 
     <div>
         <div>
@@ -25,17 +26,15 @@
                     {% endif %}
                 </figure>
             </a>
-            <a href="#">{{ playlist.nom }}</a>
+            <a href="{{ path('show_playlist', {'id': playlist.id}) }}">{{ playlist.nom }}</a>
         </div>
         <div>
-            count how many musiques in playlist
-
             {% set musiqueCount = 0 %}
             {% for musique in playlist.musiques %}
                 {% set musiqueCount = musiqueCount + 1 %}
             {% endfor %}
             <p>{{ musiqueCount}} Musiques</p>
-            <a href=""></a>
+            <a href="{{ path('edit_playlist', {'id': playlist.id}) }}"><i class="fa-regular fa-pen-to-square"></i></a>
             <a href="{{ path('delete_playlist', {'id': playlist.id}) }}"><i class="fa-solid fa-trash" ></i></a>
         </div>
     </div>

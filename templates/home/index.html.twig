@@ -34,30 +34,6 @@
         'entityId': album.id,
         'isLiked':liked,
     }) }} 
-
- 
-
-    <script>
-        function addToHistory(musiqueId) {
-            fetch('/add-to-history', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'musiqueId=' + musiqueId
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Historique updated');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        }
-    </script>
-   
-    
-    
-    
     {# on verifie si l'album a etait fait par un ou plusieurs groupes et on formate l'affichage selon si il n'y en a qu'un ou plusieurs  #}
 
     {% set groupeCount = album.groupes|length %}

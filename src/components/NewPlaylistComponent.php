@@ -1,34 +1,36 @@
-<?php 
+<?php
 namespace App\components;
 
-use App\Entity\Playlist;
-use App\Entity\Musique;
+use App\Entity\User;
 use App\Entity\Album;
+use App\Entity\Musique;
+use App\Entity\Playlist;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Symfony\UX\LiveComponent\LiveComponentInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[AsLiveComponent]
-class AddToPlaylistComponent extends AbstractController
+class NewPlaylistComponent extends AbstractController
 {
     use DefaultActionTrait;
 
     private EntityManagerInterface $entityManager;
     private Security $security;
 
+    #[LiveProp(writable: true)]
+    public ?string $playlistName = null;
+
     #[LiveProp]
     public ?int $musiqueId = null;  // Optional: ID of a single musique
 
     #[LiveProp]
     public ?int $albumId = null;    // Optional: ID of an album
-
-    #[LiveProp]
-    public ?string $playlistName = null;
-
+    
     public function __construct(EntityManagerInterface $entityManager, Security $security)
     {
         $this->entityManager = $entityManager;
@@ -36,58 +38,57 @@ class AddToPlaylistComponent extends AbstractController
     }
 
     #[LiveAction]
-    public function addToPlaylist()
+    public function handlePlaylist()
     {
         $user = $this->security->getUser();
         if (!$user) {
             $this->addFlash("error", "Vous devez être connecté");
             return;
         }
-
-        $playlist = $this->entityManager->getRepository(Playlist::class)->findOneBy(['nom' => $this->playlistName, 'auteur' => $user]);
-        if (!$playlist) {
-            $this->addFlash("error", "Playlist introuvable");
+        if(!$this->playlistName){
+            $this->addFlash("error", "Vous devez donner un nom à votre playlist");
             return;
         }
 
-        if ($this->musiqueId !== null) {
+        $playlist = $this->entityManager->getRepository(Playlist::class)->findOneBy(['nom' => $this->playlistName, 'auteur' => $user]);
+
+        if (!$playlist) {
+            $playlist = new Playlist();
+            $playlist->setNom($this->playlistName);
+            $playlist->setAuteur($user);
+            $playlist->setPublic(true);
+            $playlist->setImage('defaultTrack.jpg');
+            $this->entityManager->persist($playlist);
+        }
+
+        if ($this->musiqueId) {
             $this->addMusiqueToPlaylist($this->musiqueId, $playlist);
-        } elseif ($this->albumId !== null) {
+        }
+
+        if ($this->albumId) {
             $this->addAlbumToPlaylist($this->albumId, $playlist);
         }
+
+        $this->entityManager->flush();
     }
 
     private function addMusiqueToPlaylist(int $musiqueId, Playlist $playlist)
     {
         $musique = $this->entityManager->getRepository(Musique::class)->find($musiqueId);
-        if (!$musique) {
-            $this->addFlash("error", "Musique introuvable");
-            return;
-        }
-
-        if (!$playlist->getMusiques()->contains($musique)) {
+        if ($musique && !$playlist->getMusiques()->contains($musique)) {
             $playlist->addMusique($musique);
-            $this->entityManager->flush();
-            $this->addFlash("success", "Musique ajoutée à la playlist");
-        } else {
-            $this->addFlash("error", "La musique est déjà dans la playlist");
         }
     }
 
     private function addAlbumToPlaylist(int $albumId, Playlist $playlist)
     {
         $album = $this->entityManager->getRepository(Album::class)->find($albumId);
-        if (!$album) {
-            $this->addFlash("error", "Album introuvable");
-            return;
-        }
-
-        foreach ($album->getMusiques() as $musique) {
-            if (!$playlist->getMusiques()->contains($musique)) {
-                $playlist->addMusique($musique);
+        if ($album) {
+            foreach ($album->getMusiques() as $musique) {
+                if (!$playlist->getMusiques()->contains($musique)) {
+                    $playlist->addMusique($musique);
+                }
             }
         }
-        $this->entityManager->flush();
-        $this->addFlash("success", "Album ajouté à la playlist");
     }
 }

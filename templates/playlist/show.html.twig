@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Playlist {{playlist.nom}}{% endblock %}
+
+{% block body %}
+{# calcule de la durée total de l'playlist puis formate en minutes et secondes pour l'affichage#}
+{% set totalDuration = 0 %}
+{% for musique in playlist.musiques %}
+    {% set totalDuration = totalDuration + musique.duree %}
+{% endfor %}
+
+{% set minutes = (totalDuration // 60) %}
+{% set seconds = (totalDuration % 60) %}
+
+    <figure>
+        <img class="imgplaylistShow" src="{{ asset('uploads/playlists/' ~ playlist.image) }}" alt="jaquette de {{ playlist.nom }}">
+    </figure>
+    <div>
+        <p>playlist</p>
+        <h1>{{ playlist.nom }} </h1>
+        <div>
+            <a href="#">
+                <figure>
+                    <img class="imgUserPlaylist" src="{{ asset('uploads/users/' ~ playlist.auteur.image) }}" alt="Image de profil de {{playlist.auteur.pseudo}} ">
+                </figure>
+            </a>
+            <div>
+                <p><a href="#">{{ playlist.auteur.pseudo }}</a> . {{ playlist.musiques|length }} titres . {{ minutes }} min {{ seconds }} s </p>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <p>n°</p>
+            <p>titre</p>
+            <p><i class="fa-regular fa-clock"></i></p>
+        </div>
+
+        <div></div>
+        
+        {% for musique in playlist.musiques %}
+            <div>
+                <p>{{ loop.index }}</p>
+                <div>
+                   <p>{{musique.nom}} </p> 
+                   <a href="#">{{ musique.groupes[0].nom }}</a>
+                </div>
+                <button class="track-btn" 
+                    data-track="{{ asset('uploads/files/' ~ musique.fichier) }}"
+                    data-album-cover="{{ asset('uploads/playlists/' ~ playlist.image) }}"
+                    data-song-name="{{ musique.nom }}"
+                    data-artist-name="{{ musique.groupes[0].nom }}"
+                    onclick="addToHistory({{ musique.id }})">
+                    <i class="fa-solid fa-play"></i>
+                </button>
+                
+                {% if user in musique.likerPar %}
+                {% set liked = true %}
+                {% else %}
+                {% set liked = false %}
+                {% endif %}
+                {{ component('LikeButtonComponent', {
+                    'entityType':'Musique',
+                    'entityId':musique.id,
+                    'isLiked':liked,
+                }) }}
+                <p>{{ musique.duree // 60 }}:{{ '%02d'|format(musique.duree % 60) }}</p>
+                {{ component('NewPlaylistComponent', {
+                    'musiqueId':musique.id,
+                }) }}
+                {% if user == playlist.auteur %}
+                    <a href="{{ path('delete_from_playlist', {'playlist_id': playlist.id ,'music_id':musique.id}) }}"><i class="fa-solid fa-minus"></i></a>
+                {% endif %}
+                
+            </div>
+            
+        {% endfor %}
+    </div>
+    
+    {% if user == playlist.auteur %}
+        <h2>Vos Autre Playlists </h2>
+        {% set visible = true %}
+    {% else %}
+        <h2>Autres Playlists de {{playlist.auteur.nom}} </h2>
+        {% set visible = false %}
+    {% endif %}
+    <div>
+        {% for autrePlaylist in playlist.auteur.playlists %}
+            {% if autrePlaylist.nom != playlist.nom and (visible == true or autrePlaylist.public == true) %}
+                <a href="{{ path('show_playlist', {'id': playlist.id}) }}">
+                    <figure>
+                        <img class="imgplaylistShow" src="{{ asset('uploads/playlists/' ~ autrePlaylist.image) }}" alt="image de {{ autrePlaylist.nom }}">
+                    </figure>
+                </a>
+                <a href="{{ path('show_playlist', {'id': playlist.id}) }}">{{autrePlaylist.nom}}</a>        
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

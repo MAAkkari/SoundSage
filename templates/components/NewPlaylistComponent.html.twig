@@ -1,0 +1,17 @@
+<div {{ attributes }}>
+    <div>
+        <input type="text" data-model="playlistName">
+        <button data-action="live#action" data-action-name="handlePlaylist">+</button>
+    </div>
+    <ul>
+        {% for playlist in app.user.playlists %}
+            <li>
+                <a href='#'>{{ playlist.nom }}</a> 
+                {{ component('AddToPlaylistComponent', {
+                'albumId': this.albumId,
+                'musiqueId': this.musiqueId,
+                'playlistName':playlist.nom, }) }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>

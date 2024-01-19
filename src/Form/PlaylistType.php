@@ -18,7 +18,9 @@ class PlaylistType extends AbstractType
         $builder
             ->add('nom', TextType::class)
             ->add('image', FileType::class, [
+                'label' => 'Image',
                 'required' => false,
+                'mapped' => false, // Add this line
             ])
             ->add('public', CheckboxType::class, [
                 'required' => false,

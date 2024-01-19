@@ -213,5 +213,22 @@
         <div id="content">
             {% block body %}{% endblock %}
         </div>
+        <script>
+            function addToHistory(musiqueId) {
+                fetch('/add-to-history', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'musiqueId=' + musiqueId
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Historique updated');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        </script>
     </body>
     </html>

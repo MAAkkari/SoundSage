@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Musique;
 use App\Entity\Playlist;
 use App\Form\PlaylistType;
 use App\Repository\PlaylistRepository;
@@ -37,43 +38,62 @@ class PlaylistController extends AbstractController
         return $this->redirectToRoute('app_playlist');
     }
 
-    #[Route('/playlist/new', name: 'new_playlist')]
-    #[Route('/playlist/{id}/edit', name: 'edit_playlist')] // si on veux rajouter l'edition 
-    public function new_edit(Playlist $playlist =null ,Request $request , EntityManagerInterface $entityManager, string $playlistsUploadsDirectory):Response {
-    $user = $this->getUser();
-	if(!$playlist){$playlist = new Playlist();} //////////// crée une nouvelle playlist ( un objet pas dans la bdd )  // si on veux rajouter l'edition sinon on enleve le if mais on garde l'interrieur
-        
-        $form = $this->createForm(PlaylistType::class, $playlist); ////// ( crée le formulaire )
-
- 	$form->handleRequest($request);
-    
-        if($form->isSubmitted() && $form->isValid() ){ // si le form est submit et qu'il est valide
-            $playlist = $form->getData(); //on met les info dans l'entité playlist crée plus haut
-            $file = $form->get('image')->getData();
-
-            if ($file) {
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-    
+    #[Route('/playlist/{id}/edit', name: 'edit_playlist')]
+    public function edit(Playlist $playlist , EntityManagerInterface $em, Request $request){   
+        $form = $this->createForm(PlaylistType::class, $playlist);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $imagePlaylist = $form['image']->getData();
+            if ($imagePlaylist){
+                $originalFilename = pathinfo($imagePlaylist->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename.'-'.uniqid().'.'.$imagePlaylist->guessExtension();
                 try {
-                    $file->move($playlistsUploadsDirectory, $newFilename);
-                    $playlist->setImage($newFilename); // Save the filename to your entity, if necessary
+                    $imagePlaylist->move(
+                        $this->getParameter('playlists_uploads_directory'),
+                        $newFilename
+                    );
                 } catch (FileException $e) {
-                    $this->addflash('error', 'Une erreur est survenue lors de l\'upload de l\'image');
+                    $this->addFlash("error","erreur lors de l'upload de l'image");
                 }
+                $playlist->setImage($newFilename);
             }
-            $playlist->setAuteur($user); // on met l'auteur de la playlist
-            $entityManager->persist($playlist); // prepare en pdo
-            $entityManager->flush(); // execute en pdo
-
-            $referer = $request->headers->get('referer');
-            return $this->redirect($referer ?: $this->generateUrl('default_route'));
+            $playlist = $form->getData();
+            $em->persist($playlist);
+            $em->flush();
+            $this->addFlash("success","modification de la playlist avec succes");
+            return $this->redirectToRoute('app_playlist');
         }
-
-
-        return $this->render('playlist/new.html.twig',[  //////// ( envoie du form dans la vue )
-            'formAddPlaylist'=> $form ,
+        return $this->render('playlist/edit.html.twig', [
+            'form' => $form->createView(),
+            'playlist'=>$playlist
         ]);
-   }
+    }
+    #[Route('/playlist/{playlist_id}/delete/{music_id}', name: 'delete_from_playlist')]
+    public function deleteFromPlaylist(Playlist $playlist_id, Musique $music_id, EntityManagerInterface $em){   
+        $playlist_id->removeMusique($music_id);
+        $id1= $playlist_id->getId();
+        $em->flush();
+        $this->addFlash("success","suppression de la musique avec succes");
+        return $this->redirectToRoute('show_playlist', ['id' => $id1]);
+    }
+
+    #[Route('/playlist/{id}', name: 'show_playlist')]
+    public function show(Playlist $playlist , PlaylistRepository $pr): Response
+    {   
+        $user = $this->getUser();
+        //verifie si l'utilisateur est connecté
+        if (!$user) {
+            $this->addflash('danger', 'Vous devez être connecté pour accéder à cette page');
+            return $this->redirectToRoute('app_login');
+        }
+        //verifie si la playlist est publique ou si l'utilisateur est l'auteur de la playlist
+        if ( $playlist->isPublic() == false && $playlist->getAuteur() != $user){
+            $this->addflash('danger', 'Vous n\'avez pas accès à cette playlist');
+            return $this->redirectToRoute('app_playlist');
+        }
+        return $this->render('playlist/show.html.twig', [
+            'playlist'=>$pr->find($playlist->getId()),
+            'user'=>$user
+        ]);
+    }
 }

@@ -9,28 +9,53 @@
     <figure>
         <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
     </figure>
-    <h1>{{groupe.nom}}</h1>
-    {% if app.user %}
-        {% if groupe.hasLiked(app.user) %}
-            <a href="{{path('like.groupe',{id:groupe.id})}}" data-action="like"><i class="fa-solid fa-heart"></i></a> {{groupe.likerPar|length}} 
-        {% else %}
-            <a href="{{path('like.groupe',{id:groupe.id})}}" data-action="like"><i class="fa-regular fa-heart"></i></a> {{groupe.likerPar|length}} 
-        {% endif %}
-       
-    {% else %}
+    <div>
+        <h1>{{groupe.nom}}</h1>
+        <div>
+            {% if user in groupe.likerPar %}
+                {% set liked = true %}
+            {% else %}
+                {% set liked = false %}
+            {% endif %}
+                {{ component('LikeButtonComponent', {
+                    'entityType':'Groupe',
+                    'entityId':groupe.id,
+                    'isLiked':liked,
+                }) }}
+        </div> 
+    </div>
+
         <p> <i class="fa-solid fa-heart"></i> {{groupe.likerPar|length}} </p>
-    {% endif %}
+    
     
     <p><i class="fa-solid fa-newspaper"></i> {{groupe.posts|length}} </p>
-    <h2>Présentation</h2>
-    {{groupe.info}}
-    {% if groupe.artistes|length >1 %}
-        <h2>Date de creation</h2>
-        <p>{{groupe.dateCreation|date("m/d/Y")}}</p>
-    {% else %}
-        <h2>Date Naissance</h2>
-        <p>{{groupe.artistes[0].dateNaissance|date("m/d/Y")}}</p>
-    {% endif %}
+<div>
+    <section>
+        <section>
+            <h2>Présentation</h2>
+            {{groupe.info}}
+
+            {% if groupe.artistes|length >1 %}
+                <h2>Date de creation</h2>
+                <p>{{groupe.dateCreation|date("m/d/Y")}}</p>
+            {% else %}
+                <h2>Date de Naissance</h2>
+                <p>{{groupe.artistes[0].dateNaissance|date("m/d/Y")}}</p>
+            {% endif %}
+        </section>
+
+        <section>
+            <h2>Derniers morceaux</h2>
+            {% for row in array %}
+                
+            {% endfor %}
+        </section>
+    </section>
+
+    <section>
+
+    </section>
+</div>
 
 
 {% endblock %}
