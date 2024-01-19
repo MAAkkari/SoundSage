@@ -35,16 +35,18 @@ class CommentaireController extends AbstractController
             $entityManager->persist($commentaire);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Your comment was posted successfully.');
+            $this->addFlash('success', 'commentaire poster avec succes !');
 
             // Redirect back to the page where the form was submitted
-            return $this->redirect($request->headers->get('referer'));
+            $postId = $post->getId();
+            
         }
 
         // Handle the case where the form is not valid
         // You might want to add flash messages or log errors as needed
 
         // Redirect back to the form page, possibly with error messages
-        return $this->redirect($request->headers->get('referer'));
+        $postId = $post->getId();
+            return $this->redirect($request->headers->get('referer').$postId);
     }
 }

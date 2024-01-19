@@ -15,7 +15,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 
 #[AsLiveComponent]
-class LikeButtonComponent
+class LikeCounterComponent
 {
     use DefaultActionTrait;
     private EntityManagerInterface $entityManager;
@@ -29,6 +29,9 @@ class LikeButtonComponent
     
     #[LiveProp]
     public bool $isLiked = false;
+
+    #[LiveProp]
+    public ?int $nbLike=0;
     
 
     public function __construct(EntityManagerInterface $entityManager, Security $security)
@@ -48,10 +51,9 @@ class LikeButtonComponent
         if (!$entity) {
             return;
         }
-
         $this->isLiked = in_array($user, $entity->getLikerPar()->toArray(), true);
     }
-
+    
     #[LiveAction]
     public function toggleLike()
     {
@@ -73,6 +75,7 @@ class LikeButtonComponent
         }
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
+        $this->nbLike = $entity->getLikerPar()->count();
         $this->isLiked = !$this->isLiked;
     }
 

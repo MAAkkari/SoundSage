@@ -77,7 +77,7 @@
         </div>
         <div>
             {% for post in groupe.posts %}
-                <div>
+            <div class="post" id="{{ post.id }}">
                     <div>
                         <a href="#">
                             <figure>
@@ -92,16 +92,17 @@
                     <p>{{post.texte}} </p>
                     <div>
                         <div>
-                            <p>{{post.likerPar|length}}</p>
+                           
                             {% if user in post.likerPar %}
                                 {% set liked1 = true %}
                             {% else %}
                                 {% set liked1 = false %}
                             {% endif %}
-                                {{ component('LikeButtonComponent', {
+                                {{ component('LikeCounterComponent', {
                                     'entityType':'Post',
                                     'entityId':post.id,
-                                    'isLiked':liked,
+                                    'isLiked':liked1,
+                                    'nbLike':post.likerPar|length,
                                 }) }}
                         </div>
                         <div>
@@ -115,12 +116,43 @@
                                 <img style="width:50px" class="imgUserPlaylist" src="{{ asset('uploads/users/' ~ user.image) }}" alt="Image de profil de {{user.pseudo}} ">
                             </figure>
                         </a>
-                        
+
                         {{ form_start(commentForms[post.id]) }}
                         {{ form_widget(commentForms[post.id]) }}
                         {{ form_end(commentForms[post.id]) }}
                         
                     </div>
+                    <div>
+                        {% for commentaire in post.commentaires %}
+                        <div>
+                            <a href="#">
+                                <figure>
+                                    <img style="width:50px" class="imgUserPlaylist" src="{{ asset('uploads/users/' ~ commentaire.auteur.image) }}" alt="Image de profil de {{commentaire.auteur.pseudo}} ">
+                                </figure>
+                            </a>
+                            <div>
+                                {{commentaire.auteur.pseudo}}
+                                <p>{{ commentaire.dateCreation|date("H:i . d/M/Y") }}</p>
+                            </div>
+                        </div>
+                        <p>{{commentaire.texte}} </p>
+                        <div>
+                           
+                            {% if user in commentaire.likerPar %}
+                                {% set liked2 = true %}
+                            {% else %}
+                                {% set liked2 = false %}
+                            {% endif %}
+                                {{ component('LikeCounterComponent', {
+                                    'entityType':'Commentaire',
+                                    'entityId':commentaire.id,
+                                    'isLiked':liked2,
+                                    'nbLike':commentaire.likerPar|length,
+                                }) }}
+                        </div>
+
+
+                        {% endfor %}
 
                 </div>
             {% endfor %}
