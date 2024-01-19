@@ -80,7 +80,7 @@ class HistoriqueController extends AbstractController
         $newHistorique->setUtilisateur($user);
         $newHistorique->setMusique($musique);
         $newHistorique->setDateEcoute(new \DateTime());
-
+        $musique->setNbEcoutes($musique->getNbEcoutes() + 1);
         $entityManager->persist($newHistorique);
         $entityManager->flush();
 

@@ -12,7 +12,6 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
-use Symfony\UX\LiveComponent\LiveComponentInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 
 #[AsLiveComponent]
@@ -30,6 +29,7 @@ class LikeButtonComponent
     
     #[LiveProp]
     public bool $isLiked = false;
+    
 
     public function __construct(EntityManagerInterface $entityManager, Security $security)
     {   
@@ -54,12 +54,11 @@ class LikeButtonComponent
     #[LiveAction]
     public function toggleLike()
     {
-        
         $user = $this->security->getUser();
         if (!$user instanceof User) {
             return;
         }
-
+        
         $entity = $this->getEntity();
         if (!$entity) {
             return;
@@ -72,7 +71,6 @@ class LikeButtonComponent
         }
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
-
         $this->isLiked = !$this->isLiked;
     }
 

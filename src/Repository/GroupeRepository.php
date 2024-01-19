@@ -51,6 +51,22 @@ class GroupeRepository extends ServiceEntityRepository
         $resultSet = $conn->executeQuery($sql);
         return $resultSet->fetchAllAssociative();
     }
+    public function findPlusEcouter($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT * FROM groupe
+            INNER JOIN album_groupe ON album_groupe.groupe_id = groupe.id
+            INNER JOIN musique ON musique.album_id = album_groupe.album_id
+            WHERE groupe.id = :id
+            ORDER BY musique.nb_ecoutes DESC
+            LIMIT 3;
+        ';
+
+        $resultSet = $conn->executeQuery($sql , ['id'=>$id]);
+        return $resultSet->fetchAllAssociative();
+    }
 
 //    /**
 //     * @return Groupe[] Returns an array of Groupe objects
