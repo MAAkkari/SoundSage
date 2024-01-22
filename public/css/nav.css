@@ -1,0 +1,131 @@
+/* Basic reset and styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+  }
+  
+  
+  .navbar {
+    background-color: #F2F7FC;
+    width: 250px; /* Original width */
+    height: 100%;
+    position: fixed;
+    overflow: hidden;
+    transition: width 0.3s ease;
+  }
+  
+  .navbar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* Allows absolute positioning inside */
+  }
+  
+  .logo {
+    color: white;
+    padding: 10px;
+    white-space: nowrap; /* Prevents wrapping on smaller widths */
+    overflow: hidden; /* Ensures text doesn't overflow the navbar */
+    transition: opacity 0.3s ease;
+
+  }
+  #logo1{
+    width:170px;
+    align-self: start;
+  }
+  #logo2{
+    width:80px;
+  }
+  .navbar-nav{
+    margin-top: 30px;
+  }
+  
+  .toggle-button {
+    background: none;
+    border: none;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 100px;
+    font-size: 25px;
+    font-weight: 900;
+  }
+  .collapsed .toggle-button {
+    width:60px;
+  }
+  
+  .navbar-nav {
+    list-style: none;
+  }
+  
+  .navbar-nav li {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-nav li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    display: block;
+    width: 55px;
+    font-size: 20px;
+    text-align: center;
+    color:#307AD0;
+  }
+  
+  .link-text {
+    padding-left: 10px;
+    transition: opacity 0.3s ease;
+    color: #555050;
+    font-weight: 500;
+    font-family: "Open Sans Condensed", sans-serif;
+    font-size: 20px;
+  }
+  /* Collapsed state styles */
+  .navbar.collapsed {
+    width: 80px; /* Collapsed width */
+  }
+  .logo {
+    transition: opacity 0.3s ease;
+  }
+  
+  .navbar.collapsed .link-text {
+    opacity: 0;
+  }
+  
+  .navbar.collapsed .navbar-header {
+    justify-content: center;
+  }
+  .navbar-section {
+    color: #fff;
+    padding: 8px 10px;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  
+  
+  
+  /* Optional: Adjust the padding of the navbar-header if needed */
+  .navbar.collapsed .navbar-header .logo {
+    padding-left: 5px;
+  }
+  .nav-titre{
+    color: rgb(171, 170, 170);
+    font-weight: 600;
+    
+    
+  }

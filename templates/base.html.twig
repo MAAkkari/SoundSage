@@ -8,6 +8,7 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
         {% endblock %}
 
         {% block javascripts %}
@@ -170,19 +171,80 @@
             </h3>
         {% endif %}
         
-        <header>
-            <nav>
-                <ul>
-                    <li><a href="{{ path('app_home') }}" >Home</a></li>
-                    {% if app.user %}
-                        <li><a href="{{ path('app_logout') }}" class="exclude-from-interception">Logout</a></li>
-                    {% else %}
-                        <li><a href="{{ path('app_login') }}" class="exclude-from-interception">Login</a></li>
-                        <li><a href="{{ path('app_register') }}" class="exclude-from-interception">Register</a></li>
-                    {% endif %}
-                </ul>
+        {# <side>
+            <nav id="burger-menu" class="initial">
+
+            <div >
+                <a  href="{{ path('app_home') }}">
+                    <img id="logo" src="{{ asset('uploads/logo.png') }}" alt="Logo">
+                </a>
+            </div>
+            <button id="burger_btn" class="normal"><i class="fa-solid fa-arrow-left"></i></button>
+            <ul id="burger_links"> 
+                <div class="explorer">
+                    <li><p class="nav_title">explorer</p></li>
+                    <li class="navbar_component"><a  title="Accueil" href="{{ path('app_home') }}"> <i class="fa-solid fa-house"></i>Accueil </a></li>
+                    <li class="navbar_component"><a title="Albums" href="{{ path('app_album') }}"> <i class="fa-solid fa-record-vinyl"></i> Albums </a></li>
+                    <li class="navbar_component"><a title="Groupes" href="{{ path('app_groupe') }}"> <i class="fa-solid fa-people-group"></i>Groupes </a></li>
+                    <li class="navbar_component"><a title="Genres" href="{{ path('app_genre') }}"> <i class="fa-solid fa-guitar"></i>Genres </a></li>
+                    <li class="navbar_component"><a title="Vos Playlists" href="{{ path('app_playlist') }}"> <i class="fa-solid fa-ear-listen"></i>Playlists </a></li>
+                </div>
+                <div class="social">
+                    <li><p class="nav_title">social</p></li>
+                    <li class="navbar_component"><a title="Pages" href="{{ path('app_page') }}"><i class="fa-solid fa-note-sticky"></i>Pages</a></li>
+                </div>
+                <div class="preferences">
+                    <li><p class="nav_title">préférences</p></li>
+                        <li class="navbar_component"><a title="Favoris" href="{{ path('app_favoris') }}"> <i class="fa-solid fa-heart"></i>Favoris </a></li>
+                        <li class="navbar_component"><a title="Accueil" href="{{ path('app_historique') }}"> <i class="fa-solid fa-clock-rotate-left"></i>Historique </a></li>
+                </div>
+            </ul>
             </nav>
-        </header>
+        </side> #}
+        <div class="navbar" id="navbar">
+            <div class="navbar-header">
+                <img class="logo" src="{{ asset('uploads/logo.png') }}" alt="Logo" id="logo1">
+                <img class="logo" src="{{ asset('uploads/small-logo.png') }}" alt="Logo" id="logo2" style="display: none;">
+                <button class="toggle-button" onclick="toggleNavbar()">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+            </div>
+            <ul class="navbar-nav">
+                    <li><span class="link-text nav-titre">explorer</span></li>
+                    <li><a title="Accueil" href="{{ path('app_home') }}"> <i  class="fa-solid fa-house icon"></i><span class="link-text">Accueil</span></a></li>
+                    <li><a title="Albums" href="{{ path('app_album') }}"> <i class="fa-solid fa-record-vinyl icon"></i> <span class="link-text">Albums</span> </a></li>
+                    <li><a title="Groupes" href="{{ path('app_groupe') }}"> <i class="fa-solid fa-people-group icon"></i><span class="link-text">Groupes</span> </a></li>
+                    <li><a title="Genres" href="{{ path('app_genre') }}"> <i class="fa-solid fa-guitar icon"></i><span class="link-text">Genres</span> </a></li>
+                    <li><a title="Vos Playlists" href="{{ path('app_playlist') }}"> <i class="fa-solid fa-ear-listen icon"></i><span class="link-text">Playlists</span> </a></li>
+            </ul>
+            <ul class="navbar-nav">
+                <li><span class="link-text nav-titre">social</span></li>
+                <li><a title="Pages" href="{{ path('app_page') }}"><i class="fa-solid fa-note-sticky icon"></i><span class="link-text">Pages</span></a></li>
+            </ul>
+            <ul class="navbar-nav">
+                <li><span class="link-text nav-titre">préférences</span></li>
+                <li><a title="Favoris" href="{{ path('app_favoris') }}"> <i class="fa-solid fa-heart icon"></i><span class="link-text">Favoris</span> </a></li>
+                <li><a title="historique" href="{{ path('app_historique') }}"> <i class="fa-solid fa-clock-rotate-left icon"></i><span class="link-text">Historique</span> </a></li>
+          </div>
+
+        <script>
+            function toggleNavbar() {
+                var navbar = document.getElementById('navbar');
+                var logo1 = document.getElementById('logo1');
+                var logo2 = document.getElementById('logo2');
+                
+                navbar.classList.toggle('collapsed');
+                
+                // Toggle visibility of the logos
+                if (logo1.style.display === "none") {
+                    logo1.style.display = "block";
+                    logo2.style.display = "none";
+                } else {
+                    logo1.style.display = "none";
+                    logo2.style.display = "block";
+                }
+            }
+        </script>
 
         <div class="custom-audio-player">
             <div class="track-info">
