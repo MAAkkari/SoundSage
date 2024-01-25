@@ -1,0 +1,23 @@
+<div {{ attributes }}>
+    <div class="search_and_icons">
+        <i class="fa-solid fa-magnifying-glass"></i> 
+        <input class="barre-recherche"
+        type="search"
+        data-model="query"
+        placeholder="Qu'écoutez Vous Aujourd'hui ?" >
+        <i class="fa-solid fa-shuffle"></i>
+    </div>
+    {% if this.query is not empty %}
+        <div id="search-results">
+                {% for type, items in this.getSearchResults() %}
+                    <h3>{{ type|capitalize }}</h3>
+                    <ul>
+                        {% for item in items %}
+                            <li><a href="">{{ item.nom }}</a></li> 
+                        {% else %}
+                            <li>Aucun {{ type }} trouver</li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+    {% endif %}
+</div>

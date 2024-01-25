@@ -1,0 +1,182 @@
+.header-info{
+    margin-top: -150px;
+    margin-left: 110px;
+}
+.header-info p{
+    color: rgba(65, 61, 61, 0.72);
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-left: 10px;
+}
+.header-info h1{
+    color: #000;
+    font-family: 'Roboto Slab', serif;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+.header-info h1 span{
+    color: #307AD0;
+    font-family: 'Roboto Slab', serif;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+header{
+    position: relative;
+    z-index: -1;
+}
+
+/* -------------carousel------------ */
+
+.carousel {
+    position: relative;
+    width: 83%;
+    overflow: hidden;
+    display: flex;
+    margin-top: 30px;
+    justify-content: center;
+    margin-right: -1.5%;
+    
+}
+.carousel_et_bouttons{
+    display:flex ; 
+    justify-content: center; 
+    align-items: center;
+    column-gap: 20px;
+    
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out; /* Smooth transition for sliding effect */
+    will-change: transform; /* Optimizes animations */
+}
+.carousel-item {
+    flex: 0 0 17.6%;
+    margin-right:2.5%;
+    position: relative;
+}
+
+.carousel-item:last-child {
+    margin-right: 0;
+}
+
+.carousel-item a {
+    display: block;
+    text-decoration: none;
+}
+
+
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 15px;
+}
+
+.carousel-item figure {
+    position: relative;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    z-index: 1;
+}
+
+.overlay:hover  {
+    opacity: 1;
+}
+
+.like-btn,
+.empty-btn {
+    color: white;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    margin: 5px;
+    padding: 0;
+}
+
+.carousel-prev-btn {
+    width: 40px;
+    height: 40px;
+    background-color: #307AD0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.7;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 100px ;
+    margin-bottom: 10px;
+}
+.carousel-next-btn{
+    margin-bottom: 10px;
+    width: 40px;
+    height: 40px;
+    background-color: #307AD0;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.7;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 100px ;
+    
+}
+
+.carousel-prev-btn:hover,
+.carousel-next-btn:hover {
+    opacity: 1;
+}
+.album_titre{
+color: #000;
+font-family: "Open Sans";
+font-size: 1.0625rem;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+.album_auteur{
+color: rgba(0, 0, 0, 0.47);
+font-family: "Open Sans";
+font-size: 0.85rem;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+.inline{
+    display: flex;
+}
+.inline p{
+    color: rgba(0, 0, 0, 0.47);
+    font-family: "Open Sans";
+    font-size: 0.85rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}

@@ -6,7 +6,7 @@
     text-decoration: none;
     
 }
-body, .main-content {
+body {
     padding-bottom: 100px; /* Adjust the value based on the height of your fixed element */
 }
 

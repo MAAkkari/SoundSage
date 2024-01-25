@@ -3,150 +3,28 @@
     <head>
        
         <meta charset="UTF-8">
+        <meta name="description" content="{% block meta_description %}{% endblock %}">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <script src="https://kit.fontawesome.com/a0cb91d4d8.js" crossorigin="anonymous"></script>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Roboto+Slab:wght@200;400;600;800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('css/lecteur.css') }}">
         <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/recherche.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/home.css') }}">
         {% endblock %}
 
         {% block javascripts %}
         <script src="{{ asset('js/alert.js') }}"></script>
         
-        {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% block importmap %}{{ importmap() }}{% endblock %}
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script defer>
-            $(document).ready(function() {
-                var audio = new Audio('/uploads/files/Radiohead - Reckoner (By Clement Picon).mp3');
-                audio.loop = true;
-                audio.play();
-            
-                // Intercepter les clics sur tous les liens
-                $(document).on('click', 'a:not(.exclude-from-interception)', function(e) {
-                    var href = $(this).attr('href');
-            
-                    // Vérifier si le lien doit être traité comme une navigation interne
-                    if (doLoadInternally(href)) {
-                        e.preventDefault();
-                        loadPage(href);
-                    }
-                    // Sinon, le lien est traité normalement
-                });
-            
-                function loadPage(url) {
-                    $('#content').load(url + ' #content');
-                }
-            
-                function doLoadInternally(url) {
-                    // Ajoutez ici la logique pour déterminer si l'URL doit être chargée dans #content
-                    // Par exemple, vous pourriez vérifier si l'URL est relative (ne commence pas par http:// ou https://)
-                    return !url.match(/^http[s]?:\/\//);
-                }
-            });
-        </script>
-        <script defer>
-            document.addEventListener('DOMContentLoaded', function () {
-            var audio = document.getElementById('audioPlayer');
-            var playPauseBtn = document.getElementById('playPauseBtn');
-            var trackButtons = document.querySelectorAll('.track-btn');
-            var progressBar = document.getElementById('progressBar');
-            var progress = document.getElementById('progress');
-            var volumeSlider = document.getElementById('volumeSlider');
-            var volumeIcon = document.getElementById('volumeIcon');
-            var timeInfo = document.getElementById('timeInfo');
-
-            
-        
-            playPauseBtn.addEventListener('click', togglePlayPause);
-            trackButtons.forEach(button => button.addEventListener('click', changeTrack));
-            progressBar.addEventListener('click', seekAudio);
-            volumeSlider.addEventListener('input', adjustVolume);
-            audio.addEventListener('timeupdate', updateUI);
-        
-            function togglePlayPause() {
-                if (audio.paused) {
-                    audio.play();
-                    playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                } else {
-                    audio.pause();
-                    playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                }
-            }
-        
-            function changeTrack(event) {
-                var trackSource = event.target.getAttribute('data-track');
-                var albumCover = event.target.getAttribute('data-album-cover');
-                var songName = event.target.getAttribute('data-song-name');
-                var artistName = event.target.getAttribute('data-artist-name');
-        
-                if (trackSource) {
-                    audio.src = trackSource;
-                    audio.load();
-                    audio.play();
-                    playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                }
-        
-                // Update track information
-                document.getElementById('albumCover').src = albumCover;
-                document.getElementById('songName').textContent = songName;
-                document.getElementById('artistName').textContent = artistName;
-            }
-        
-            function seekAudio(e) {
-                var rect = progressBar.getBoundingClientRect();
-                var clickPosition = (e.pageX - rect.left) / progressBar.offsetWidth;
-                audio.currentTime = clickPosition * audio.duration;
-            }
-        
-            volumeSlider.addEventListener('input', function () {
-                adjustVolume();
-                updateVolumeSliderBackground(this.value);
-                updateVolumeIcon(volumeSlider.value);
-            });
-        
-            function adjustVolume() {
-                audio.volume = volumeSlider.value;
-            }
-            function updateVolumeSliderBackground(volume) {
-                const percentage = volume * 100;
-                volumeSlider.style.background = 'linear-gradient(to right, #307AD0 ' + percentage + '%, #ffff ' + percentage + '%)';
-            }
-            function updateVolumeIcon(volume) {
-                if (volume == 0) {
-                    volumeIcon.className = 'fa fa-volume-xmark';
-                } else if (volume <= 0.3) {
-                    volumeIcon.className = 'fa fa-volume-off';
-                } else if (volume <= 0.8) {
-                    volumeIcon.className = 'fa fa-volume-low';
-                } else {
-                    volumeIcon.className = 'fa fa-volume-high';
-                }
-            }
-        
-            function updateUI() {
-                updateProgressBar();
-                updateTimeInfo();
-            }
-        
-            function updateProgressBar() {
-                var percentage = (audio.currentTime / audio.duration) * 100;
-                progress.style.width = percentage + '%';
-            }
-        
-            function updateTimeInfo() {
-                timeInfo.textContent = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration);
-            }
-        
-            function formatTime(time) {
-                var minutes = Math.floor(time / 60);
-                var seconds = Math.floor(time % 60);
-                return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-            }
-            updateVolumeSliderBackground(volumeSlider.value);
-        });
-    </script>
         {% endblock %}
     </head>
     <body>
@@ -171,80 +49,36 @@
             </h3>
         {% endif %}
         
-        {# <side>
-            <nav id="burger-menu" class="initial">
-
-            <div >
-                <a  href="{{ path('app_home') }}">
-                    <img id="logo" src="{{ asset('uploads/logo.png') }}" alt="Logo">
-                </a>
-            </div>
-            <button id="burger_btn" class="normal"><i class="fa-solid fa-arrow-left"></i></button>
-            <ul id="burger_links"> 
-                <div class="explorer">
-                    <li><p class="nav_title">explorer</p></li>
-                    <li class="navbar_component"><a  title="Accueil" href="{{ path('app_home') }}"> <i class="fa-solid fa-house"></i>Accueil </a></li>
-                    <li class="navbar_component"><a title="Albums" href="{{ path('app_album') }}"> <i class="fa-solid fa-record-vinyl"></i> Albums </a></li>
-                    <li class="navbar_component"><a title="Groupes" href="{{ path('app_groupe') }}"> <i class="fa-solid fa-people-group"></i>Groupes </a></li>
-                    <li class="navbar_component"><a title="Genres" href="{{ path('app_genre') }}"> <i class="fa-solid fa-guitar"></i>Genres </a></li>
-                    <li class="navbar_component"><a title="Vos Playlists" href="{{ path('app_playlist') }}"> <i class="fa-solid fa-ear-listen"></i>Playlists </a></li>
+        <aside>
+            <nav class="navbar" id="navbar">
+                <div class="navbar-header">
+                    <img class="logo" src="{{ asset('uploads/logo.png') }}" alt="Logo" id="logo1">
+                    <img class="logo" src="{{ asset('uploads/small-logo.png') }}" alt="Logo" id="logo2" style="display: none;">
+                    <button id="toggle-button" class="" onclick="toggleNavbar()">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
                 </div>
-                <div class="social">
-                    <li><p class="nav_title">social</p></li>
-                    <li class="navbar_component"><a title="Pages" href="{{ path('app_page') }}"><i class="fa-solid fa-note-sticky"></i>Pages</a></li>
-                </div>
-                <div class="preferences">
-                    <li><p class="nav_title">préférences</p></li>
-                        <li class="navbar_component"><a title="Favoris" href="{{ path('app_favoris') }}"> <i class="fa-solid fa-heart"></i>Favoris </a></li>
-                        <li class="navbar_component"><a title="Accueil" href="{{ path('app_historique') }}"> <i class="fa-solid fa-clock-rotate-left"></i>Historique </a></li>
-                </div>
-            </ul>
+                <ul class="navbar-nav">
+                    <li><span class="nav-titre">explorer</span></li>
+                    <li class="nav_element"><a title="Accueil" href="{{ path('app_home') }}"> <i  class="fa-solid fa-house icon"></i><span class="link-text">Accueil</span></a></li>
+                    <li class="nav_element"><a title="Albums" href="{{ path('app_album') }}"> <i class="fa-solid fa-record-vinyl icon"></i> <span class="link-text">Albums</span> </a></li>
+                    <li class="nav_element"><a title="Groupes" href="{{ path('app_groupe') }}"> <i class="fa-solid fa-people-group icon"></i><span class="link-text">Groupes</span> </a></li>
+                    <li class="nav_element"><a title="Genres" href="{{ path('app_genre') }}"> <i class="fa-solid fa-guitar icon"></i><span class="link-text">Genres</span> </a></li>
+                    <li class="nav_element"><a title="Vos Playlists" href="{{ path('app_playlist') }}"> <i class="fa-solid fa-ear-listen icon"></i><span class="link-text">Playlists</span> </a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li><span class="nav-titre">social</span></li>
+                    <li class="nav_element"><a title="Pages" href="{{ path('app_page') }}"><i class="fa-solid fa-note-sticky icon"></i><span class="link-text">Pages</span></a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li><span class="nav-titre">préférences</span></li>
+                    <li class="nav_element"><a title="Favoris" href="{{ path('app_favoris') }}"> <i class="fa-solid fa-heart icon"></i><span class="link-text">Favoris</span> </a></li>
+                    <li class="nav_element"><a title="historique" href="{{ path('app_historique') }}"> <i class="fa-solid fa-clock-rotate-left icon"></i><span class="link-text">Historique</span> </a></li>
+                </ul>
             </nav>
-        </side> #}
-        <div class="navbar" id="navbar">
-            <div class="navbar-header">
-                <img class="logo" src="{{ asset('uploads/logo.png') }}" alt="Logo" id="logo1">
-                <img class="logo" src="{{ asset('uploads/small-logo.png') }}" alt="Logo" id="logo2" style="display: none;">
-                <button class="toggle-button" onclick="toggleNavbar()">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-            </div>
-            <ul class="navbar-nav">
-                    <li><span class="link-text nav-titre">explorer</span></li>
-                    <li><a title="Accueil" href="{{ path('app_home') }}"> <i  class="fa-solid fa-house icon"></i><span class="link-text">Accueil</span></a></li>
-                    <li><a title="Albums" href="{{ path('app_album') }}"> <i class="fa-solid fa-record-vinyl icon"></i> <span class="link-text">Albums</span> </a></li>
-                    <li><a title="Groupes" href="{{ path('app_groupe') }}"> <i class="fa-solid fa-people-group icon"></i><span class="link-text">Groupes</span> </a></li>
-                    <li><a title="Genres" href="{{ path('app_genre') }}"> <i class="fa-solid fa-guitar icon"></i><span class="link-text">Genres</span> </a></li>
-                    <li><a title="Vos Playlists" href="{{ path('app_playlist') }}"> <i class="fa-solid fa-ear-listen icon"></i><span class="link-text">Playlists</span> </a></li>
-            </ul>
-            <ul class="navbar-nav">
-                <li><span class="link-text nav-titre">social</span></li>
-                <li><a title="Pages" href="{{ path('app_page') }}"><i class="fa-solid fa-note-sticky icon"></i><span class="link-text">Pages</span></a></li>
-            </ul>
-            <ul class="navbar-nav">
-                <li><span class="link-text nav-titre">préférences</span></li>
-                <li><a title="Favoris" href="{{ path('app_favoris') }}"> <i class="fa-solid fa-heart icon"></i><span class="link-text">Favoris</span> </a></li>
-                <li><a title="historique" href="{{ path('app_historique') }}"> <i class="fa-solid fa-clock-rotate-left icon"></i><span class="link-text">Historique</span> </a></li>
-          </div>
+        </aside>
 
-        <script>
-            function toggleNavbar() {
-                var navbar = document.getElementById('navbar');
-                var logo1 = document.getElementById('logo1');
-                var logo2 = document.getElementById('logo2');
-                
-                navbar.classList.toggle('collapsed');
-                
-                // Toggle visibility of the logos
-                if (logo1.style.display === "none") {
-                    logo1.style.display = "block";
-                    logo2.style.display = "none";
-                } else {
-                    logo1.style.display = "none";
-                    logo2.style.display = "block";
-                }
-            }
-        </script>
+        
 
         <div class="custom-audio-player">
             <div class="track-info">
@@ -272,7 +106,7 @@
 
         </div>
 
-        <div id="content">
+        <div class="main-content" id="content">
             {% block body %}{% endblock %}
         </div>
         <script>
@@ -292,6 +126,67 @@
                 .catch(error => console.error('Error:', error));
             }
         </script>
+        <script>
+            function toggleNavbar() {
+                var navbar = document.getElementById('navbar');
+                var logo1 = document.getElementById('logo1');
+                var logo2 = document.getElementById('logo2');
+                var button = document.getElementById('toggle-button');
+                var mainContent = document.querySelector('.main-content');
+                
+                navbar.classList.toggle('collapsed');
+                
+                // Adjust the main content padding depending on the navbar state
+                if (navbar.classList.contains('collapsed')) {
+                    mainContent.style.paddingLeft = '80px';
+                } else {
+                    mainContent.style.paddingLeft = '280px';
+                }
+                
+                // Toggle visibility of the logos
+                if (logo1.style.display === "none") {
+                    logo1.style.display = "block";
+                    logo2.style.display = "none";
+                    button.classList.remove("left");
+                    button.classList.add("right");
+                } else {
+                    logo1.style.display = "none";
+                    logo2.style.display = "block";
+                    button.classList.remove("right");
+                    button.classList.add("left");
+                }
+            }
+        </script>
+        <footer class="footer">
+            <div class="footer_content">
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <a href="#">Conditions générales d'utilisation</a>
+                    <a href="#">Politique de confidentialité</a>
+                    <a href="#">Partenaires</a>
+                </div>
+                <div class="footer_line"></div>
+                <div class="footer-section">
+                    <h3>Nous contacter</h3>
+                    <a href="tel:0777829438">07 77 82 94 38</a>
+                    <p>10 rue des bouchers Strasbourg</p>
+                    <a href="mailto:SoundSage@test.com">SoundSage@test.com</a>
+                </div>
+                <div class="footer_line"></div>
+                <div class="footer-section">
+                    <h3>Suivez nous</h3>
+                    <div class="social_media">
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2023 SoundSage. All Right Reserved.</p>
+            </div>
+        </footer>
         
     </body>
     </html>

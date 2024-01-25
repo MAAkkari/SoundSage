@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Discussions{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+
+    <h2>Discussions</h2>
+    <div class="chat-wrapper">
+        <aside class="chat-aside">
+            <nav>
+                <div class="chat-header">
+                    {% if selectedMessages is defined and selectedMessages is not null %}
+                        <h3><a href="{{ path('app_discussions') }}" data-turbo="false">Messagerie</a></h3>
+                    {% else %}
+                        <h3>Messagerie</h3>
+                    {% endif %}
+                    <a href="" data-turbo="false"><i class="fa-solid fa-arrows-rotate"></i> Recharger</a>
+                </div>
+                <ul>
+                    {# Liste des discussions de l'utilisateur #}
+                    {% for user in discussedUsers %}
+                    <li {% if app.request.get('receiverId') == user.id %}class="active"{% endif %}>
+                            <a href="{{ path('discussions', {'receiverId': user.id}) }}" data-turbo="false">
+                                <div class="user-picture">
+                                    {% set unreadMessagesCount = app.user.countUnreadMessagesFromUser(user) %}
+                                    {% if unreadMessagesCount > 0 %}
+                                    <div class="notif">
+                                        <span class="unread">{{ unreadMessagesCount }}</span>
+                                    </div>
+                                    {% endif %}
+                                    {% if user.image %}
+                                        <img src="{{ asset('uploads/users/' ~ user.image) }}" alt="avatar">
+                                    
+                                    {% endif %}
+                                </div>
+                                <div class="message-item">
+                                    <div class="message-item-head">
+                                        <span>{{ user.pseudo }} </span>
+                                        {# Date du dernier message #}
+                                        <p>{{ lastMessages[user.id].date|date_format_special }}</p>
+                                    </div>
+                                    <div class="message-item-body">
+                                        <span class="lastMessage">
+                                            {# Afficher 20 caractères du dernier message de cette discussion #}
+                                            {% set message = lastMessages[user.id].message|slice(0, 25) %}
+                                            {% if lastMessages[user.id].sender.id == app.user.id %}
+                                                <span class="byYou">Vous : {{ message }}{% if message|length >= 20 %}...{% endif %}</span>
+                                            {% else %}
+                                                {{ message }}{% if message|length >= 25 %}...{% endif %}
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            {% if selectedMessages is defined and selectedMessages is not null %}
+                <a class="nav-mess"><i class="far fa-comments"></i></a>
+            {% endif %}
+        </aside>
+        <div class="overlay-chat"></div>
+        <div class="section-wrapper chat">   
+            {# Le contenu de la discussion sera chargé ici #}
+            {% if selectedMessages is defined and selectedMessages is not null %}
+            <div class="chat-window-header">
+                <div>
+                    {# Afficher l'avatar de l'interlocuteur #}
+                    {% set otherUser = selectedMessages[0].getSender() == app.user ? selectedMessages[0].getReceiver() : selectedMessages[0].getSender() %}
+                    {% if otherUser.image %}
+                    <img src="{{ asset('uploads/users/' ~ otherUser.image) }}" alt="avatar">
+                    {% else %}
+                        <img src="{{ asset('img/profil.jpg') }}" alt="avatar" height="50" width="50">
+                    {% endif %}
+                </div>
+                <div>
+                    {# Afficher le nom de l'interlocuteur #}
+                    <span>{{ otherUser.pseudo }}</span>
+                </div>
+            </div>
+            {# Grace a turbo_stream_listen on peut écouter les mises à jour des messages #}
+            {# Et les mettre à jour dans le turbo-frame #}
+            <div class="chat-window-body">
+                <ul {{ turbo_stream_listen('chat') }}>
+                    <turbo-frame id="messages">
+                        {# Liste des messages de la discussion sélectionnée #}
+                        {% for message in selectedMessages %}
+                            {% set isUserMessage = (message.sender == app.user) %}
+                            <article id="message_{{ message.id }}">
+                                <p class="message-content {{ isUserMessage ? 'user-message' : 'interlocutor-message' }}">{{ message.content }}</p>
+                                <div class="date {{ isUserMessage ? 'user-message' : 'interlocutor-message' }}">
+                                    {{ message.createdAt|date('d/m/Y H:i') }}
+                                </div>
+                            </article>
+                        {% endfor %}
+                    </turbo-frame>
+                </ul>
+            </div>
+            {# On utilise le turbo-frame pour éviter de recharger toute la page #}
+            {# Lors de la soumission du formulaire #}
+            <div class="chat-window-footer">
+                <turbo-frame id="message_form">
+                    {{ form_start(form) }}
+                    {{ form_widget(form.content) }}
+                    <button class="submit-btn" type="submit">Envoyer</button>
+                    {{ form_end(form) }}
+                </turbo-frame>
+            </div>
+            {% else %}
+            <aside class="chat-aside standart">
+                <nav>
+                    <div class="chat-header">
+                        <h3>Messagerie</h3>
+                        <a href="" data-turbo="false"><i class="fa-solid fa-arrows-rotate"></i> Recharger</a>
+                    </div>
+                    <ul>
+                        {# Liste des discussions de l'utilisateur #}
+                        {% for user in discussedUsers %}
+                            <li {% if app.request.get('receiverId') == user.id %}class="active"{% endif %}>
+                                <a href="{{ path('discussions', {'receiverId': user.id}) }}" data-turbo="false">
+                                    <div class="user-picture">
+                                        {% set unreadMessagesCount = app.user.countUnreadMessagesFromUser(user) %}
+                                        {% if unreadMessagesCount > 0 %}
+                                        <div class="notif">
+                                            <span class="unread">{{ unreadMessagesCount }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if user.image %}
+                                            <img src="{{ asset('uploads/users/' ~ user.image) }}" alt="avatar" height="50" width="50">
+                                        {% endif %}
+                                    </div>
+                                    <div class="message-item">
+                                        <div class="message-item-head">
+                                            <span>{{ user.pseudo }}</span>
+                                            {# Date du dernier message #}
+                                            <p>{{ lastMessages[user.id].date|date_format_special }}</p>
+                                        </div>
+                                        <div class="message-item-body">
+                                            <span class="lastMessage">
+                                                {# Afficher 20 caractères du dernier message de cette discussion #}
+                                                {% set message = lastMessages[user.id].message|slice(0, 25) %}
+                                                {% if lastMessages[user.id].sender.id == app.user.id %}
+                                                    <span class="byYou">Vous : {{ message }}{% if message|length >= 20 %}...{% endif %}</span>
+                                                {% else %}
+                                                    {{ message }}{% if message|length >= 25 %}...{% endif %}
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </nav>
+            </aside>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

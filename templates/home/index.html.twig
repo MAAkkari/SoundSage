@@ -1,53 +1,104 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Soundsage : Découvrez, Écoutez et Partagez la Musique Autrement{% endblock %}
+
+{% block meta_description %}Mettez du rythme dans votre vie avec Soundsage, votre nouvelle destination pour une expérience musicale inoubliable. Découvrez, écoutez et partagez vos morceaux préférés parmi une vaste bibliothèque de musiques variées. Rejoignez notre communauté de passionnés de musique et profitez d'une qualité sonore exceptionnelle. Soundsage, bien plus qu'un simple service d'écoute - une révolution musicale à portée de main{% endblock %}
 
 {% block body %}
-
-<p>ECOUTER TOUT LES</p>
-<h1>Albums du moment</h1>
-
-{% for album in albums %}
-
-    <a href="{{path('show_album',{'id':album.id})}}">
-        <figure>
-            <img class="imgAlbumAccueil" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
-        </figure>
-    </a>
-    <a href="{{path('show_album',{'id':album.id})}}">{{album.nom}}</a>
-    <button class="track-btn" 
-        data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
-        data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
-        data-song-name="{{ album.musiques[0].nom }}"
-        data-artist-name="{{ album.groupes[0].nom }}"
-        onclick="addToHistory({{ album.musiques[0].id }})">
-        <i class="fa-solid fa-play"></i>
-    </button>
+{{include('include/header.html.twig')}}
+<div class="header-info">
+    <p>ECOUTER TOUT LES</p>
+    <h1><span>Albums</span> du moment</h1>
+</div>
+<div class="carousel_et_bouttons">
+<button class="carousel-prev-btn" onclick="moveCarousel('prev')"><i class="fa-solid fa-arrow-left"></i></button>
+<div class="carousel">
     
-    {% if user in album.likerPar %}
-    {% set liked = true %}
-    {% else %}
-    {% set liked = false %}
-    {% endif %}
-    {{ component('LikeButtonComponent', {
-        'entityType': 'Album',
-        'entityId': album.id,
-        'isLiked':liked,
-    }) }} 
-    {# on verifie si l'album a etait fait par un ou plusieurs groupes et on formate l'affichage selon si il n'y en a qu'un ou plusieurs  #}
+    <div class="carousel-inner">
+        {% for album in albums %}
+        <div class="carousel-item">
+            <a title="{{album.nom}}" href="{{path('show_album',{'id':album.id})}}">
+                <figure>
+                    <img class="imgAlbumAccueil" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
+                </figure>
+            </a>
+            <div class="overlay">
+                
+                {% if user in album.likerPar %}
+                    {% set liked = true %}
+                    {% else %}
+                    {% set liked = false %}
+                {% endif %}
+                {{ component('LikeButtonComponent', {
+                    'entityType': 'Album',
+                    'entityId': album.id,
+                    'isLiked': liked,
+                }) }}
+                
+                <button class="track-btn" 
+                    data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
+                    data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
+                    data-song-name="{{ album.musiques[0].nom }}"
+                    data-artist-name="{{ album.groupes[0].nom }}"
+                    onclick="addToHistory({{ album.musiques[0].id }})">
+                    <i class="fa-solid fa-play"></i>
+                </button>
 
-    {% set groupeCount = album.groupes|length %}
-    {% if groupeCount == 1 %}
-       <a href="#"> {{ album.groupes[0].nom }}</a>
-    {% else %}
-    <p>
-        {% for key, groupe in album.groupes %}
-            <a href="#">{{ groupe.nom }}</a>
-            {% if not loop.last %} ft. {% endif %}
+                <button class="empty-btn"></button>
+                
+            </div>
+            <a class="album_titre" href="{{path('show_album',{'id':album.id})}}">{{album.nom}}</a>
+            {# on verifie si l'album a etait fait par un ou plusieurs groupes et on formate l'affichage selon si il n'y en a qu'un ou plusieurs  #}
+
+                {% set groupeCount = album.groupes|length %}
+                {% if groupeCount == 1 %}
+                <a class="album_auteur" href="#"> {{ album.groupes[0].nom }}</a>
+                {% else %}
+                <div class="inline">
+                    {% for key, groupe in album.groupes %}
+                        <a class="album_auteur" href="#">{{ groupe.nom }}</a>
+                        {% if not loop.last %} <p> &nbsp ft.&nbsp</p>  {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+        </div>
         {% endfor %}
-    </p>
-    {% endif %}
-{% endfor %}
+    </div>
+    
+    
+</div>
+<button class="carousel-next-btn" onclick="moveCarousel('next')"><i class="fa-solid fa-arrow-right"></i></button>
+</div>
+<script>
+    let currentIndex = 0; // Track the current index of the visible carousel item
+
+    function moveCarousel(direction) {
+        const carousel = document.querySelector('.carousel-inner');
+        const totalItems = 10; // Total number of items in the carousel
+        const visibleItems = 5; // Number of items visible at a time
+    
+        if (direction === 'prev') {
+            if (currentIndex === 0) {
+                currentIndex = totalItems - visibleItems;
+            } else {
+                currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+            }
+        } else if (direction === 'next') {
+            if (currentIndex === totalItems - visibleItems) {
+                currentIndex = 0;
+            } else {
+                currentIndex = (currentIndex + 1) % totalItems;
+            }
+        }
+    
+        const offset = -20 * currentIndex;
+        carousel.style.transform = `translateX(${offset}%)`;
+    }
+
+</script>
+
+
+
 
 <h2>Groupes Populaires</h2>
 {% for groupe in groupes %}

@@ -3,10 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\MessageRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
+#[Broadcast(topics:['chat'])]
 class Message
 {
     #[ORM\Id]
@@ -14,99 +15,87 @@ class Message
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $texte = null;
+    #[ORM\Column(length: 255)]
+    private ?string $content = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $dateCreation = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateModif = null;
+    #[ORM\Column]
+    private ?bool $isRead = false;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $image = null;
+    #[ORM\ManyToOne(inversedBy: 'sentMessages')]
+    private ?User $sender = null;
 
-    #[ORM\ManyToOne(inversedBy: 'messages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Discussion $discussion = null;
+    #[ORM\ManyToOne(inversedBy: 'receivedMessages')]
+    private ?User $receiver = null;
 
-    #[ORM\ManyToOne(inversedBy: 'messages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $auteur = null;
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable(null, new \DateTimeZone('Europe/Paris'));
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTexte(): ?string
+    public function getContent(): ?string
     {
-        return $this->texte;
+        return $this->content;
     }
 
-    public function setTexte(string $texte): static
+    public function setContent(string $content): static
     {
-        $this->texte = $texte;
+        $this->content = $content;
 
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->dateCreation;
+        return $this->createdAt;
     }
 
-    public function setDateCreation(\DateTimeInterface $dateCreation): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->dateCreation = $dateCreation;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getDateModif(): ?\DateTimeInterface
+    public function isIsRead(): ?bool
     {
-        return $this->dateModif;
+        return $this->isRead;
     }
 
-    public function setDateModif(?\DateTimeInterface $dateModif): static
+    public function setIsRead(bool $isRead): static
     {
-        $this->dateModif = $dateModif;
+        $this->isRead = $isRead;
 
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getSender(): ?User
     {
-        return $this->image;
+        return $this->sender;
     }
 
-    public function setImage(?string $image): static
+    public function setSender(?User $sender): static
     {
-        $this->image = $image;
+        $this->sender = $sender;
 
         return $this;
     }
 
-    public function getDiscussion(): ?Discussion
+    public function getReceiver(): ?User
     {
-        return $this->discussion;
+        return $this->receiver;
     }
 
-    public function setDiscussion(?Discussion $discussion): static
+    public function setReceiver(?User $receiver): static
     {
-        $this->discussion = $discussion;
-
-        return $this;
-    }
-
-    public function getAuteur(): ?User
-    {
-        return $this->auteur;
-    }
-
-    public function setAuteur(?User $auteur): static
-    {
-        $this->auteur = $auteur;
+        $this->receiver = $receiver;
 
         return $this;
     }
