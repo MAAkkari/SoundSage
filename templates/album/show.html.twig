@@ -57,12 +57,13 @@
                    <p>{{musique.nom}} </p> 
                    <a href="#">{{ album.groupes[0].nom }}</a>
                 </div>
+                
                 <button class="track-btn" 
                     data-track="{{ asset('uploads/files/' ~ musique.fichier) }}"
                     data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
                     data-song-name="{{ album.musiques[0].nom }}"
                     data-artist-name="{{ album.groupes[0].nom }}"
-                    onclick="addToHistory({{ album.musiques[0].id }})">
+                    onclick="addToHistory({{ album.musiques[0].id }}); changeTrack(this);">
                     <i class="fa-solid fa-play"></i>
                 </button>
                 

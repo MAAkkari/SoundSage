@@ -6,6 +6,8 @@
 
 {% block body %}
 {{include('include/header.html.twig')}}
+
+
 <div class="header-info">
     <p>ECOUTER TOUT LES</p>
     <h1><span>Albums</span> du moment</h1>
@@ -40,7 +42,7 @@
                     data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
                     data-song-name="{{ album.musiques[0].nom }}"
                     data-artist-name="{{ album.groupes[0].nom }}"
-                    onclick="addToHistory({{ album.musiques[0].id }})">
+                    onclick="console.log('track-btn onclick'); addToHistory({{ album.musiques[0].id }}); changeTrack(this);">
                     <i class="fa-solid fa-play"></i>
                 </button>
 
@@ -62,7 +64,11 @@
                 </div>
                 {% endif %}
         </div>
+        {{ component('NewPlaylistComponent', {
+            'albumId':album.id,
+        }) }}
         {% endfor %}
+        
     </div>
     
     
