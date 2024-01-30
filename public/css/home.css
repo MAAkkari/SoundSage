@@ -1,6 +1,9 @@
 .header-info{
-    margin-top: -150px;
-    margin-left: 110px;
+    
+    margin-left: 10%;
+    width:400px;
+    
+    
 }
 .header-info p{
     color: rgba(65, 61, 61, 0.72);
@@ -9,6 +12,7 @@
     font-weight: 700;
     line-height: normal;
     margin-left: 10px;
+    width:400px;
 }
 .header-info h1{
     color: #000;
@@ -17,6 +21,7 @@
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    width:400px;
 }
 .header-info h1 span{
     color: #307AD0;
@@ -32,7 +37,10 @@ header{
 }
 
 /* -------------carousel------------ */
-
+.block_albums_accueil{
+    display:flex;
+    flex-direction: column;
+}
 .carousel {
     position: relative;
     width: 83%;
@@ -41,7 +49,18 @@ header{
     margin-top: 30px;
     justify-content: center;
     margin-right: -1.5%;
+   
     
+}
+header{
+    z-index: 0;
+}
+.voir_plus{
+    text-align: right;
+    color : #969393;
+    font-size: 1.2rem;
+    position: absolute;
+    right:9%;
 }
 .carousel_et_bouttons{
     display:flex ; 
@@ -81,7 +100,7 @@ header{
     aspect-ratio: 1/1;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
-    
+    column-gap: 4%;
     justify-content: center;
     align-items: center;
     opacity: 0;
@@ -104,8 +123,7 @@ header{
     opacity: 1;
 }
 
-.like-btn,
-.empty-btn {
+.like-btn  {
     color: white;
     background-color: transparent;
     border: none;
@@ -113,6 +131,23 @@ header{
     font-size: 20px;
     margin: 5px;
     padding: 0;
+}
+.playlist_menu_btn{
+    background-color: #307AD0;
+    color: white;
+    border: none;
+    border-radius: 1000px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s;
+    width:42px;
+    height:42px;
+    margin-bottom: -5px;  
+} 
+
+.playlist_menu_btn i{
+    color: #ffff;
 }
 
 .carousel-prev-btn {
@@ -257,3 +292,56 @@ line-height: normal;
         cursor: pointer;
         margin-left: 0px;
     }
+ /* ---------------menu-contextuel---------------------- */
+ .menu-contextuel {
+    position: absolute;
+    display:none;
+    z-index: 1000;
+    
+}
+
+.menu-actif {
+    display: block; /* Ensure it's always block */
+}
+
+
+/* ---------------------------------- section groupes---------------------------------  */
+.info2{
+    margin-top: 60px;
+}
+.GroupeListAccueil{
+    position: relative;
+    width: 83%;
+    display: flex;
+    justify-content: center;
+    margin: 30px auto 100px auto;
+}
+
+.GroupeItem{
+    flex: 0 0 14.6%;
+    margin-right:2%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.img_contrainer::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%; /* Size of the white circle */
+    height: 30%;
+    background-color: white; /* Color of the circle */
+    border-radius: 50%; /* Makes the pseudo-element circular */
+    transform: translate(-50%, -50%); /* Centers the pseudo-element */
+}
+
+
+.imgGroupeAccueil {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+
+}

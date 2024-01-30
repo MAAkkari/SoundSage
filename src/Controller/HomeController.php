@@ -24,6 +24,9 @@ class HomeController extends AbstractController
         //toutes leurs musiques, puis recupere les objets avec les ids
         $GroupesPopulaires = $gr->findPopulaire();
         $groupes=[];
+
+        
+       
         foreach($GroupesPopulaires as $groupe){
             $groupes[]= $gr->find($groupe['id']);
         }

@@ -8,9 +8,9 @@
   body {
     font-family: "Open Sans Condensed", sans-serif;
   }
-  .main-content {
+  body>.main-content:first-of-type {
     transition: padding-left 0.3s ease;
-    padding-left: 280px; /* Same as the expanded width of the sidebar */
+    padding-left: 280px;
   }
 
   .navbar.collapsed + .main-content {

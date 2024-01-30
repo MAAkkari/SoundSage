@@ -7,114 +7,116 @@
 {% block body %}
 {{include('include/header.html.twig')}}
 
-
 <div class="header-info">
     <p>ECOUTER TOUT LES</p>
     <h1><span>Albums</span> du moment</h1>
 </div>
-<div class="carousel_et_bouttons">
-<button class="carousel-prev-btn" onclick="moveCarousel('prev')"><i class="fa-solid fa-arrow-left"></i></button>
-<div class="carousel">
-    
-    <div class="carousel-inner">
-        {% for album in albums %}
-        <div class="carousel-item">
-            <a title="{{album.nom}}" href="{{path('show_album',{'id':album.id})}}">
-                <figure>
-                    <img class="imgAlbumAccueil" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
-                </figure>
-            </a>
-            <div class="overlay">
-                
-                {% if user in album.likerPar %}
-                    {% set liked = true %}
+
+    <a class="voir_plus" href="{{path('app_album')}}">voir plus ...</a>
+    <div class="carousel_et_bouttons">
+        <button class="carousel-prev-btn" onclick="moveCarousel('prev')"><i class="fa-solid fa-arrow-left"></i></button>
+        <div class="carousel">
+            
+            <div class="carousel-inner">
+                {% for album in albums %}
+            
+                <div class="carousel-item">
+                    <a title="{{album.nom}}" href="{{path('show_album',{'id':album.id})}}">
+                        <figure>
+                            <img class="imgAlbumAccueil" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
+                        </figure>
+                    </a>
+                    
+                    <div class="overlay">
+                        
+                    {% if app.user %}
+                        {% if user in album.likerPar %}
+                            {% set liked = true %}
+                            {% else %}
+                            {% set liked = false %}
+                        {% endif %}
+                        {{ component('LikeButtonComponent', {
+                            'entityType': 'Album',
+                            'entityId': album.id,
+                            'isLiked': liked,
+                        }) }}
+                        
+                        <button class="track-btn" 
+                            data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
+                            data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
+                            data-song-name="{{ album.musiques[0].nom }}"
+                            data-artist-name="{{ album.groupes[0].nom }}"
+                            onclick=" addToHistory({{ album.musiques[0].id }}); changeTrack(this);">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+
+                        <button class="playlist_menu_btn" onclick=" document.getElementById('menu-contextuel{{album.id}}').classList.toggle('menu-actif')"><i class="fa-solid fa-plus"></i></button>
                     {% else %}
-                    {% set liked = false %}
-                {% endif %}
-                {{ component('LikeButtonComponent', {
-                    'entityType': 'Album',
-                    'entityId': album.id,
-                    'isLiked': liked,
-                }) }}
-                
-                <button class="track-btn" 
-                    data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
-                    data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
-                    data-song-name="{{ album.musiques[0].nom }}"
-                    data-artist-name="{{ album.groupes[0].nom }}"
-                    onclick="console.log('track-btn onclick'); addToHistory({{ album.musiques[0].id }}); changeTrack(this);">
-                    <i class="fa-solid fa-play"></i>
-                </button>
+                    <button class="track-btn" 
+                        data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
+                        data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
+                        data-song-name="{{ album.musiques[0].nom }}"
+                        data-artist-name="{{ album.groupes[0].nom }}"
+                        onclick=" changeTrack(this);">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                        
+                    {% endif %}
+                        
+                        
+                        
+                    </div>
+                    
+                    <a class="album_titre" href="{{path('show_album',{'id':album.id})}}">{{album.nom}}</a>
+                    {# on verifie si l'album a etait fait par un ou plusieurs groupes et on formate l'affichage selon si il n'y en a qu'un ou plusieurs  #}
 
-                <button class="empty-btn"></button>
-                
-            </div>
-            <a class="album_titre" href="{{path('show_album',{'id':album.id})}}">{{album.nom}}</a>
-            {# on verifie si l'album a etait fait par un ou plusieurs groupes et on formate l'affichage selon si il n'y en a qu'un ou plusieurs  #}
-
-                {% set groupeCount = album.groupes|length %}
-                {% if groupeCount == 1 %}
-                <a class="album_auteur" href="#"> {{ album.groupes[0].nom }}</a>
-                {% else %}
-                <div class="inline">
-                    {% for key, groupe in album.groupes %}
-                        <a class="album_auteur" href="#">{{ groupe.nom }}</a>
-                        {% if not loop.last %} <p> &nbsp ft.&nbsp</p>  {% endif %}
-                    {% endfor %}
+                        {% set groupeCount = album.groupes|length %}
+                        {% if groupeCount == 1 %}
+                        <a class="album_auteur" href="#"> {{ album.groupes[0].nom }}</a>
+                        {% else %}
+                        <div class="inline">
+                            {% for key, groupe in album.groupes %}
+                                <a class="album_auteur" href="#">{{ groupe.nom }}</a>
+                                {% if not loop.last %} <p> &nbsp ft.&nbsp</p>  {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                 </div>
-                {% endif %}
+                {% endfor %}
+            </div>
         </div>
+        <button class="carousel-next-btn" onclick="moveCarousel('next')"><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+
+    
+    
+
+{% for album in albums %}
+    <div class="menu-contextuel" id="menu-contextuel{{album.id}}">
         {{ component('NewPlaylistComponent', {
             'albumId':album.id,
         }) }}
-        {% endfor %}
-        
     </div>
-    
-    
-</div>
-<button class="carousel-next-btn" onclick="moveCarousel('next')"><i class="fa-solid fa-arrow-right"></i></button>
-</div>
-<script>
-    let currentIndex = 0; // Track the current index of the visible carousel item
-
-    function moveCarousel(direction) {
-        const carousel = document.querySelector('.carousel-inner');
-        const totalItems = 10; // Total number of items in the carousel
-        const visibleItems = 5; // Number of items visible at a time
-    
-        if (direction === 'prev') {
-            if (currentIndex === 0) {
-                currentIndex = totalItems - visibleItems;
-            } else {
-                currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-            }
-        } else if (direction === 'next') {
-            if (currentIndex === totalItems - visibleItems) {
-                currentIndex = 0;
-            } else {
-                currentIndex = (currentIndex + 1) % totalItems;
-            }
-        }
-    
-        const offset = -20 * currentIndex;
-        carousel.style.transform = `translateX(${offset}%)`;
-    }
-
-</script>
-
-
-
-
-<h2>Groupes Populaires</h2>
-{% for groupe in groupes %}
-    <a href="#">
-        <figure>
-            <img class="imgGroupeAccueil" src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="image de {{groupe.nom}}">
-        </figure>
-    </a>
-    <a href="#">{{groupe.nom}}</a>
 {% endfor %}
 
+<div class="header-info info2">
+    <h1><span>Groupes</span> populaires</h1>
+</div>
+
+
+
+<div class="GroupeListAccueil">
+    {% for groupe in groupes %}
+    
+    <div class="GroupeItem">
+        <a href="#">
+            <figure class="img_contrainer">
+                <img class="imgGroupeAccueil" src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="image de {{groupe.nom}}">
+            </figure>
+        </a>
+        <a href="#">{{groupe.nom}}</a>
+    </div>
+    {% endfor %}
+</div>
 
 {% endblock %}

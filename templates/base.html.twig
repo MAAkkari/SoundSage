@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-       
         <meta charset="UTF-8">
         <meta name="description" content="{% block meta_description %}{% endblock %}">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <script src="https://kit.fontawesome.com/a0cb91d4d8.js" crossorigin="anonymous"></script>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link rel="icon" href="{{ asset('uploads/small-logo.png') }}">
         {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Roboto+Slab:wght@200;400;600;800&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/lecteur.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/nav.css') }}">
         <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
         <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
         <link rel="stylesheet" href="{{ asset('css/recherche.css') }}">
@@ -20,11 +19,12 @@
         {% endblock %}
 
         {% block javascripts %}
+
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="{{ asset('js/alert.js') }}"></script>
         <script src="{{ asset('js/lecteur.js') }}"></script>
-        
+        <script src="{{ asset('js/carousel.js') }}"></script>
         
         {% block importmap %}{{ importmap() }}{% endblock %}
        
@@ -85,6 +85,11 @@
 
         
 
+        
+
+        <div class="main-content" id="content">
+            {% block body %}{% endblock %}
+        </div>
         <div class="custom-audio-player">
             <div class="track-info">
                 <img id="albumCover" src="{{asset('uploads/defaultTrack.jpg')}}" alt="Default Album Cover">
@@ -109,10 +114,6 @@
                 <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
             </div>
 
-        </div>
-
-        <div class="main-content" id="content">
-            {% block body %}{% endblock %}
         </div>
         <script>
             function addToHistory(musiqueId) {

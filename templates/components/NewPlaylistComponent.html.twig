@@ -3,7 +3,8 @@
         <input type="text" data-model="playlistName">
         <button data-action="live#action" data-action-name="handlePlaylist">+</button>
     </div>
-    <ul>
+    {% if app.user %}
+        <ul>
         {% for playlist in app.user.playlists %}
             <li>
                 <a href='#'>{{ playlist.nom }}</a> 
@@ -14,4 +15,6 @@
             </li>
         {% endfor %}
     </ul>
+    {% endif %}
+    
 </div>

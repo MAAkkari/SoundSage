@@ -12,7 +12,7 @@
             let timeInfo = null;
 
             // définir/redéfinir les liens des <a> du contenu de #content qui est rechargé en temps réel au changement de page
-            function bindPageLinks(isFirstCall) {
+        function bindPageLinks(isFirstCall) {
                 console.log("bindPageLinks() - start");
                 let nodeOnWhichBindLinks = null;
 
@@ -38,12 +38,18 @@
                         // }
                     }
                     console.log("document.on.click - end");
+                    
                 }));
 
                 // trackButtons = document.querySelectorAll('.track-btn');
                 // trackButtons.forEach(button => button.addEventListener('click', changeTrack));
                 console.log("bindPageLinks() - end");
+                
+                
             }
+            
+          
+            
             
             async function loadPage(url) {
                 await $('#content').load(url + ' #content');
@@ -147,7 +153,7 @@
             
             // au premier chargement de la page
             // $(document).ready(function() {
-            document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
                 // l'import de ce fichier js est possible dans le <head> (et pas forcément juste avant la fin du <body>) car il ne contient que des déclarations de fonctions (et non des appels) (sauf le premier bloc mais qui lui n'est déclenché que lorsque le document / le DOM est prêt)
                 
                 console.log("CALL bindPageLinks() - avant");
