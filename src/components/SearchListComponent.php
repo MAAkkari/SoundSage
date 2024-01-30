@@ -40,7 +40,7 @@ public function __construct(EntityManagerInterface $entityManager)
         $this->items[] = [
             'id' => $entity->getId(),
             'nom' => $entity->getNom(),
-            'photo' => $entity->getPhoto(), // replace with your method to get the picture
+            'photo' => $entity->getPhoto(),
         ];
     }
 }
