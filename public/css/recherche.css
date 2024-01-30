@@ -54,6 +54,11 @@ font-family: 'Roboto Slab', serif; */
     z-index: 100;
     text-shadow: 1px 0px 0px currentColor;
 }
+.fa-magnifying-glass{
+    margin-right :-35px;
+    position: relative;
+    z-index: 1000;
+}
 
 .search_and_icons{
     display:flex;

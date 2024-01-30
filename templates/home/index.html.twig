@@ -11,7 +11,7 @@
     <p>ECOUTER TOUT LES</p>
     <h1><span>Albums</span> du moment</h1>
 </div>
-
+{# Affiche les 10 albums les plus recents #}
     <a class="voir_plus" href="{{path('app_album')}}">voir plus ...</a>
     <div class="carousel_et_bouttons">
         <button class="carousel-prev-btn" onclick="moveCarousel('prev')"><i class="fa-solid fa-arrow-left"></i></button>
@@ -75,10 +75,12 @@
                         <a class="album_auteur" href="#"> {{ album.groupes[0].nom }}</a>
                         {% else %}
                         <div class="inline">
+                            
                             {% for key, groupe in album.groupes %}
                                 <a class="album_auteur" href="#">{{ groupe.nom }}</a>
-                                {% if not loop.last %} <p> &nbsp ft.&nbsp</p>  {% endif %}
+                                {% if not loop.last %} <p>&nbsp ft.&nbsp</p> {% endif %}
                             {% endfor %}
+                            
                         </div>
                         {% endif %}
                 </div>
@@ -99,22 +101,24 @@
     </div>
 {% endfor %}
 
-<div class="header-info info2">
+<div class="header-info-search ">
     <h1><span>Groupes</span> populaires</h1>
 </div>
 
+{# Trouve les groupes avec le plus de likes sur leurs musiques #}
 
-
+<a class="voir_plus" href="{{path('app_groupe')}}">voir plus ...</a>
 <div class="GroupeListAccueil">
     {% for groupe in groupes %}
-    
     <div class="GroupeItem">
-        <a href="#">
-            <figure class="img_contrainer">
+        <a  href="#">
+            <figure>
+                <div class="img_container">
                 <img class="imgGroupeAccueil" src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="image de {{groupe.nom}}">
+                </div>
             </figure>
         </a>
-        <a href="#">{{groupe.nom}}</a>
+        <a class="record_label" href="#">{{groupe.nom}}</a>
     </div>
     {% endfor %}
 </div>

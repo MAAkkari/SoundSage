@@ -37,7 +37,7 @@ class GroupeRepository extends ServiceEntityRepository
 
     }
 
-    public function findPlusLiker()
+    public function findPlusLiker(int $limit)
     {
         $conn = $this->getEntityManager()->getConnection();
 
@@ -45,10 +45,10 @@ class GroupeRepository extends ServiceEntityRepository
             SELECT user_groupe_liker.groupe_id, Count(user_groupe_liker.groupe_id) FROM user_groupe_liker
             GROUP BY user_groupe_liker.groupe_id
             ORDER BY Count(user_groupe_liker.groupe_id) DESC
-            LIMIT 4
+            LIMIT :limit;
         ';
 
-        $resultSet = $conn->executeQuery($sql);
+        $resultSet = $conn->executeQuery($sql, ['limit' => $limit], ['limit' => \Doctrine\DBAL\ParameterType::INTEGER]);
         return $resultSet->fetchAllAssociative();
     }
     public function findPlusEcouter($id)

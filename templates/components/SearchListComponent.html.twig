@@ -1,0 +1,20 @@
+<div {{ attributes }}>
+    <div class="search_and_icons">
+        <i class="fa-solid fa-magnifying-glass"></i> 
+        <input class="barre-recherche"
+        type="search"
+        data-model="query"
+        placeholder="Qu'écoutez Vous Aujourd'hui ?" >
+        <i class="fa-solid fa-shuffle"></i>
+    </div>
+    <div id="search-results" style="display: flex; flex-wrap: wrap;">
+        {% for item in this.getSearchResults() %}
+            <div style="flex: 1 0 auto; margin: 10px;">
+                <img src="{{ asset('uploads/groupes/' ~ item.photo) }}" alt="photo de {{item.nom}}" style="width: 100px; height: 100px;">
+                <p>{{ item.nom }}</p>
+            </div>
+        {% else %}
+            <p>Aucun résultat trouvé</p>
+        {% endfor %}
+    </div>
+</div>

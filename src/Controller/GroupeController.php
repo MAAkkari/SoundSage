@@ -20,7 +20,7 @@ class GroupeController extends AbstractController
     #[Route('/groupe', name: 'app_groupe')]
     public function index(GroupeRepository $gr): Response
     {
-        $groupesPopulaires = $gr->findPlusLiker();
+        $groupesPopulaires = $gr->findPlusLiker(6);
         $groupes = $gr->findAll();
 
         $populaires=[];
@@ -37,7 +37,7 @@ class GroupeController extends AbstractController
     #[Route('/page', name: 'app_page')]
     public function page(GroupeRepository $gr): Response {
         $user = $this->getUser();
-        $groupesPopulaires = $gr->findPlusLiker();
+        $groupesPopulaires = $gr->findPlusLiker(4);
         $groupes = $gr->findAll();
         $populaires=[];
         foreach($groupesPopulaires as $groupe){

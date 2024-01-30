@@ -5,6 +5,12 @@
     
     
 }
+a {
+    transition: opacity 0.3s ease-in-out;
+}
+a:hover {
+    opacity: 0.7;
+}
 .header-info p{
     color: rgba(65, 61, 61, 0.72);
     font-size: 1rem;
@@ -31,10 +37,18 @@
     font-weight: 600;
     line-height: normal;
 }
-header{
-    position: relative;
-    z-index: -1;
+.longer{
+   width:fit-content !important; 
 }
+.longer h1{
+    width:fit-content !important; 
+    font-size: 1.8rem !important;
+ }
+ .longer span{
+    width:fit-content !important; 
+    font-size: 1.8rem !important; 
+ }
+
 
 /* -------------carousel------------ */
 .block_albums_accueil{
@@ -52,9 +66,7 @@ header{
    
     
 }
-header{
-    z-index: 0;
-}
+
 .voir_plus{
     text-align: right;
     color : #969393;
@@ -222,6 +234,8 @@ line-height: normal;
 }
 .inline{
     display: flex;
+    flex-wrap: wrap;
+    
 }
 .inline p{
     color: rgba(0, 0, 0, 0.47);
@@ -307,30 +321,41 @@ line-height: normal;
 
 /* ---------------------------------- section groupes---------------------------------  */
 .info2{
-    margin-top: 60px;
+    margin-top: 40px;
+}
+.header-info-search{
+    display:flex;
+    margin: 40px auto 20px auto;
+    width: 83%;
+    justify-content: space-between;
 }
 .GroupeListAccueil{
     position: relative;
-    width: 83%;
+    width: 85%;
     display: flex;
     justify-content: center;
-    margin: 30px auto 100px auto;
+    margin: 40px auto 100px auto;
 }
 
 .GroupeItem{
-    flex: 0 0 14.6%;
-    margin-right:2%;
+    flex: 0 0 14.5%;
+    margin-right:2.6%;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+
 }
-.img_contrainer::after {
+.img_container{
+    position: relative;
+    
+}
+.img_container::after {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 30%; /* Size of the white circle */
+    width: 30%; 
     height: 30%;
     background-color: white; /* Color of the circle */
     border-radius: 50%; /* Makes the pseudo-element circular */
@@ -343,5 +368,81 @@ line-height: normal;
     height: 100%;
     aspect-ratio: 1/1;
     border-radius: 50%;
+    object-fit: cover;
+}
+.record_label{
+color: #000;
+text-align: center;
+font-family: "Open Sans";
+font-size: 1.0625rem;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+margin-top: 20px;
+}
 
+/* ----------------------------- page liste des groupes ------------------- */
+.flex{
+    display:flex;
+    width: 83% !important;
+    justify-content: space-between;
+    margin:0px auto 0px auto !important;
+    padding-right: 4%;
+}
+
+
+
+.all_items_List{
+    display:flex;
+    flex-wrap: wrap;
+    width:85% !important;
+    row-gap: 10px;
+    margin:15px auto 60px auto;
+
+
+
+}
+.single_groupe{
+    flex: 0 0 14%;
+    margin-right:2.5%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+} 
+.groupe_label{
+color: #5F5C5C;
+font-family: "Open Sans";
+font-size: 1rem;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+text-align: center;
+}
+.groupeImg{
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 5px;
+}
+.flex input {
+    border:1px solid black;
+    
+}
+.GroupeListGroupe{
+    margin-bottom: 40px;
+}
+.search-result {
+    animation: slide-in 0.5s forwards;
+}
+
+@keyframes slide-in {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.not-search-result {
+    transition: opacity 0.5s;
+    opacity: 0;
 }
