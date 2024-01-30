@@ -31,30 +31,12 @@
 
 
 
-<div class="header-info info2 longer flex">
-    <h1>Tout Les<span> Artistes et Groupes</span></h1>
-    {{ component('SearchComponent', {
-        'searchType': 'groupe',
-    }) }} 
+<div class="header-info info2 longer list_title">
+    <h1>Tout Les<span> Artistes et Groupes</span></h1>  
 </div>
 
 
-<section class="all_items_List">
-
-    {% for groupe in groupes %}
-    <div class="single_groupe">
-        <a href="#">
-            <figure>
-                <img class="groupeImg" src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
-            </figure>
-        </a>
-        <a class="groupe_label" href="#">{{groupe.nom}}</a>
-    </div>
-    {% endfor %}
-
-</section>
-
-{{ component('SearchListComponent')}} 
+{{ component('SearchListComponent') }}
 
 
 {% endblock %}
