@@ -23,6 +23,7 @@
                 }
             });
         });
+       
 
         let currentIndex = 0;
 

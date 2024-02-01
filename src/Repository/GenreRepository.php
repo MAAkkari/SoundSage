@@ -20,6 +20,7 @@ class GenreRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Genre::class);
     }
+    // compte le nombre total de musique de chaque genre et affiche le genre avec le plus de musiques
     public function findPopulaire()
     {
         $conn = $this->getEntityManager()->getConnection();

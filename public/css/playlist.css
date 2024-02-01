@@ -1,0 +1,145 @@
+.no_header_search{
+    margin-left: 12%;
+    padding-top: 30px;
+}
+.no_header_search input{
+    border:1px solid #000000;   
+}
+.playlist_header{
+    margin-top: 40px;
+    margin-left: 15%;
+}
+.playlist_list{
+    display: flex;
+    flex-direction: column;
+    width : 75%;
+    row-gap: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin:30px auto 100px auto;
+}
+.list-header{
+    display:flex;
+    width: 92%;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+.list-header p{
+    color: #000;
+    font-family: "Roboto Slab";
+    font-size: 1.3rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.black-line{
+    height: 2px;
+    background-color: #000000;
+    width : 97%;
+    margin: 0px auto 0px auto;
+}
+.imgPlaylistIcon{
+    width: 60px;
+    height: 60px;
+    aspect-ratio: 1/1;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.playlist-info-list{
+    display:flex;
+    align-items: center;
+    column-gap: 20px;
+
+}
+.playlist_nom{
+    color: #000;
+    font-size: 1.3rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.playlist_list_block{
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
+    justify-content: space-between;
+    row-gap: 20px;
+    width:93%;
+}
+.playlist_icons_list{
+    display:flex;
+    align-items: center;
+    column-gap: 30px;
+}
+.playlist_icons_list p{
+    color: #969393;
+    font-size: 1.1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+.playlist_icons_list i{
+    color : rgb(42, 42, 42);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+.playlist_icons{
+    display:flex;
+    column-gap: 15px;
+}
+
+.all_playlist_blocks{
+   
+    display:flex;
+    flex-direction: column;
+    margin: 15px auto 50px auto;
+    width: 100%;
+    row-gap: 13px;
+}
+
+/* ---------------------------- historique ------------------------------ */
+.playlist_icons_list button{
+    background-color: transparent !important;
+    height: 20px;
+}
+.playlist_icons_list button .fa-heart{
+    color: #307AD0; 
+}
+.track-btn2{
+    background-color: transparent !important;
+    color: #307AD0;
+}
+.historique_date{
+    color: #a19f9f;
+    font-family: Roboto;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin: 20px 0px 0px 5%;
+}
+.historique_nom{
+    color: #000;
+    font-size: 1.1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+.musique_et_groupe{
+    display: flex;
+    flex-direction: column;
+}
+.historique_nom_groupe{
+    color: #6d6d6d;
+    font-size: 0.8rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.list_header_historique{
+    width:93%;
+}

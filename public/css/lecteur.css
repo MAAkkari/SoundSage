@@ -51,6 +51,7 @@ body {
     padding-left: 2px;
 }
 
+
 #playPauseBtn:hover, .track-btn:hover {
     background-color: #0f74e7;
 }

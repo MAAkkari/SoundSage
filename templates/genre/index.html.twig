@@ -3,24 +3,34 @@
 {% block title %}Genres{% endblock %}
 
 {% block body %}
-<h1>Genres recommandés</h1>
-{% for genre in populaires %}
+{{include('include/header.html.twig')}}
 
-    <a href="#">
-        <figure>
-            <img src="{{ asset('uploads/genres/' ~ genre.image) }}" alt="image de {{genre.nom}}">
-        </figure>
-    </a>
-    <a href="#">{{genre.nom}}</a>
-{% endfor %}
-    <h2>Tout les Genres</h2>
-    {% for genre in genres %}
-    <a href="#">
-        <figure>
-            <img src="{{ asset('uploads/genres/' ~ genre.image) }}" alt="image de {{genre.nom}}">
-        </figure>
-    </a>
-    <a href="#">{{genre.nom}}</a>
+<div class="header-info">
+    
+    <h1><span>Genres</span> Recommander</h1>
+</div>
+{# compte le nombre total de musique de chaque genre et affiche le genre avec le plus de musiques #}
+
+<div class="grid-container">
+   
+    {% for genre in populaires %}
+    
+        <a class="carte_genre" href="#">
+            <figure>
+                <img src="{{ asset('uploads/genres/' ~ genre.image) }}" alt="image de {{genre.nom}}">
+            </figure>
+            <p class="genre_grid_label">{{genre.nom}}</p>
+        </a>
+        {# <a href="#">{{genre.nom}}</a> #}
+       
     {% endfor %}
+</div>
+
+   
+<div class="header-info info2 longer list_title">
+    <h1>Tout Les<span> Artistes et Groupes</span></h1>  
+</div>
+
+    {{ component('SearchListGenreComponent') }}
 
 {% endblock %}

@@ -30,12 +30,15 @@ class PlaylistController extends AbstractController
             'user'=>$user
         ]);
     }
+    
     #[Route('/playlist/{id}/delete', name: 'delete_playlist')]
-    public function delete(Playlist $playlist , EntityManagerInterface $em){   
+        public function delete(Playlist $playlist , EntityManagerInterface $em){   
         $em->remove($playlist);
         $em->flush();
-        $this->addFlash("success","suppression de la playlist avec succes");
-        return $this->redirectToRoute('app_playlist');
+        return $this->redirectToRoute('app_playlist', [
+            'message' => 'Suppression de la playlist avec succes',
+            'success' => true,
+        ]);
     }
 
     #[Route('/playlist/{id}/edit', name: 'edit_playlist')]
@@ -60,14 +63,18 @@ class PlaylistController extends AbstractController
             $playlist = $form->getData();
             $em->persist($playlist);
             $em->flush();
-            $this->addFlash("success","modification de la playlist avec succes");
-            return $this->redirectToRoute('app_playlist');
+            return $this->redirectToRoute('app_playlist', [
+                'message' => 'Modification de la playlist avec succes',
+                'success' => true,
+            ]);
         }
+        
         return $this->render('playlist/edit.html.twig', [
             'form' => $form->createView(),
-            'playlist'=>$playlist
+            'playlist'=>$playlist,
         ]);
     }
+    
     #[Route('/playlist/{playlist_id}/delete/{music_id}', name: 'delete_from_playlist')]
     public function deleteFromPlaylist(Playlist $playlist_id, Musique $music_id, EntityManagerInterface $em){   
         $playlist_id->removeMusique($music_id);

@@ -16,15 +16,18 @@
         <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
         <link rel="stylesheet" href="{{ asset('css/recherche.css') }}">
         <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/playlist.css') }}">
+
         {% endblock %}
 
         {% block javascripts %}
 
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="{{ asset('js/alert.js') }}"></script>
+        
         <script src="{{ asset('js/lecteur.js') }}"></script>
         <script src="{{ asset('js/carousel.js') }}"></script>
+        <script src="{{ asset('js/popup.js') }}"></script>
         
         {% block importmap %}{{ importmap() }}{% endblock %}
        
@@ -193,6 +196,32 @@
                 <p>© 2023 SoundSage. All Right Reserved.</p>
             </div>
         </footer>
+        <script>
+            
+    
+                var success = "{{ app.request.query.get('success') }}";
+                var message = "{{ app.request.query.get('message') }}";
+                if (success === '1') {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: message
+                    });
+                }
+            
+            
+        </script>
+        
         
         
     </body>

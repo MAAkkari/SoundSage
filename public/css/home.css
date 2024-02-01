@@ -62,8 +62,7 @@ a:hover {
     display: flex;
     margin-top: 30px;
     justify-content: center;
-    margin-right: -1.5%;
-   
+    margin-right: -1%;
     
 }
 
@@ -93,9 +92,7 @@ a:hover {
     position: relative;
 }
 
-.carousel-item:last-child {
-    margin-right: 0;
-}
+
 
 .carousel-item a {
     display: block;
@@ -193,6 +190,7 @@ a:hover {
     opacity: 0.7;
     transition: opacity 0.3s ease-in-out;
     border-radius: 100px ;
+    
     
 }
 .like_btn{
@@ -324,10 +322,27 @@ line-height: normal;
     margin-top: 40px;
 }
 .header-info-search{
-    display:flex;
-    margin: 40px auto 20px auto;
-    width: 83%;
-    justify-content: space-between;
+    margin-left: 10%;
+    width:400px;
+    margin-top: 50px;
+    
+}
+.header-info-search h1{
+    color: #000;
+    font-family: 'Roboto Slab', serif;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    width:400px;
+}
+.header-info-search h1 span{
+    color: #307AD0;
+    font-family: 'Roboto Slab', serif;
+    font-size: 2.25rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
 }
 .GroupeListAccueil{
     position: relative;
@@ -369,16 +384,33 @@ line-height: normal;
     aspect-ratio: 1/1;
     border-radius: 50%;
     object-fit: cover;
+    transition: transform 0.5s ease-in-out;
 }
-.record_label{
-color: #000;
-text-align: center;
-font-family: "Open Sans";
-font-size: 1.0625rem;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-margin-top: 20px;
+
+.imgGroupeAccueil:hover {
+    animation: rotateOnce 1.5s;
+}
+
+@keyframes rotateOnce {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+.record_label {
+    color: #000;
+    text-align: center;
+    font-family: "Open Sans";
+    font-size: 1.0625rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-top: 20px;
 }
 
 /* ----------------------------- page liste des groupes ------------------- */
@@ -420,6 +452,7 @@ text-align: center;
     object-fit: cover;
     border-radius: 15px;
     margin-bottom: 5px;
+    
 }
 .barre2 {
     border:1px solid black !important;
@@ -454,3 +487,130 @@ text-align: center;
 .single_groupe {
     animation: fadeIn 0.5s;
 }
+
+/* ----------------- page liste des genres ------------------- */
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(21, 3.7%);
+    grid-template-rows: repeat(12, 1.7%px);
+    gap: 15px;
+    width: 90%;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.grid-container a {
+    grid-column: auto / span 1;
+    grid-row: auto / span 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 3px;
+}
+.grid-container a img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.grid-container a img:hover {
+    filter: brightness(0.5) blur(10px);
+    transform: scale(1.2);
+    transition-delay: 0.5s;
+}
+
+.carte_genre:hover .genre_grid_label {
+    opacity: 1;
+    transition-delay: 0.6s;
+}
+
+.genre_grid_label {
+    position: absolute;
+    color: #FFF;
+    font-family: "Roboto Slab";
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    opacity: 0; /* Make the label fully transparent by default */
+    transition: opacity 0.5s ease; /* Animate the opacity */
+    pointer-events: none; /
+}
+
+.grid-container a figure {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+}
+.grid-container a:nth-child(1) {
+    grid-column: auto / span 8;
+    grid-row: auto / span 8;
+}
+.grid-container a:nth-child(2) {
+    grid-column: auto / span 5;
+    grid-row: auto / span 5;
+}
+.grid-container a:nth-child(3) {
+    grid-column: auto / span 8;
+    grid-row: auto / span 8;
+}.grid-container a:nth-child(4) {
+    grid-column: auto / span 5;
+    grid-row: auto / span 7;
+}
+.grid-container a:nth-child(5) {
+    grid-column: auto / span 4;
+    grid-row: auto / span 4;
+}
+.grid-container a:nth-child(6) {
+    grid-column: auto / span 4;
+    grid-row: auto / span 4;
+}
+.grid-container a:nth-child(7) {
+    grid-column: auto / span 8;
+    grid-row: auto / span 4;
+}
+
+.carte_genre {
+    transition: transform 0.3s ease ;
+}
+
+.carte_genre:hover {
+    transform: scale(1.03);
+    opacity: 0.95 ! important;
+}
+
+.genreImg{
+    width: 100%;
+    height: 50%;
+    aspect-ratio: 2/1;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 5px;
+}
+
+
+
+
+.single_genre{
+    flex: 0 0 30%;
+    margin-right:2.5%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 0.5s;
+}
+
+/* ----------------page liste des albums----------------- */
+
+.search_album{
+    padding-left: 2%;
+}
+
+body {
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif; 
+  }

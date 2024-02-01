@@ -1,0 +1,26 @@
+<div {{ attributes }}>
+    <div class="block_list_and_search search_album">
+        <div class="search_and_icons list_search">
+            <i class="fa-solid fa-magnifying-glass"></i> 
+            <input class="barre-recherche barre2"
+            type="search"
+            data-model="query"
+            placeholder="Qu'écoutez Vous Aujourd'hui ?" >
+            <i class="fa-solid fa-shuffle"></i>
+        </div>
+        <div class="all_items_List" >
+            {% for item in this.getSearchResults() %}
+                <div class="single_groupe">
+                    <a href='{{path('show_album',{'id':item.id})}}'>
+                        <figure>
+                            <img class="groupeImg" src="{{ asset('uploads/albums/' ~ item.photo) }}" alt="photo de {{item.nom}}">
+                        </figure>
+                    </a>
+                    <a class="groupe_label" href='#'>{{item.nom}}</a>
+                </div>
+            {% else %}
+                <p>Aucun résultat trouvé</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>

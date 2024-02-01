@@ -16,5 +16,30 @@
         {% endfor %}
     </ul>
     {% endif %}
+     <script>
+            
+    
+                var success = "{{ app.request.query.get('success') }}";
+                var message = "{{ app.request.query.get('message') }}";
+                if (success === '1') {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: message
+                    });
+                }
+            
+            
+        </script>
     
 </div>

@@ -4,48 +4,86 @@
 
 {% block body %}
 
-    <h1>Historique</h1>
-    <div>
+<div class="no_header_search">
+    {{ component('SearchComponent', {
+        'searchType': 'all',
+    }) }} 
+</div>
+<div class="header-info playlist_header">
+    <h1><span>Historique</span></h1>
+</div>
+
+
+<div class="playlist_list">
+
+    <div class="list-header list_header_historique">
         <p>titre</p>
         <p><i class="fa-regular fa-clock"></i></p>
-        <div></div>
     </div>
+
+    <div class="black-line"></div>
+
+   <div class="all_playlist_blocks">
     {% for date, historiques in groupedHistoriques %}
         {% if date != 'aujourdhui' %}
-            <h2>{{ date }}</h2>
+        <h2 class="historique_date">{{ date }}</h2>
         {% endif %}
-
-        <ul>
-            {% for historique in historiques %}
-
-                {% if user in historique.musique.likerPar %}
+        {% for historique in historiques %}
+            {% if user in historique.musique.likerPar %}
                 {% set liked = true %}
                 {% else %}
                 {% set liked = false %}
-                {% endif %}
-                <li>
-                    <div>
-                        {{ historique.musique.nom }} 
-                        <div>
-                            <button class="track-btn" 
-                                data-track="{{ asset('uploads/files/' ~ historique.musique.fichier) }}"
-                                data-album-cover="{{ asset('uploads/albums/' ~ historique.musique.album.image) }}"
-                                data-song-name="{{ historique.musique.nom }}"
-                                data-artist-name="{{ historique.musique.album.groupes[0].nom }}"
-                                onclick="addToHistory({{ historique.musique.id }})">
-                                <i class="fa-solid fa-play"></i>
-                            </button>
-                            {{ component('LikeButtonComponent', {
-                                'entityType': 'Musique',
-                                'entityId': historique.musique.id,
-                                'isLiked':liked,
-                            }) }} 
-                        </div>
+            {% endif %}
+            <div class="playlist_list_block">
+
+                <div class="playlist-info-list">
+                    <button class="track-btn track-btn2" 
+                        data-track="{{ asset('uploads/files/' ~ historique.musique.fichier) }}"
+                        data-album-cover="{{ asset('uploads/albums/' ~ historique.musique.album.image) }}"
+                        data-song-name="{{ historique.musique.nom }}"
+                        data-artist-name="{{ historique.musique.album.groupes[0].nom }}"
+                        onclick="addToHistory({{ historique.musique.id }}); changeTrack(this);">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <div class="musique_et_groupe">
+                        <a class="playlist_nom historique_nom" href="{{ path('show_album', {'id': historique.musique.album.id}) }}">{{ historique.musique.nom }} </a>
+
+                            <a class="historique_nom_groupe" href="{{ path('app_groupe', {'id': historique.musique.groupes[0].id }) }}">
+                            {{historique.musique.groupes[0].nom}}
+                        </a>
                     </div>
-                </li>
-            {% endfor %}
-        </ul>
+                </div>
+
+                <div class="playlist_icons_list">
+                    {{ (historique.musique.duree // 60) }}:{{ '%02d'|format(historique.musique.duree % 60) }}
+
+                    <div class="playlist_icons">
+                        {{ component('LikeButtonComponent', {
+                            'entityType': 'Musique',
+                            'entityId': historique.musique.id,
+                            'isLiked':liked,
+                        }) }}
+                        <button class="playlist_menu_btn" onclick=" document.getElementById('menu-contextuel{{historique.id}}').classList.toggle('menu-actif')"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="menu-contextuel" id="menu-contextuel{{historique.id}}">
+                {{ component('NewPlaylistComponent', {
+                    'musiqueId':historique.musique.id,
+                }) }}
+            </div>
+        {% endfor %}
     {% else %}
-        <p>No history found.</p>
+        <p>Aucun historique trouvé.</p>
     {% endfor %}
+    
+    </div>
+</div>
+
+
+
+   
+  
 {% endblock %}

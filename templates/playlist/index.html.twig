@@ -3,44 +3,68 @@
 {% block title %}Vos Playlists{% endblock %}
 
 {% block body %}
-<h1>Vos playlists</h1>
-<div>
-    <div>
-        <p>titre</p>
+<div class="no_header_search">
+    {{ component('SearchComponent', {
+        'searchType': 'all',
+    }) }} 
+</div>
+<div class="header-info playlist_header">
+    <h1>Vos <span>Playlists</span></h1>
+</div>
+
+
+<div class="playlist_list">
+
+    <div class="list-header">
+        <p>nom</p>
         <p>Musiques</p>
     </div>
 
     <div class="black-line"></div>
 
-    {% for playlist in playlists %}
-    
+   <div class="all_playlist_blocks">
+        {% for playlist in playlists %}
 
-    <div>
-        <div>
-            <a href="#">
-                <figure>
-                    {% if playlist.image != null %}
-                        <img class="imgPlaylistIcon" src="{{ asset('uploads/playlists/' ~ playlist.image) }}" alt="image de {{ playlist.nom }}">
-                    {% else %}
-                        <img class="imgPlaylistIcon" src="{{ asset('uploads/defaultTrack.jpg') }}" alt="image par defaut">
-                    {% endif %}
-                </figure>
-            </a>
-            <a href="{{ path('show_playlist', {'id': playlist.id}) }}">{{ playlist.nom }}</a>
+        <div class="playlist_list_block">
+
+            <div class="playlist-info-list">
+                <a href="#">
+                    <figure>
+                        {% if playlist.image != null %}
+                            <img class="imgPlaylistIcon" src="{{ asset('uploads/playlists/' ~ playlist.image) }}" alt="image de {{ playlist.nom }}">
+                        {% else %}
+                            <img class="imgPlaylistIcon" src="{{ asset('uploads/defaultTrack.jpg') }}" alt="image par defaut">
+                        {% endif %}
+                    </figure>
+                </a>
+                <a class="playlist_nom" href="{{ path('show_playlist', {'id': playlist.id}) }}">{{ playlist.nom }}</a>
+            </div>
+
+            <div class="playlist_icons_list">
+                {% set musiqueCount = 0 %}
+                {% for musique in playlist.musiques %}
+                    {% set musiqueCount = musiqueCount + 1 %}
+                {% endfor %}
+                {% if musiqueCount == 1 %}
+                    <p>{{ musiqueCount}} Musique</p>
+                {% else %}
+                    <p>{{ musiqueCount}} Musiques</p>
+                {% endif %}
+                <div class="playlist_icons">
+                    <a class=".exclude-from-interception" href="{{ path('edit_playlist', {'id': playlist.id}) }}"><i class="fa-regular fa-pen-to-square"></i></a>
+                    <a href="{{ path('delete_playlist', {'id': playlist.id}) }}"><i class="fa-solid fa-trash" ></i></a>
+                </div>
+            </div>
+
         </div>
-        <div>
-            {% set musiqueCount = 0 %}
-            {% for musique in playlist.musiques %}
-                {% set musiqueCount = musiqueCount + 1 %}
-            {% endfor %}
-            <p>{{ musiqueCount}} Musiques</p>
-            <a href="{{ path('edit_playlist', {'id': playlist.id}) }}"><i class="fa-regular fa-pen-to-square"></i></a>
-            <a href="{{ path('delete_playlist', {'id': playlist.id}) }}"><i class="fa-solid fa-trash" ></i></a>
-        </div>
+        {% endfor %}
+        
     </div>
 
-    {% endfor %}
-
 </div>
+
+
+
+
 
 {% endblock %}

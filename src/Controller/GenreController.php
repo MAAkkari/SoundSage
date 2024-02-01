@@ -13,6 +13,7 @@ class GenreController extends AbstractController
     #[Route('/genre', name: 'app_genre')]
     public function index(GenreRepository $gr): Response
     {
+         // compte le nombre total de musique de chaque genre et affiche le genre avec le plus de musiques
         $populairesGenres = $gr->findPopulaire();
         $genres = $gr->findAll();
         $populaires=[];

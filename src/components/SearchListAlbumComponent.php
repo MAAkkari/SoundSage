@@ -15,8 +15,8 @@ use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[AsLiveComponent('SearchListComponent')]
-class SearchListComponent extends AbstractController
+#[AsLiveComponent('SearchListAlbumComponent')]
+class SearchListAlbumComponent extends AbstractController
 {
     use DefaultActionTrait;
     private EntityManagerInterface $entityManager;
@@ -25,22 +25,18 @@ class SearchListComponent extends AbstractController
     public string $query = '';
 
     #[LiveProp]
-    public ?string $searchType = null;
-
-    
-    #[LiveProp]
     public array $items = [];
 
 public function __construct(EntityManagerInterface $entityManager)
 {
     $this->entityManager = $entityManager;
-    $entities = $this->entityManager->getRepository(Groupe::class)->findAll();
+    $entites = $this->entityManager->getRepository(Album::class)->findAll();
 
-    foreach ($entities as $entity) {
+    foreach ($entites as $entite) {
         $this->items[] = [
-            'id' => $entity->getId(),
-            'nom' => $entity->getNom(),
-            'photo' => $entity->getPhoto(),
+            'id' => $entite->getId(),
+            'nom' => $entite->getNom(),
+            'photo' => $entite->getImage(),
         ];
     }
 }
