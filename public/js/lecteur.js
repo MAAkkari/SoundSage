@@ -11,7 +11,7 @@
             let volumeIcon = null;
             let timeInfo = null;
             
-
+            
             // définir/redéfinir les liens des <a> du contenu de #content qui est rechargé en temps réel au changement de page
         function bindPageLinks(isFirstCall) {
                 console.log("bindPageLinks() - start");
@@ -33,12 +33,13 @@
                     if (doLoadInternally(href)) {
                         e.preventDefault();
                         await loadPage(href);
-                
+                        
                         // if (isFirstCall) {
                             bindPageLinks(false);
                         // }
                     }
                     console.log("document.on.click - end");
+                    
                     
                 }));
 
@@ -53,7 +54,11 @@
             
             
             async function loadPage(url) {
-                await $('#content').load(url + ' #content');
+                await $('#content').load(url + ' #content', function() {
+                    // This callback function is executed after the content is loaded successfully.
+                    // Here you should call the darkmode() function to apply dark mode to new elements.
+                    applyDarkMode(); // Re-apply dark mode to newly loaded content.
+                });
             }
         
             function doLoadInternally(url) {
@@ -188,4 +193,5 @@
 
             updateVolumeSliderBackground(volumeSlider.value);
         });
+        
     
