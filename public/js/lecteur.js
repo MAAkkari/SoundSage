@@ -10,6 +10,7 @@
             let volumeSlider = null;
             let volumeIcon = null;
             let timeInfo = null;
+            
 
             // définir/redéfinir les liens des <a> du contenu de #content qui est rechargé en temps réel au changement de page
         function bindPageLinks(isFirstCall) {

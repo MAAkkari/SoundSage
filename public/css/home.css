@@ -1,16 +1,15 @@
 .header-info{
-    
     margin-left: 10%;
     width:400px;
-    
-    
 }
+
 a {
     transition: opacity 0.3s ease-in-out;
 }
 a:hover {
     opacity: 0.7;
 }
+
 .header-info p{
     color: rgba(65, 61, 61, 0.72);
     font-size: 1rem;
@@ -20,6 +19,7 @@ a:hover {
     margin-left: 10px;
     width:400px;
 }
+
 .header-info h1{
     color: #000;
     font-family: 'Roboto Slab', serif;
@@ -29,6 +29,7 @@ a:hover {
     line-height: normal;
     width:400px;
 }
+
 .header-info h1 span{
     color: #307AD0;
     font-family: 'Roboto Slab', serif;
@@ -37,19 +38,20 @@ a:hover {
     font-weight: 600;
     line-height: normal;
 }
+
 .longer{
    width:fit-content !important; 
 }
+
 .longer h1{
     width:fit-content !important; 
     font-size: 1.8rem !important;
- }
- .longer span{
-    width:fit-content !important; 
-    font-size: 1.8rem !important; 
- }
+}
 
-
+.longer span{
+width:fit-content !important; 
+font-size: 1.8rem !important; 
+}
 /* -------------carousel------------ */
 .block_albums_accueil{
     display:flex;
@@ -62,8 +64,7 @@ a:hover {
     display: flex;
     margin-top: 30px;
     justify-content: center;
-    margin-right: -1%;
-    
+    margin-right: -1%; 
 }
 
 .voir_plus{

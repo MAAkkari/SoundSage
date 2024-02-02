@@ -1,0 +1,47 @@
+.album_info_header{
+    display:flex;
+    width:90%;
+    column-gap: 30px;
+    margin : 60px auto 30px auto;
+   
+}
+.album_info_details{
+    display:flex; 
+    flex-direction: column;
+    row-gap: 15px;
+    justify-content: center;
+}
+
+.album_info_details p{
+    color: #ABABAB;
+    font-size: 1.5em;
+}
+
+.album_info_details h1{
+    color : #313131;
+    font-size: 7rem;
+    font-family: "Roboto Slab"; 
+}
+
+.album_info_line{
+    display: flex;
+    height: 10%;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.imgAlbumShowContainer{
+    width: 20%;
+}
+
+.imgGroupeShow{
+    width : 45px; 
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+}
+.imgAlbumShow{
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 20px;
+    object-fit: cover;
+}

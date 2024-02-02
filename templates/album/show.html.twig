@@ -4,6 +4,12 @@
 
 {% block body %}
 
+<div class="no_header_search">
+    {{ component('SearchComponent', {
+        'searchType': 'all',
+    }) }} 
+</div>
+
 {# calcule de la durée total de l'album puis formate en minutes et secondes pour l'affichage#}
 {% set totalDuration = 0 %}
 {% for musique in album.musiques %}
@@ -18,25 +24,28 @@
 {% set liked = false %}
 {% endif %}
 
-    <figure>
-        <img class="imgAlbumShow" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
-    </figure>
-    <div>
-        <p>album</p>
-        <h1>{{ album.nom }} </h1>
-        <div>
-            <a href="#">
-                <figure>
-                    <img class="imgGroupeShow" src="{{ asset('uploads/groupes/' ~ album.groupes[0].photo) }}" alt="image de {{ album.groupes[0].nom }}">
-                </figure>
-            </a>
-            <div>
+    <div class="album_info_header">
+        <figure class="imgAlbumShowContainer">
+            <img class="imgAlbumShow" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
+        </figure>
+        <div class="album_info_details">
+            <p>album</p>
+            <h1>{{ album.nom }} </h1>
+            <div class="album_info_line">
+                <a href="#">
+                    <figure>
+                        <img class="imgGroupeShow" src="{{ asset('uploads/groupes/' ~ album.groupes[0].photo) }}" alt="image de {{ album.groupes[0].nom }}">
+                    </figure>
+                </a>
+                
                 <p><a href="#">{{ album.groupes[0].nom }}</a> . {{ album.dateCreation|date('Y') }} . {{ album.musiques|length }} . {{ minutes }} min {{ seconds }} . </p>
-                {{ component('LikeButtonComponent', {
-                    'entityType':'Album',
-                    'entityId':album.id,
-                    'isLiked':liked,
-                }) }} 
+                <div>
+                    {{ component('LikeButtonComponent', {
+                        'entityType':'Album',
+                        'entityId':album.id,
+                        'isLiked':liked,
+                    }) }} 
+                </div>
             </div>
         </div>
     </div>

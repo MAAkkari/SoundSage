@@ -1,0 +1,94 @@
+.preload{
+    display: none;
+}
+.dark{
+    background: white;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 50%;
+    padding:7px 5px 7px 8px;
+    transition: all 0.5s ease 0.2s;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 30px;
+    right: 50px;
+    z-index: 1000;
+
+}
+.dark.darkmode{
+    background: black;
+    color: white;
+}
+body.darkmode{
+    background-color: #191818;
+}
+.header-with-fade.darkmode{
+    background-image: 
+    linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(23, 23, 23, 0.815)),
+    url(../uploads/background.png);
+}
+/* When dark mode is active */
+.darkmode .header-with-fade::before {
+    opacity: 0; /* Fade out light mode gradient */
+  }
+  
+  .darkmode .header-with-fade::after {
+    opacity: 1; /* Fade in dark mode gradient */
+  }
+.header-info.darkmode p{
+    color : #888888;
+}
+.header-info.darkmode h1{
+    color: #DDD7D7;
+}
+.header-info-search.darkmode h1{
+    color: #DDD7D7;
+}
+.album_titre.darkmode{
+    color : #DDD7D7;
+}
+.album_auteur.darkmode{
+    color :#959494
+}
+.inline.darkmode p{
+    color :#959494
+}
+.record_label.darkmode{
+    color : #DDD7D7;
+}
+.barre-recherche.darkmode{
+    background-color: #3b3939;
+    color: #DDD7D7;
+}
+.barre-recherche.darkmode::placeholder {
+    color: #d0d0d0;
+}
+.imgAlbumAccueil.darkmode{
+    border:2px solid rgba(121, 119, 119, 0.255)
+}
+.imgGroupeAccueil.darkmode{
+    border:1px solid rgba(160, 157, 157, 0.255)
+}
+
+/* ------------ narbar darkmode ---------------------- */
+.navbar.darkmode{
+    background-color: #1F1F1F;
+}
+#toggle-button.darkmode{
+    color: #999999;
+}
+.navbar-nav a.darkmode span{
+    color: #9e9b9b !important;
+}
+.darkmode{
+    transition: background-color 0.5s ease 0.2s, color 0.5s ease 0.2s, opacity 0.5s ease 0.2s;
+}
+*{
+    transition: background-color 0.5s ease 0.2s, color 0.5s ease 0.2s, opacity 0.5s ease 0.2s;
+}
+.navbar *{transition: background-color 0.5s ease 0.2s, color 0.5s ease 0.2s, opacity 0.5s ease 0.2s;
+}
+.navbar{
+    transition: background-color 0.5s ease 0.2s, color 0.5s ease 0.2s, opacity 0.5s ease 0.2s;
+}

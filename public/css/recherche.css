@@ -35,9 +35,7 @@ font-family: 'Roboto Slab', serif; */
 .header-with-fade {
     z-index: 100;
     position: relative;
-    background-image: 
-    linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255)),
-    url(../uploads/background.png);
+    background-image: url(../uploads/background.png);
     backdrop-filter: blur(2px);
     height: 200px;
     padding-left: 100px;
@@ -45,6 +43,39 @@ font-family: 'Roboto Slab', serif; */
     flex-direction: column;
     padding-top: 30px;
 }
+
+.header-with-fade::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: opacity 0.7s ease 0.2s; /* Smooth transition for opacity changes */
+  z-index: 1;
+}
+.header-with-fade::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: opacity 0.7s ease 0.2s; /* Smooth transition for opacity changes */
+    z-index: 1;
+}
+
+.header-with-fade::before {
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255)); /* Light mode gradient */
+}
+
+.header-with-fade::after {
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(23, 23, 23, 0.815)); /* Dark mode gradient */
+  opacity: 0; /* Start fully transparent */
+  pointer-events: none; /* Ensure it doesn't interfere with clicks */
+}
+
+
 
 .fa-magnifying-glass , .fa-shuffle{
     color: rgba(48, 122, 208, 0.80);
