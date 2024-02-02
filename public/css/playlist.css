@@ -12,11 +12,10 @@
 .playlist_list{
     display: flex;
     flex-direction: column;
-    width : 75%;
+    width : 60%;
     row-gap: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    margin:30px auto 100px auto;
+    
+    margin:30px 0px 100px 10%;
 }
 .list-header{
     display:flex;
@@ -142,4 +141,13 @@
 }
 .list_header_historique{
     width:93%;
+    position : relative;
+}
+.icon_duree{
+    position: absolute;
+    right: 135px;
+}
+.header_titre1{
+    position:relative;
+    left:65px;
 }

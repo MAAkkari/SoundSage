@@ -81,7 +81,7 @@
             //     const artistName = event.target.getAttribute('data-artist-name');
         
             function changeTrack(trackButton) {
-                console.log("changeTrack() - start");
+                
                 console.log("changeTrack() - event = ", trackButton);
                 const trackSource = trackButton.getAttribute('data-track');
                 const albumCover = trackButton.getAttribute('data-album-cover');
@@ -101,7 +101,7 @@
                 document.getElementById('albumCover').src = albumCover;
                 document.getElementById('songName').textContent = songName;
                 document.getElementById('artistName').textContent = artistName;
-                console.log("changeTrack() - end");
+                
             }
         
             function seekAudio(e) {
