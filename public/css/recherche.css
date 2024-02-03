@@ -1,13 +1,77 @@
-#search-results{
+/* #search-results{
     margin-top: 5px;
     margin-bottom: 20px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #fff;
-    width: 40%;
+    width: 100%;
     position:relative;
     z-index: 100;
+} */
+
+
+
+
+
+#search-results {
+    margin-top: 5px;
+    padding: 20px;
+    background-color: #fff; /* Clean white background */
+    border: 1px solid #e1e1e1; /* Light border for definition */
+    max-height: 600px; /* Maximum height */
+    min-height: 300px; /* Minimum height when there are no or few search results */
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
+}
+/* Style the scrollbar itself (the whole track) */
+#search-results::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+/* Style the background of the scrollbar track */
+#search-results::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light grey background */
+    border-radius: 10px; /* Round corners of the scrollbar track */
+}
+
+/* Style the draggable scrolling handle (thumb) */
+#search-results::-webkit-scrollbar-thumb {
+    background: #888; /* Dark grey scroll thumb */
+    border-radius: 10px; /* Round corners of the scroll thumb */
+}
+
+/* Handle hover effect for the scrollbar thumb */
+#search-results::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Slightly darker shade on hover for feedback */
+}
+
+#search-results h3 {
+    color: #333; /* Subtle dark color for headings */
+    border-bottom: 1px solid #e1e1e1; /* Light underline for separation */
+    padding-bottom: 5px; /* Space between heading and underline */
+    margin-bottom: 15px; /* Space between heading and list */
+    font-size: 1.2em; /* Slightly larger font for headings */
+}
+
+#search-results ul {
+    list-style-type: none; /* Remove default list styling */
+    margin: 0;
+    padding: 0;
+}
+
+#search-results li {
+    margin-bottom: 10px; /* Space out individual items */
+    padding: 5px 0; /* Subtle padding for touch */
+}
+
+#search-results li a {
+    text-decoration: none; /* Remove underline from links */
+    color: #007bff; /* Subtle blue for links */
+    transition: color 0.3s ease-in-out; /* Smooth color transition for hover effect */
+}
+
+#search-results li a:hover {
+    color: #0056b3; /* Darker blue on hover for interaction feedback */
 }
 
 /* font-family: 'Open Sans', sans-serif;
@@ -95,5 +159,8 @@ font-family: 'Roboto Slab', serif; */
     display:flex;
     align-items: center;
 }
-
-  
+.searchComponent{
+    position: absolute;
+    z-index: 1000;
+    max-width: 30%;
+}

@@ -3,55 +3,50 @@
 {% block title %}Pages{% endblock %}
 
 {% block body %}
-<h1>Pages Populaires</h1>
-{% for groupe in populaires %}
+{{include('include/header.html.twig')}}
 
-    
-<p><i class="fa-solid fa-users"></i>{{groupe.getLikerPar()|length }} </p>
-<a href="#">
-    <figure>
-        <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
-    </figure>
-</a>
 
-<div>
-<a href="#">{{groupe.nom}}</a>
 
-{% if user in groupe.likerPar %}
-    {% set liked = true %}
-    {% else %}
-    {% set liked = false %}
-{% endif %}
-{{ component('LikeButtonComponent', {
-    'entityType': 'Groupe',
-    'entityId': groupe.id,
-    'isLiked':liked,
-}) }}
+<div class="header-info longer">
+    <h1><span>Pages</span> populaires</h1>
 </div>
 
-{% endfor %}
-<h2>toutes les pages</h2>
-<input type="text">
-{% for groupe in groupes %}
-<p><i class="fa-solid fa-users"></i>{{groupe.getLikerPar()|length }} </p>
-<a href="#">
-    <figure>
-        <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
-    </figure>
-</a>
-<div>
-    <a href="#">{{groupe.nom}}</a>
-    
-    {% if user in groupe.likerPar %}
-        {% set liked = true %}
-        {% else %}
-        {% set liked = false %}
-    {% endif %}
-    {{ component('LikeButtonComponent', {
-        'entityType': 'Groupe',
-        'entityId': groupe.id,
-        'isLiked':liked,
-    }) }}
+<div class="pages_populaires">
+    {% for groupe in populaires %}
+    <div class="single_page_populaire">
+        <p><i class="fa-solid fa-users"></i>{{groupe.getLikerPar()|length }}</p>
+        <a href="#">
+            <figure>
+                <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
+            </figure>
+        </a>
+
+        <div class="single_page_nom">
+            <a href="#">{{groupe.nom}}</a>
+
+            {% if user in groupe.likerPar %}
+                {% set liked = true %}
+                {% else %}
+                {% set liked = false %}
+            {% endif %}
+            <div class="theme-color playlist_icons_list">
+                {{ component('LikeButtonComponent', {
+                    'entityType': 'Groupe',
+                    'entityId': groupe.id,
+                    'isLiked':liked,
+                }) }}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
-{% endfor %}
+
+
+<div class="header-info info2 longer list_title">
+    <h1>Toutes Les<span> Pages</span></h1>  
+</div>
+
+
+{{ component('SearchListPageComponent') }}
+
 {% endblock %}

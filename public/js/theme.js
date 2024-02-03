@@ -36,6 +36,7 @@ function applyThemeColor(color) {
     const carousel_btns = document.querySelectorAll('.carousel-btns');
     const i_theme = document.querySelectorAll('.i-theme');
     const theme_color = document.querySelectorAll('.theme-color .fa-heart');
+    
 
     spans.forEach(span => span.style.color = color);
     navIcons.forEach(navIcon => navIcon.style.color = color);
@@ -81,7 +82,7 @@ function applyThemeColor(color) {
 // Function to reset colors to original
 function resetThemeColor() {
     // Reset inline styles for spans, navIcons, logos, etc.
-    const elementsToReset = document.querySelectorAll(' theme-color, .i-theme, h1 span, .icon, .logo path, .color-picker-trigger, #playPauseBtn, #progress, #volumeSlider, .carousel-btns ');
+    const elementsToReset = document.querySelectorAll(' .theme-color .fa-heart,theme-color, .i-theme, h1 span, .icon, .logo path, .color-picker-trigger, #playPauseBtn, #progress, #volumeSlider, .carousel-btns ');
     elementsToReset.forEach(element => {
         element.style.color = '';
         element.style.fill = '';
