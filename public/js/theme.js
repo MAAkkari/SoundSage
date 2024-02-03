@@ -29,10 +29,12 @@ function applyThemeColor(color) {
     const spans = document.querySelectorAll('h1 span');
     const navIcons = document.querySelectorAll('.icon');
     const logos = document.querySelectorAll('.logo path');
+    const trigger = document.querySelector('.color-picker-trigger');
 
     spans.forEach(span => span.style.color = color);
     navIcons.forEach(navIcon => navIcon.style.color = color);
     logos.forEach(logo => logo.style.fill = color);
+    trigger.style.backgroundColor = color;
 
     // Handling ::before pseudo-element gradient (existing code)
     let dynamicStyles = document.getElementById('dynamic-styles');
@@ -57,10 +59,11 @@ function applyThemeColor(color) {
 // Function to reset colors to original
 function resetThemeColor() {
     // Reset inline styles for spans, navIcons, and logos
-    const elementsToReset = document.querySelectorAll('h1 span, .icon, .logo path');
+    const elementsToReset = document.querySelectorAll('h1 span, .icon, .logo path , .color-picker-trigger');
     elementsToReset.forEach(element => {
         element.style.color = '';
         element.style.fill = '';
+        element.style.backgroundColor = '';
     });
 
     // Reset styles for ::before and ::after pseudo-elements

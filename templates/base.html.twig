@@ -93,12 +93,16 @@
                     <li><span class="nav-titre">préférences</span></li>
                     <li class="nav_element"><a title="Favoris" href="{{ path('app_favoris') }}"> <i class="fa-solid fa-heart icon"></i><span class="link-text">Favoris</span> </a></li>
                     <li class="nav_element"><a title="historique" href="{{ path('app_historique') }}"> <i class="fa-solid fa-clock-rotate-left icon"></i><span class="link-text">Historique</span> </a></li>
-                    <li class="nav_element colorLi"><a href=""><i class="fa-solid fa-paintbrush icon"></i> <span class="link-text">Thème</span></a></li>
-                    <input type="color" id="themeColorPicker"> <button id="resetThemeColor" class="like_btn">X</button>
+                    <li class="nav_element colorLi"><a href=""><i class="fa-solid fa-paintbrush icon"></i> <span class="link-text">Thème</span></a><button class="color-picker-trigger"></button><button id="resetThemeColor" >X</button> <input type="color" id="themeColorPicker"> </li>
                 </ul>
+                
             </nav>
         </aside>
-        
+        <script>
+            document.querySelector('.color-picker-trigger').addEventListener('click', function() {
+                document.getElementById('themeColorPicker').click();
+            });
+        </script>
 
         
 

@@ -84,8 +84,6 @@ body.darkmode{
     color: #c1bdbd !important;
 }
 
-.navbar *{ transition:  color 0.5s ease 0.2s;
-}
 h1{
     transition:  color 0.5s ease 0.2s;
 }
