@@ -33,6 +33,9 @@ function applyThemeColor(color) {
     const playPauseBtn = document.querySelector('#playPauseBtn'); // Correctly select the play/pause button
     const progress = document.querySelector('#progress');
     const volumeSlider = document.querySelector('#volumeSlider'); // Correctly select the volume slider
+    const carousel_btns = document.querySelectorAll('.carousel-btns');
+    const i_theme = document.querySelectorAll('.i-theme');
+    const theme_color = document.querySelectorAll('.theme-color .fa-heart');
 
     spans.forEach(span => span.style.color = color);
     navIcons.forEach(navIcon => navIcon.style.color = color);
@@ -41,6 +44,9 @@ function applyThemeColor(color) {
     playPauseBtn.style.backgroundColor = color; // Apply the color to the play/pause button
     progress.style.backgroundColor = color; // Apply the color to the progress bar
     volumeSlider.style.backgroundColor = color; // Apply the color to the volume slider
+    carousel_btns.forEach(carousel_btn => carousel_btn.style.backgroundColor = color);
+    i_theme.forEach(i => i.style.color = color);
+    theme_color.forEach(i => i.style.color = color);
 
     // Handling ::before pseudo-element gradient (existing code)
     let dynamicStyles = document.getElementById('dynamic-styles');
@@ -75,7 +81,7 @@ function applyThemeColor(color) {
 // Function to reset colors to original
 function resetThemeColor() {
     // Reset inline styles for spans, navIcons, logos, etc.
-    const elementsToReset = document.querySelectorAll('h1 span, .icon, .logo path, .color-picker-trigger, #playPauseBtn, #progress, #volumeSlider');
+    const elementsToReset = document.querySelectorAll(' theme-color, .i-theme, h1 span, .icon, .logo path, .color-picker-trigger, #playPauseBtn, #progress, #volumeSlider, .carousel-btns ');
     elementsToReset.forEach(element => {
         element.style.color = '';
         element.style.fill = '';

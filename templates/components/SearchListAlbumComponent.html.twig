@@ -1,12 +1,12 @@
 <div {{ attributes }}>
     <div class="block_list_and_search search_album">
         <div class="search_and_icons list_search">
-            <i class="fa-solid fa-magnifying-glass"></i> 
+            <i class="fa-solid fa-magnifying-glass i-theme"></i> 
             <input class="barre-recherche barre2"
             type="search"
             data-model="query"
             placeholder="Qu'écoutez Vous Aujourd'hui ?" >
-            <i class="fa-solid fa-shuffle"></i>
+            <i class="fa-solid fa-shuffle i-theme"></i>
         </div>
         <div class="all_items_List" >
             {% for item in this.getSearchResults() %}

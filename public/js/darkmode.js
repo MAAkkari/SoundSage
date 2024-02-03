@@ -1,7 +1,7 @@
 // Function to apply or remove the dark mode class on elements based on the current state
 function applyDarkMode() {
     const isDarkMode = document.body.classList.contains('darkmode');
-    const elements = document.querySelectorAll('body, nav, header, header nav ul li, .form_session, .form_session input, table tbody tr, div li a, main table tbody tr td p, h3, h2, h1, a, .right_nav li a, .tab_wrapper, th, label, div, p, input, img, button');
+    const elements = document.querySelectorAll('body, footer, #textsvg, nav, header, header nav ul li, .form_session, .form_session input, table tbody tr, div li a, main table tbody tr td p, h3, h2, h1, a, .right_nav li a, .tab_wrapper, th, label, div, p, input, img, button');
 
     elements.forEach(element => {
         // Apply or remove the class based on the dark mode state, rather than toggling

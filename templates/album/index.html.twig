@@ -11,7 +11,7 @@
 </div>
 {# Affiche les 10 albums les plus recents #}
     <div class="carousel_et_bouttons">
-        <button class="carousel-prev-btn" onclick="moveCarousel('prev')"><i class="fa-solid fa-arrow-left"></i></button>
+        <button class=" carousel-btns carousel-prev-btn" onclick="moveCarousel('prev')"><i class="fa-solid fa-arrow-left"></i></button>
         <div class="carousel">
             
             <div class="carousel-inner">
@@ -38,7 +38,7 @@
                             'isLiked': liked,
                         }) }}
                         
-                        <button class="track-btn" 
+                        <button class=" carousel-btns track-btn" 
                             data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
                             data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
                             data-song-name="{{ album.musiques[0].nom }}"
@@ -47,9 +47,9 @@
                             <i class="fa-solid fa-play"></i>
                         </button>
 
-                        <button class="playlist_menu_btn" onclick=" document.getElementById('menu-contextuel{{album.id}}').classList.toggle('menu-actif')"><i class="fa-solid fa-plus"></i></button>
+                        <button class=" carousel-btns playlist_menu_btn" onclick=" document.getElementById('menu-contextuel{{album.id}}').classList.toggle('menu-actif')"><i class="fa-solid fa-plus"></i></button>
                     {% else %}
-                    <button class="track-btn" 
+                    <button class="carousel-btns track-btn" 
                         data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
                         data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
                         data-song-name="{{ album.musiques[0].nom }}"
@@ -84,7 +84,7 @@
                 {% endfor %}
             </div>
         </div>
-        <button class="carousel-next-btn" onclick="moveCarousel('next')"><i class="fa-solid fa-arrow-right"></i></button>
+        <button class=" carousel-btns carousel-next-btn" onclick="moveCarousel('next')"><i class="fa-solid fa-arrow-right"></i></button>
     </div>
 
     
