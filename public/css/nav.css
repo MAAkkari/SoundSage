@@ -40,7 +40,6 @@
     fill : white !important;
   }
   .logo {
-    
     padding: 10px;
     white-space: nowrap; /* Prevents wrapping on smaller widths */
     overflow: hidden; /* Ensures text doesn't overflow the navbar */
@@ -122,7 +121,7 @@
   
   .link-text {
     padding-left: 10px;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, color 0.5s ease 0.2s;
     color: #555050;
     font-weight: 500;
     font-family: "Open Sans Condensed", sans-serif;
@@ -193,7 +192,7 @@
   opacity: 1 !important;
 }
 .navbar-nav li.nav_element:hover::before {
-    transform: scaleX(1) !important; /* On hover, expand the pseudo-element's width to full */
+    transform: scaleX(1.1) !important; /* On hover, expand the pseudo-element's width to full */
 }
 
 .navbar-nav li.nav_element:hover > a > i {
