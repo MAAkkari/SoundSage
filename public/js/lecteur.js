@@ -124,10 +124,14 @@
             function adjustVolume() {
                 audio.volume = volumeSlider.value;
             }
+            
             function updateVolumeSliderBackground(volume) {
                 const percentage = volume * 100;
-                volumeSlider.style.background = 'linear-gradient(to right, #307AD0 ' + percentage + '%, #ffff ' + percentage + '%)';
+                // Update the linear-gradient to start with red and transition to white at the current volume percentage
+                volumeSlider.style.background = `linear-gradient(to right, white ${percentage}%, white ${percentage}%)`;
+                
             }
+
             function updateVolumeIcon(volume) {
                 if (volume == 0) {
                     volumeIcon.className = 'fa fa-volume-xmark';

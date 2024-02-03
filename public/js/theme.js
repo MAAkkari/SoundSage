@@ -30,11 +30,17 @@ function applyThemeColor(color) {
     const navIcons = document.querySelectorAll('.icon');
     const logos = document.querySelectorAll('.logo path');
     const trigger = document.querySelector('.color-picker-trigger');
+    const playPauseBtn = document.querySelector('#playPauseBtn'); // Correctly select the play/pause button
+    const progress = document.querySelector('#progress');
+    const volumeSlider = document.querySelector('#volumeSlider'); // Correctly select the volume slider
 
     spans.forEach(span => span.style.color = color);
     navIcons.forEach(navIcon => navIcon.style.color = color);
     logos.forEach(logo => logo.style.fill = color);
     trigger.style.backgroundColor = color;
+    playPauseBtn.style.backgroundColor = color; // Apply the color to the play/pause button
+    progress.style.backgroundColor = color; // Apply the color to the progress bar
+    volumeSlider.style.backgroundColor = color; // Apply the color to the volume slider
 
     // Handling ::before pseudo-element gradient (existing code)
     let dynamicStyles = document.getElementById('dynamic-styles');
@@ -44,8 +50,18 @@ function applyThemeColor(color) {
         document.head.appendChild(dynamicStyles);
     }
 
-    // Update or insert new styles for both ::before gradient and ::after background-color
+    // couleur de la barre de volume , du gradient de la nav bar , et du ::after a coté de chaque li 
     dynamicStyles.innerHTML = `
+    
+        input[type='range']::-webkit-slider-thumb {
+            width: 10px;
+            -webkit-appearance: none;
+            height: 10px;
+            cursor: pointer;
+            background: ${color}; /* Updated thumb background color */
+            box-shadow: -80px 0 0 80px ${color}; /* Updated filled track color */
+        }
+        
         .navbar-nav li.nav_element::before {
             background: linear-gradient(90deg, ${color}33 0%, ${color}00 100%);
         }
@@ -58,15 +74,15 @@ function applyThemeColor(color) {
 
 // Function to reset colors to original
 function resetThemeColor() {
-    // Reset inline styles for spans, navIcons, and logos
-    const elementsToReset = document.querySelectorAll('h1 span, .icon, .logo path , .color-picker-trigger');
+    // Reset inline styles for spans, navIcons, logos, etc.
+    const elementsToReset = document.querySelectorAll('h1 span, .icon, .logo path, .color-picker-trigger, #playPauseBtn, #progress, #volumeSlider');
     elementsToReset.forEach(element => {
         element.style.color = '';
         element.style.fill = '';
         element.style.backgroundColor = '';
     });
 
-    // Reset styles for ::before and ::after pseudo-elements
+    // Reset styles for ::before, ::after pseudo-elements, and slider styles
     const dynamicStyles = document.getElementById('dynamic-styles');
     if (dynamicStyles) {
         dynamicStyles.innerHTML = `
@@ -76,6 +92,15 @@ function resetThemeColor() {
             .navbar-nav li.nav_element::after {
                 background-color: #007BFF;
             }
+            input[type='range']::-webkit-slider-thumb {
+                width: 10px;
+                -webkit-appearance: none;
+                height: 10px;
+                cursor: pointer;
+                background: #307AD0; /* Original thumb color */
+                box-shadow: -80px 0 0 80px #307AD0; /* Original filled track color */
+            }
+            /* Add default styles for other browsers if you've styled them */
         `;
     }
 }
