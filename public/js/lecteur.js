@@ -57,7 +57,12 @@
                 await $('#content').load(url + ' #content', function() {
                     // This callback function is executed after the content is loaded successfully.
                     // Here you should call the darkmode() function to apply dark mode to new elements.
-                    applyDarkMode(); // Re-apply dark mode to newly loaded content.
+                    applyDarkMode(); 
+                    const savedColor = localStorage.getItem('themeColor');
+                    if (savedColor) {
+                        applyThemeColor(savedColor); // Re-apply the theme color to newly loaded content
+                    }// Re-apply dark mode to newly loaded content.
+                    resetButtonPositions();
                 });
             }
         

@@ -20,7 +20,7 @@
 .dark.darkmode{
     background: black;
     color: white;
-    border:2px solid rgb(93, 90, 90);
+    border:2px solid rgb(131, 130, 130);
 }
 body.darkmode{
     background-color: #191818;
@@ -81,16 +81,21 @@ body.darkmode{
     color: #999999;
 }
 .navbar-nav a.darkmode span{
-    color: #9e9b9b !important;
+    color: #c1bdbd !important;
 }
-.darkmode{
-    transition: background-color 0.5s ease 0.2s, color 0.5s ease 0.2s, opacity 0.5s ease 0.2s;
+
+.navbar *{ transition:  color 0.5s ease 0.2s;
 }
-*{
-    transition: background-color 0.5s ease 0.2s, color 0.5s ease 0.2s, opacity 0.5s ease 0.2s;
+h1{
+    transition:  color 0.5s ease 0.2s;
 }
-.navbar *{transition: background-color 0.5s ease 0.2s, color 0.5s ease 0.2s, opacity 0.5s ease 0.2s;
+p{
+    transition:  color 0.5s ease 0.2s;
 }
-.navbar{
-    transition: background-color 0.5s ease 0.2s, color 0.5s ease 0.2s, opacity 0.5s ease 0.2s;
+body{
+    transition:  background-color 0.5s ease 0.2s;
 }
+input{
+    transition:  background-color 0.5s ease 0.2s;
+}
+

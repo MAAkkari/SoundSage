@@ -24,7 +24,7 @@
     height: 100%;
     position: fixed;
     overflow: hidden;
-    transition: width 0.3s ease;
+    transition: width 0.3s ease, background-color 0.5s ease 0.2s;
     overflow: auto;
     padding-bottom:100px;
   }
@@ -35,16 +35,19 @@
     align-items: center;
     position: relative; /* Allows absolute positioning inside */
   }
-  
+ 
+  #textsvg{
+    fill : white !important;
+  }
   .logo {
-    color: white;
+    
     padding: 10px;
     white-space: nowrap; /* Prevents wrapping on smaller widths */
     overflow: hidden; /* Ensures text doesn't overflow the navbar */
     transition: opacity 0.3s ease;
   }
   #logo1{
-    width:170px;
+    width:174px;
     align-self: start;
   }
   #logo2{
@@ -179,9 +182,18 @@
     transition: transform 0.4s ease; /* Transition for the spreading effect */
     z-index: -1; /* Place the pseudo-element below the content of the li */
 }
-
+.colorLi::before{
+  background:transparent !important;
+}
+.colorLi > a > i {
+  transform: scale(1) !important; /* Increase the size of the icon */
+  
+}
+.colorLi > a:hover{
+  opacity: 1 !important;
+}
 .navbar-nav li.nav_element:hover::before {
-    transform: scaleX(1); /* On hover, expand the pseudo-element's width to full */
+    transform: scaleX(1) !important; /* On hover, expand the pseudo-element's width to full */
 }
 
 .navbar-nav li.nav_element:hover > a > i {
