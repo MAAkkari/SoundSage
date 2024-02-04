@@ -13,7 +13,7 @@
             
             
             // définir/redéfinir les liens des <a> du contenu de #content qui est rechargé en temps réel au changement de page
-        function bindPageLinks(isFirstCall) {
+            function bindPageLinks(isFirstCall) {
                 console.log("bindPageLinks() - start");
                 let nodeOnWhichBindLinks = null;
 

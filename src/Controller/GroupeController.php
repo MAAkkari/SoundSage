@@ -64,7 +64,8 @@ class GroupeController extends AbstractController
                 $post->setDateCreation(new \DateTime());
                 $entityManager->persist($post); 
                 $entityManager->flush();
-                $this->addFlash("success","creation du type de post avec succés");
+                $this->addFlash("success","Post Ajouté avec succès !");
+                return $this->redirect($request->headers->get('referer'));
             }
 
 

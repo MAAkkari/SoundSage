@@ -530,6 +530,11 @@ div.poster1 img {
 div.poster1 form {
     position: relative;
 }
+.follow_btn{
+    max-width:max-content !important;
+    padding-right: 23px !important;
+    margin-bottom: 30px;
+}
 
 div.poster1 form textarea {
     position: relative;
@@ -554,7 +559,7 @@ div.poster1 form button {
     top: 46%;
     right: 9px;
     transform: translateY(-50%);
-    background-color: var(--clr-sweet-blue);
+    background-color: var(--clr-sweet-blue) !important; 
     color: #fff;
     padding: 10px 20px;
     border-radius: 30px;
@@ -886,11 +891,17 @@ div.post-head1 > span:hover {
     div.post-head1 > div > div p:first-child {
         font-size: 14px;
     }
+    .follow_btn{
+        max-width:max-content !important;
+    }
 }
 
 @media screen and (min-width: 1440px){
     main.container1 {
         max-width: 1440px;
         margin-inline: auto;
+    }
+    .follow_btn{
+        max-width:max-content !important;
     }
 }
