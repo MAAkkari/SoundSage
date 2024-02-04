@@ -316,7 +316,9 @@ line-height: normal;
 .menu-actif {
     display: block; /* Ensure it's always block */
 }
-
+.m-enu-actif {
+    display: block !important; /* Ensure it's always block */
+}
 
 /* ---------------------------------- section groupes---------------------------------  */
 .info2{

@@ -13,16 +13,17 @@
 
 <div class="pages_populaires">
     {% for groupe in populaires %}
+    <a href="{{path('show_page',{'id':groupe.id})}}">test</a>
     <div class="single_page_populaire">
         <p><i class="fa-solid fa-users"></i>{{groupe.getLikerPar()|length }}</p>
-        <a href="#">
+        <a href="{{path('show_page',{'id':groupe.id})}}">
             <figure>
                 <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
             </figure>
         </a>
 
         <div class="single_page_nom">
-            <a href="#">{{groupe.nom}}</a>
+            <a href="{{path('show_page',{'id':groupe.id})}}">{{groupe.nom}}</a>
 
             {% if user in groupe.likerPar %}
                 {% set liked = true %}

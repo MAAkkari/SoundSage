@@ -13,6 +13,227 @@ div.post-head1 > div > img {
     transition: all 0.5s;
     
 }
+.oeuvre1 a{
+    font-family: "open sans";
+    font-weight: 600;
+    text-decoration: none;
+    color:rgb(55, 55, 55);
+    font-size: 1.1rem;
+}
+/* Page album */
+td p{
+    font-family: "roboto slab";
+}
+/* ===== version mobile ===== */
+
+.album-title h1 button > i {
+    font-size: 24px;
+    color:#307AD0;
+}
+main.container1 button{
+    color:#307AD0;
+}
+.detail i{
+    color:#307AD0;
+    display:none;
+}
+main.container1 button {
+    border: none;
+    outline: none;
+    background-color: transparent !important;
+
+}
+td{
+    position: relative;
+}
+main.container {
+    width: 100%;
+    margin-inline: auto;
+}
+
+div.album-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.album-title > p:first-child {
+    color:#ABABAB;
+    font-size: 1.5em;
+    font-family: "roboto slab";
+}
+
+div.album-title > h1 {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 20px;
+}
+
+section.album-present {
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 50px;
+}
+
+div.detail > div {
+    display: flex;
+    align-items: center;
+}
+
+div.detail > div > button {
+    display: none;
+}
+
+div.detail > div > img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+div.detail > div > p {
+    font-weight: 600;
+    color: var(--clr-light-dark);
+}
+
+div.detail > div > p:nth-last-of-type(n+2)::after {
+    content: "•";
+    margin-inline: 8px;
+}
+
+section.album-present > img {
+    height: 230px;
+    width: 230px;
+    object-fit: cover;
+    border-radius:15px;
+    border: 1px solid var(--clr-grey);
+}
+
+/* Section tableau des titres */
+
+/* ===== version mobile ===== */
+
+section.main-content1 table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+section.main-content1 table thead {
+    border-bottom: 1px solid var(--clr-grey);
+}
+
+section.main-content1 table thead th:first-child {
+    width: 10%;
+    text-align: start;
+}
+
+section.main-content1 table thead th:nth-child(2) {
+    max-width: 60%;
+    text-align: start;
+}
+
+section.main-content1 table thead th:nth-child(3) {
+    width: 10%;
+}
+
+section.main-content1 table thead th {
+    padding: 10px 0;
+    font-weight: 600;
+    color: var(--clr-light-dark);
+}
+
+section.main-content1 table tbody > tr > td:not(:nth-child(4)) {
+    padding: 15px 0;
+    font-weight: 600;
+}
+
+section.main-content1 table tbody > tr > td:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 1px;
+}
+
+section.main-content1 table tbody > tr > td:nth-child(2) span {
+    color: var(--clr-light-dark);
+    font-weight: normal;
+    font-family: "open sans";
+    font-weight: 400;
+}
+tr p{
+    font-family: "open sans";
+    font-size: 18px;
+    font-weight: 500;
+}
+
+section.main-content1 table tbody > tr i.fa-heart {
+    color: var(--clr-sweet-blue);
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+section.main-content1 table tbody > tr i.fa-plus {
+    color: var(--clr-sweet-blue);
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+section.main-content1 table tbody > tr i.fa-heart:hover,
+section.main-content1 table tbody > tr i.fa-plus:hover {
+    color: #2c6aa0;
+}
+
+section.main-content1 table thead th:nth-child(4) {
+    text-align: center;
+}
+
+section.main-content1 table tbody > tr > td:nth-child(4) {
+    text-align: center;
+}
+
+section.main-content1 table thead th:nth-child(3) {
+    width: 25px;
+}
+
+section.main-content1 table thead th:first-child {
+    width: 35px;
+}
+
+/* Section autres oeuvres */
+
+section.other1 {
+    margin-block: 30px;
+}
+
+section.other1 > h3 {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-family: "roboto slab";
+}
+
+div.oeuvres1 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+div.oeuvres1 > div img {
+    height: auto;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    margin-right: 10px;
+}
 .single_page_populaire:hover{
     scale:1.02;
 }
@@ -444,15 +665,88 @@ div.post-head1 > span:hover {
     section.hero {
         height: 220px;
     }
+    /* Page album */
+
+    /* ===== version tablette ===== */
+
+    section.album-present {
+        flex-direction: row;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    div.album-title > button:first-child {
+        display: block;
+        font-size: 14px;
+        color: var(--clr-light-dark);
+    }
+
+    div.detail > div > button {
+        margin-left: 10px;
+        display: block;
+        font-size: 18px;
+        color: var(--clr-sweet-blue);
+    }
+
+    div.album-title > h1 > button {
+        display: none;
+    }
+
+    div.album-title > h1 {
+        font-size: 40px;
+        margin-top: 10px;
+    }
+
+    div.album-title {
+        align-items: start;
+    }
+
+    section.album-present > img {
+        height: 180px;
+        width: 180px;
+    }
+
+    section.main1 {
+        padding: 20px;
+    }
+
+    section.main-content1 table {
+        margin-top: 0;
+    }
+
+    section.main-content1 table thead th:nth-child(3) {
+        width: 15px;
+    }
+    
+    section.main-content1 table tbody > tr > td:nth-child(4) {
+        max-width: 20px;
+    }
 }
 
 @media screen and (min-width: 1024px) {
-    
+    table{
+        margin-bottom: 60px;
+    }
+    main.container1 {
+        width: 80%;
+    }
+    .album-present{
+        margin-bottom: 20px;
+    }
     .sidebar {
         display: block;
         min-width: 280px;
     }
-    
+    section.album-present > img {
+        height: 280px;
+        width: 280px;
+    }
+    .centered{
+        margin-left: auto;
+        margin-right: auto;
+        margin-left: 60px;
+        
+    }
     section.hero {
         height: 380px;
         border-radius: 20px;
@@ -492,6 +786,38 @@ div.post-head1 > span:hover {
 }
 
 @media screen and (min-width: 1200px){
+    /* Page album */
+    div.oeuvres1 > div img {
+       margin-bottom: 10px;
+    }
+    /* ===== version medium desktop ===== */
+    .album-title h1 button > i {
+       
+        display:none;
+    }
+    div.oeuvres1 {
+        
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+       
+    }
+    .detail i{
+        
+        display:block;
+    }
+    section.main1.album {
+        display: unset;
+    }
+
+    section.main1.album > section {
+        max-width: unset;
+        margin-top: unset;
+    }
+
+    div.album-title > h1 {
+        color : #313131;
+        font-size: 6.5rem;
+        font-family: "Roboto Slab"; 
+    }
     .artist-page-info1 {
         flex-direction: row;
         width: 60%;

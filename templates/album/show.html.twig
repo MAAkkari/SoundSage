@@ -24,90 +24,115 @@
 {% set liked = false %}
 {% endif %}
 
-    <div class="album_info_header">
-        <figure class="imgAlbumShowContainer">
-            <img class="imgAlbumShow" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
-        </figure>
-        <div class="album_info_details">
+<main class="container1 centered">
+
+    <section class="album-present">
+
+        <img  src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
+        
+        <div class="album-title">
+            
             <p>album</p>
-            <h1>{{ album.nom }} </h1>
-            <div class="album_info_line">
-                <a href="#">
-                    <figure>
-                        <img class="imgGroupeShow" src="{{ asset('uploads/groupes/' ~ album.groupes[0].photo) }}" alt="image de {{ album.groupes[0].nom }}">
-                    </figure>
-                </a>
-                
-                <p><a href="#">{{ album.groupes[0].nom }}</a> . {{ album.dateCreation|date('Y') }} . {{ album.musiques|length }} . {{ minutes }} min {{ seconds }} . </p>
-                <div>
-                    {{ component('LikeButtonComponent', {
+            <h1 class="theme-color ">
+                {{ album.nom }}  
+
+                {{ component('LikeButtonComponent', {
+                    'entityType':'Album',
+                    'entityId':album.id,
+                    'isLiked':liked,
+                }) }} 
+            </h1>
+            
+            <div class="detail">
+
+                <div class="theme-color ">
+
+                    <img src="{{ asset('uploads/groupes/' ~ album.groupes[0].photo) }}" alt="image de {{ album.groupes[0].nom }}">
+                    <p>{{ album.groupes[0].nom }}</p>
+                    <p>{{ album.dateCreation|date('Y') }}</p>
+                    <p>{{ album.musiques|length }} titres</p>
+                    <p>{{ minutes }} min {{ seconds }}</p>
+                     {{ component('LikeButtonComponent', {
                         'entityType':'Album',
                         'entityId':album.id,
                         'isLiked':liked,
-                    }) }} 
+                        }) }} 
+                     </p>
                 </div>
+
             </div>
         </div>
-    </div>
 
-    <div>
-        <div>
-            <p>n°</p>
-            <p>titre</p>
-            <p><i class="fa-regular fa-clock"></i></p>
-        </div>
 
-        <div></div>
-        
-        {% for musique in album.musiques %}
-            <div>
-                <p>{{ loop.index }}</p>
-                <div>
-                   <p>{{musique.nom}} </p> 
-                   <a href="#">{{ album.groupes[0].nom }}</a>
-                </div>
-                
-                <button class="track-btn" 
-                    data-track="{{ asset('uploads/files/' ~ musique.fichier) }}"
-                    data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
-                    data-song-name="{{ album.musiques[0].nom }}"
-                    data-artist-name="{{ album.groupes[0].nom }}"
-                    onclick="addToHistory({{ album.musiques[0].id }}); changeTrack(this);">
-                    <i class="fa-solid fa-play"></i>
-                </button>
-                
-                {% if user in musique.likerPar %}
-                {% set liked = true %}
-                {% else %}
-                {% set liked = false %}
-                {% endif %}
-                {{ component('LikeButtonComponent', {
-                    'entityType':'Musique',
-                    'entityId':musique.id,
-                    'isLiked':liked,
-                }) }}
-                <p>{{ musique.duree // 60 }}:{{ '%02d'|format(musique.duree % 60) }}</p>
+    </section>
+    
+    <section class="main1 album">
 
-                {{ component('NewPlaylistComponent', {
-                    'musiqueId':musique.id,
-                }) }}
-                
-            </div>
+        <section class="main-content1 album">
             
-        {% endfor %}
-    </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>n°</th>
+                        <th>Titre</th>
+                        <th></th>
+                        <th><i class="fa-regular fa-clock"></i></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for musique in album.musiques %}
 
-    <h2>Autres Oeuvres de {{album.groupes[0].nom}} </h2>
-    <div>
-        {% for AutreAlbum in album.groupes[0].albums %}
-            {% if AutreAlbum.nom != album.nom %}
-                <a href="#">
-                    <figure>
-                        <img class="imgAlbumShow" src="{{ asset('uploads/albums/' ~ AutreAlbum.image) }}" alt="jaquette de {{ AutreAlbum.nom }}">
-                    </figure>
-                </a>
-                <a href="{{path('app_page',{'id':1})}}">{{AutreAlbum.nom}}</a>        
-            {% endif %}
-        {% endfor %}
-    </div>
+                    {% if user in musique.likerPar %}
+                    {% set liked = true %}
+                    {% else %}
+                    {% set liked = false %}
+                    {% endif %}
+                    <tr class="theme-color ">
+                        <td>{{ loop.index }}</td>
+                        <td><p>{{musique.nom}}</p><span>{{ album.groupes[0].nom }}</span></td>
+                        <td>
+                            {{ component('LikeButtonComponent', {
+                            'entityType':'Musique',
+                            'entityId':musique.id,
+                            'isLiked':liked,
+                            }) }}
+                        </td>
+                        <td>{{ musique.duree // 60 }}:{{ '%02d'|format(musique.duree % 60) }}</td>
+                        <td><button  onclick=" document.getElementById('menu-contextuel{{musique.id}}').classList.toggle('m-enu-actif')"><i class="fa-solid fa-plus i-theme"></i></button>
+                            <div class="menu-contextuel" id="menu-contextuel{{musique.id}}">
+                                {{ component('NewPlaylistComponent', {
+                                    'musiqueId':musique.id,
+                                }) }}
+                            </div>
+                        </td>
+                    </tr>
+                    
+                {% endfor %}
+
+
+               
+                </tbody>
+            </table>
+
+            <section class="other1">
+                
+                <h3>Autres Oeuvres de {{album.groupes[0].nom}}</h3>
+
+                <div class="oeuvres1">
+                    {% for AutreAlbum in album.groupes[0].albums %}
+                    <div class="oeuvre1">
+                        <img  src="{{ asset('uploads/albums/' ~ AutreAlbum.image) }}" alt="jaquette de {{ AutreAlbum.nom }}">
+                        <a href="{{path('app_page',{'id':1})}}">{{AutreAlbum.nom}}</a>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </section>
+
+        </section>
+
+    </section>
+
+</main>
 {% endblock %}
