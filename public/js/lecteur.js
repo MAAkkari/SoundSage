@@ -13,13 +13,15 @@
             
             
             // définir/redéfinir les liens des <a> du contenu de #content qui est rechargé en temps réel au changement de page
-            function bindPageLinks(isFirstCall) {
+        function bindPageLinks(isFirstCall) {
                 console.log("bindPageLinks() - start");
                 let nodeOnWhichBindLinks = null;
 
                 if (isFirstCall) {
                     nodeOnWhichBindLinks = document;
-                } 
+                } else {
+                    nodeOnWhichBindLinks = document.getElementById("content");
+                }
 
                 // pour chacun des <a> concernées, définir/redéfinir son comportement au déclenchament de l'évènement
                 // $(document).on('click', 'a:not(.exclude-from-interception)', function(e) {
@@ -33,7 +35,7 @@
                         await loadPage(href);
                         
                         // if (isFirstCall) {
-                            bindPageLinks(true);
+                            bindPageLinks(false);
                         // }
                     }
                     console.log("document.on.click - end");

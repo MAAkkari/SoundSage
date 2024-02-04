@@ -13,7 +13,7 @@
 
 <div class="pages_populaires">
     {% for groupe in populaires %}
-    <a href="{{path('show_page',{'id':groupe.id})}}">test</a>
+    
     <div class="single_page_populaire">
         <p><i class="fa-solid fa-users"></i>{{groupe.getLikerPar()|length }}</p>
         <a href="{{path('show_page',{'id':groupe.id})}}">
