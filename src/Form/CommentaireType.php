@@ -18,7 +18,8 @@ class CommentaireType extends AbstractType
             ->add('texte', TextareaType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => "Qu'en pensez-vous ?"
+                    'placeholder' => "Qu'en pensez-vous ?",
+                    'id' => 'myTextarea'
                 ],
             ])
             ->add('Valider', SubmitType::class)

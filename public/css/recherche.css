@@ -22,6 +22,8 @@
     max-height: 600px; /* Maximum height */
     min-height: 300px; /* Minimum height when there are no or few search results */
     overflow-y: auto; /* Enable vertical scrolling if content overflows */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 /* Style the scrollbar itself (the whole track) */
 #search-results::-webkit-scrollbar {
@@ -66,12 +68,12 @@
 
 #search-results li a {
     text-decoration: none; /* Remove underline from links */
-    color: #007bff; /* Subtle blue for links */
+    color: #3a3a3b; /* Subtle blue for links */
     transition: color 0.3s ease-in-out; /* Smooth color transition for hover effect */
 }
 
 #search-results li a:hover {
-    color: #0056b3; /* Darker blue on hover for interaction feedback */
+    color: #101010; /* Darker blue on hover for interaction feedback */
 }
 
 /* font-family: 'Open Sans', sans-serif;

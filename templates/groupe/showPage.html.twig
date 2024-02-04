@@ -3,163 +3,184 @@
 {% block title %}Pages{% endblock %}
 
 {% block body %}
-    <figure>
-        <img src="{{ asset('uploads/groupes/' ~ groupe.couverture) }}" alt="couverture de {{groupe.nom}}">
-    </figure>
-    <figure>
-        <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
-    </figure>
-    <div>
-        <h1>{{groupe.nom}}</h1>
-        <div>
-            {% if user in groupe.likerPar %}
-                {% set liked = true %}
-            {% else %}
-                {% set liked = false %}
-            {% endif %}
-                {{ component('LikeButtonComponent', {
-                    'entityType':'Groupe',
-                    'entityId':groupe.id,
-                    'isLiked':liked,
-                }) }}
-            <p>{{groupe.likerPar|length}}</p>
-        </div> 
-    </div>
+<div class="no_header_search">
+    {{ component('SearchComponent', {
+        'searchType': 'all',
+    }) }} 
+</div>
+{% if user in groupe.likerPar %}
+                    {% set liked = true %}
+                {% else %}
+                    {% set liked = false %}
+                {% endif %}
+{% set backgroundImageUrl = asset('uploads/groupes/' ~ groupe.couverture) %}
 
-        
-    
-    
-    <p><i class="fa-solid fa-newspaper"></i> {{groupe.posts|length}} </p>
-<div>
-    <section>
-        <section>
-            <h2>Présentation</h2>
-            {{groupe.info}}
 
-            {% if groupe.artistes|length >1 %}
-                <h2>Date de creation</h2>
-                <p>{{groupe.dateCreation|date("m/d/Y")}}</p>
-            {% else %}
-                <h2>Date de Naissance</h2>
-                <p>{{groupe.artistes[0].dateNaissance|date("m/d/Y")}}</p>
-            {% endif %}
-        </section>
 
-        <section>
-            <h2>Derniers morceaux</h2>
-            {% for musique in musiquesPopulaires %}
-            <div>
-                <p>{{musique.nom}}</p>
-                <button class="track-btn" 
-                data-track="{{ asset('uploads/files/' ~ musique.fichier) }}"
-                data-album-cover="{{ asset('uploads/albums/' ~ musique.album.image) }}"
-                data-song-name="{{ musique.nom }}"
-                data-artist-name="{{ musique.nom }}"
-                onclick="addToHistory({{ musique.id }})">
-                <i class="fa-solid fa-play"></i>
-                </button>
+<main class="container1">
+    <section class="hero" style="
+    background: url('{{ backgroundImageUrl }}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-position-y: 20%;">
+
+        <div class="hero-info1">
+            <div class="artist-title1">
+                <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{groupe.nom}}">
+                <div class="title1">
+                    <h1>{{groupe.nom}}</h1>
+                    <a  class="theme-color playlist_icons_list a_btn">
+
+                        {{ component('LikeButtonComponent', {
+                        'entityType':'Groupe',
+                        'entityId':groupe.id,
+                        'isLiked':liked,
+                        'attributes': {'class': 'likeToggler'}
+                        }) }}  
+                        FOLLOW
+
+                    </a>
+                </div>
             </div>
-            {% endfor %}
-        </section>
-    </section>
-
-
-    <section>
-        <div>
-            <a href="#">
-                <figure>
-                    <img style="width:50px" class="imgUserPlaylist" src="{{ asset('uploads/users/' ~ user.image) }}" alt="Image de profil de {{user.pseudo}} ">
-                </figure>
-            </a>
-        
-            {{ form_start(formAddPost) }}
-            {{form_end(formAddPost) }}
         </div>
-        <div>
-            {% for post in groupe.posts %}
-            <div class="post" id="{{ post.id }}">
-                    <div>
-                        <a href="#">
-                            <figure>
-                                <img style="width:50px" class="imgUserPlaylist" src="{{ asset('uploads/users/' ~ post.auteur.image) }}" alt="Image de profil de {{post.auteur.pseudo}} ">
-                            </figure>
-                        </a>
-                        <div>
-                            {{post.auteur.pseudo}}
-                            <p>{{ post.dateCreation|date("H:i . d/M/Y") }}</p>
-                        </div>
-                    </div>
-                    <p>{{post.texte}} </p>
-                    <div>
-                        <div>
-                           
-                            {% if user in post.likerPar %}
-                                {% set liked1 = true %}
-                            {% else %}
-                                {% set liked1 = false %}
-                            {% endif %}
-                                {{ component('LikeCounterComponent', {
-                                    'entityType':'Post',
-                                    'entityId':post.id,
-                                    'isLiked':liked1,
-                                    'nbLike':post.likerPar|length,
-                                }) }}
-                        </div>
-                        <div>
-                            <p>{{post.commentaires|length}}</p>
-                            <i class="fa-regular fa-comment"></i>
-                        </div>
-                    </div>
-                    <div>
-                        <a href="#">
-                            <figure>
-                                <img style="width:50px" class="imgUserPlaylist" src="{{ asset('uploads/users/' ~ user.image) }}" alt="Image de profil de {{user.pseudo}} ">
-                            </figure>
-                        </a>
 
-                        {{ form_start(commentForms[post.id]) }}
-                        {{ form_widget(commentForms[post.id]) }}
-                        {{ form_end(commentForms[post.id]) }}
-                        
-                    </div>
+        
+        <div class="artist-page-info1">
+            <p><i class="fa-solid fa-heart"></i>{{groupe.likerPar|length}}</p>
+            <p><i class="fa-solid fa-rectangle-list"></i>{{groupe.posts|length}}</p>
+            
+        </div>
+    </section>
+    <section class="main1">
+        <aside class="side-content1">
+            <div class="presentation1">
+                <h3>Présentation</h3>
+                <p><p> {{groupe.info}}</p></p>
+                {% if groupe.artistes|length >1 %}
+                <p class="date-naissance1">Date de Création</p>
+                <p>{{groupe.dateCreation|date("m/d/Y")}}</p>
+                    {% else %}
+                <p class="date-naissance1">Date de naissance</p>
+                <p>{{groupe.dateCreation|date("m/d/Y")}}</p>
+                {% endif %}
+            </div>
+            <div class="derniers-morceaux1">
+                <h3>Derniers morceaux</h3>
+              
+                {% for musique in musiquesPopulaires %}
                     <div>
-                        {% for commentaire in post.commentaires %}
+                        <p>{{musique.nom}}</p>
+                        <button class="track-btn track-btn2" 
+                        data-track="{{ asset('uploads/files/' ~ musique.fichier) }}"
+                        data-album-cover="{{ asset('uploads/albums/' ~ musique.album.image) }}"
+                        data-song-name="{{ musique.nom }}"
+                        data-artist-name="{{ musique.nom }}"
+                        onclick="addToHistory({{ musique.id }}); changeTrack(this);">
+                        <i class="fa-solid fa-play i-theme"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        </aside>
+       
+
+       
+        <section class="main-content1">
+            <div class="poster1">
+                
+                <img style="height:45px" class="imgUserPlaylist" src="{{ asset('uploads/users/' ~ user.image) }}" alt="Image de profil de {{user.pseudo}} ">
+                {{ form_start(formAddPost) }}
+                {{form_end(formAddPost) }}
+                
+            </div>
+            <div class="posts1">
+                {% for post in groupe.posts %}
+                <div class="post1">
+                    <div class="post-head1">
                         <div>
-                            <a href="#">
-                                <figure>
-                                    <img style="width:50px" class="imgUserPlaylist" src="{{ asset('uploads/users/' ~ commentaire.auteur.image) }}" alt="Image de profil de {{commentaire.auteur.pseudo}} ">
-                                </figure>
-                            </a>
+                            <img style="height:45px" class="imgUserPlaylist" src="{{ asset('uploads/users/' ~ post.auteur.image) }}" alt="Image de profil de {{post.auteur.pseudo}} ">
                             <div>
-                                {{commentaire.auteur.pseudo}}
-                                <p>{{ commentaire.dateCreation|date("H:i . d/M/Y") }}</p>
+                                <p> {{post.auteur.pseudo}}</p>
+                                <p>{{ post.dateCreation|date("H:i . d/M/Y") }}</p>
                             </div>
                         </div>
-                        <p>{{commentaire.texte}} </p>
-                        <div>
-                           
+                        <span class="ellipsis1"><i class="fa-solid fa-ellipsis"></i></span>
+                    </div>
+                    <article>
+                        <p>{{post.texte}}</p>
+                    </article>
+                    <div class="footer1 theme-color playlist_icons_list a_btn">
+                        {% if user in post.likerPar %}
+                        {% set liked1 = true %}
+                    {% else %}
+                        {% set liked1 = false %}
+                     {% endif %}
+                     
+                        {{ component('LikeCounterComponent', {
+                        'entityType':'Post',
+                        'entityId':post.id,
+                        'isLiked':liked1,
+                        'nbLike':post.likerPar|length,
+                        'attributes': {'class': 'flexLike'}
+                        }) }}
+                    
+                    <p>{{post.commentaires|length}} <i style="color:#307AD0 " class="fa-regular fa-comment i-theme"></i></p>
+                    </div>
+                </div>
+                <div class="poster1">
+                        {{ form_start(commentForms[post.id]) }}
+                        <img style=" height:45px" class="imgUserPlaylist" src="{{ asset('uploads/users/' ~ user.image) }}" alt="Image de profil de {{user.pseudo}} ">
+                        
+                        {{ form_widget(commentForms[post.id]) }}
+                        {{ form_end(commentForms[post.id]) }}
+                   
+                </div>
+                <div class="comments1">
+                    {% for commentaire in post.commentaires %}
+                    
+               
+                    <div class="comment1">
+                        <div class="post-head1">
+                            <div>
+                                <img  class="imgUserPlaylist" src="{{ asset('uploads/users/' ~ commentaire.auteur.image) }}" alt="Image de profil de {{commentaire.auteur.pseudo}} ">
+                                <div>
+                                    <p>{{commentaire.auteur.pseudo}}</p>
+                                    <p>{{ commentaire.dateCreation|date("H:i . d/M/Y") }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <article>
+                            <p>{{commentaire.texte}} </p>
+                        </article>
+                        <div class="footer1 theme-color playlist_icons_list a_btn">
                             {% if user in commentaire.likerPar %}
-                                {% set liked2 = true %}
+                            {% set liked2 = true %}
                             {% else %}
-                                {% set liked2 = false %}
+                            {% set liked2 = false %}
                             {% endif %}
-                                {{ component('LikeCounterComponent', {
-                                    'entityType':'Commentaire',
-                                    'entityId':commentaire.id,
-                                    'isLiked':liked2,
-                                    'nbLike':commentaire.likerPar|length,
+                            {{ component('LikeCounterComponent', {
+                                'entityType':'Commentaire',
+                                'entityId':commentaire.id,
+                                'isLiked':liked2,
+                                'nbLike':commentaire.likerPar|length,
+                                'attributes': {'class': 'flexLike'}
                                 }) }}
                         </div>
-
-
-                        {% endfor %}
-
+                    </div>
+                   
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
-        
+                {% endfor %}
+            </div>
+        </section>
     </section>
-</div>
+</main>
+   
 
-
+<script>
+    document.querySelector('.color-picker-trigger').addEventListener('click', function() {
+        document.getElementById('themeColorPicker').click();
+    });
+</script>
 {% endblock %}

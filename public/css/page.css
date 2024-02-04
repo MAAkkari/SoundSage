@@ -3,6 +3,9 @@
     width: 85%;
     margin : 60px auto 30px auto;
 }
+div.post-head1 > div > img {
+    height: 40px;
+}
 .single_page_populaire{
     flex: 0 0 23%;
     margin-right:2%;
@@ -66,4 +69,502 @@
     border-radius: 10px;
     border:1px solid rgb(95, 94, 94);
     align-items: center;
+}
+
+/* -----------------show page ---------------------- */
+:root {
+    --clr-sweet-blue: #307AD0;
+    --clr-light-grey: #f7f7f7;
+    --clr-light-dark: #585858;
+    --clr-grey: #bbbbbb;
+}
+
+*::after, *::before {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    font-family: sans-serif;
+}
+
+
+
+.sidebar {
+    position: sticky;
+    top: 0;
+    width: 280px;
+    height: 100vh;
+    background-color: rgba(112, 159, 221, 0.216);
+    display: none;
+}
+
+/* Section hero bannière page artiste */
+
+/* ===== version mobile ===== */
+
+:root {
+    --clr-sweet-blue: #307AD0;
+    --clr-light-grey: #f7f7f7;
+    --clr-light-dark: #585858;
+    --clr-grey: #bbbbbb;
+}
+
+*::after, *::before {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    font-family: sans-serif;
+}
+
+
+
+.sidebar {
+    position: sticky;
+    top: 0;
+    width: 280px;
+    height: 100vh;
+    background-color: rgba(112, 159, 221, 0.216);
+    display: none;
+}
+
+/* Section hero bannière page artiste */
+
+/* ===== version mobile ===== */
+
+section.hero {
+    height: 160px;
+    color: #fff;
+    display: flex;
+    align-items: end;
+}
+
+.hero-info1 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-inline: 20px;
+    position: relative;
+}
+
+.artist-title1 {
+    display: flex;
+    position: absolute;
+    bottom: -20px;
+}
+
+.artist-title1 a {
+    display:flex;
+    column-gap: 0px;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 10px 10px;
+    font-weight: 600;
+    color: #111;
+   
+    transition: all 0.3s ease;
+}
+
+.artist-title1 a:hover {
+    background-color: #e7e7e7;
+}
+
+.artist-title1 img {
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+    aspect-ratio: 1/1;
+    border: 4px solid #fff;
+}
+
+.artist-title1 h1 {
+    font-size: 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.artist-page-info1 {
+    width: 40%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.artist-page-info1 p {
+    display: flex;
+    gap: 10px;
+    flex-direction: row-reverse;
+    text-align: end;
+}
+
+/* Section aside contenu latérale */
+
+/* ===== version mobile ===== */
+
+aside.side-content1 {
+    display: flex;
+    gap: 10px;
+    margin-block: 20px;
+}
+
+aside.side-content1 > div {
+    width: 50%;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    border: 1px solid #d8d8d8;
+}
+
+/* bloc présentation artiste */
+
+.presentation1 h3,
+.derniers-morceaux1 h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--clr-sweet-blue);
+}
+
+.presentation1 p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--clr-light-dark);
+}
+.flexLike{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.presentation1 p.date-naissance1 {
+    color: var(--clr-sweet-blue);
+    font-weight: 600;
+    margin-top: 10px;
+}
+.fa-comment{
+    color:#307AD0
+
+}
+
+/* bloc derniers morceaux */
+
+.derniers-morceaux1 > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width:80%;
+}
+
+.derniers-morceaux1 > div:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.derniers-morceaux1 > div > p {
+    font-weight: 600;
+}
+
+.derniers-morceaux1 > div > i {
+    color: var(--clr-sweet-blue);
+    cursor: pointer;
+}
+
+/* Section main-content page artiste */
+
+/* ===== version mobile ===== */
+
+section.main1 {
+    padding: 10px;
+}
+
+section.main-content1 {
+    position: relative;
+}
+
+div.poster1 {
+    margin-bottom: 20px;
+}
+
+div.poster1 img {
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    left: 6px;
+    border: 2px solid #fff;
+    z-index: 1;
+}
+
+div.poster1 form {
+    position: relative;
+}
+
+div.poster1 form textarea {
+    position: relative;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    width: 100%;
+    word-wrap: break-word;
+    border: 1px solid var(--clr-grey);
+    border-radius: 30px;
+    padding-top: 18px;
+    padding-left: 60px;
+    min-height: 56px;
+    overflow: hidden; /* Cache le défilement */
+    resize: none; /* Empêche le redimensionnement manuel */
+}
+
+div.poster1 form button {
+    border: none;
+    outline: none;
+    position: absolute;
+    top: 46%;
+    right: 9px;
+    transform: translateY(-50%);
+    background-color: var(--clr-sweet-blue);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 18px;
+}
+
+div.poster1 form button:hover {
+    background-color: #2c6aa0;
+}
+
+/* bloc post */
+
+div.posts1 {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--clr-grey);
+    border-radius: 20px;
+    padding: 15px;
+}
+
+div.post-head1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+div.post-head1 > div > img {
+    
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+div.post-head1 > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+div.post-head1 > div > div p:first-child {
+    font-weight: 600;
+}
+
+div.post-head1 > div > div p:last-child {
+    color: var(--clr-sweet-blue);
+    font-size: 14px;
+}
+
+div.post-head1 > div > div p:last-child span::before {
+    content: "•";
+    margin-inline: 5px;
+}
+
+div.post-head1 > span {
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #E7E7E7B2;
+    padding: 10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+div.post-head1 > span:hover {
+    background-color: #e7e7e7;
+}
+
+.post1 article,
+.comments1 article {
+    font-size: 14px;
+    line-height: 1.2;
+    color: var(--clr-light-dark);
+    padding: 15px;
+}
+
+.post1 div.footer1 {
+    margin-bottom: 20px;
+}
+
+.post1 div.footer1,
+.comments1 div.footer1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.comments1 .comment1 {
+    border: 1px solid var(--clr-grey);
+    border-radius: 20px;
+    padding: 15px;
+}
+
+.comments1 > div {
+    margin-bottom: 10px;
+}
+
+
+
+@media screen and (min-width: 768px) {
+    section.hero {
+        height: 220px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    
+    .sidebar {
+        display: block;
+        min-width: 280px;
+    }
+    
+    section.hero {
+        height: 380px;
+        border-radius: 20px;
+        margin-top: 50px;
+        margin-bottom: 40px;
+    }
+
+    .artist-title1 {
+        left: 50px;
+        align-items: center;
+        gap: 10px;
+       
+    }
+
+    .artist-title1 img {
+        height: 200px;
+    }
+
+    .artist-title1 h1 {
+        font-size: 40px;
+        font-family: "roboto-slab";
+        color:#ffffff;
+        background: #6e6e6e48;
+        border-radius: 10px;
+       
+    }
+
+    main.container1 {
+        padding: 20px;
+    }
+
+    .artist-title1 a {
+        padding: 7px 15px;
+        font-size: 14px;
+        width:60%;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .artist-page-info1 {
+        flex-direction: row;
+        width: 60%;
+        justify-content: flex-end;
+    }
+
+    .artist-page-info1 p {
+        flex-direction: row;
+    }
+    
+    section.main1 {
+        display: flex;
+        gap: 30px;
+    }
+
+
+    aside.side-content1 {
+        flex-direction: column;
+        width: 50%;
+        max-width: 400px;
+        border-right: 2px solid #CDC8C8;
+        padding-right: 20px;
+    }
+
+    aside.side-content1 > div {
+        width: 100%;
+    }
+
+    section.main-content1 {
+        margin-top: 20px;
+        width: 850px;
+    }
+
+    div.posts1 {
+        border-color: #d8d8d8;
+    }
+
+    div.poster1 form textarea {
+        border-radius: 10px;
+        min-height: 100px;
+        border-color: #d8d8d8;
+    }
+
+    div.poster1 form button {
+        top: 68%;
+        padding: 7px 25px;
+    }
+
+    div.poster1 {
+        margin-bottom: 10px;
+    }
+
+    div.post-head1 > span {
+        height: 40px;
+        width: 40px;
+    }
+
+    .comments1 .comment1 {
+        border-color: #d8d8d8;
+    }
+
+    div.post-head1 > div > img {
+        height: 40px;
+    }
+
+    div.post-head1 > div > div p:first-child {
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 1440px){
+    main.container1 {
+        max-width: 1440px;
+        margin-inline: auto;
+    }
 }

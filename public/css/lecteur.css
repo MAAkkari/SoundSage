@@ -24,6 +24,7 @@ body {
     align-items: center;
     position:fixed;
     bottom:0px;
+    z-index: 1000;
 }
 
 .controls {

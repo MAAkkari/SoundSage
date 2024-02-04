@@ -89,12 +89,25 @@ body.darkmode{
 #textsvg{
     transition: fill 0.5s ease 0.2s;
 }
-
+.groupe_label.darkmode{
+    color: #c1bdbd;
+}
+#search-results.darkmode{
+    background-color: #1F1F1F;
+    color: #c1bdbd;
+}
+#search-results.darkmode a{
+    color: #cecaca;
+}
+#search-results.darkmode h3{
+    color: #dcd8d8;
+}
 
 /* ------------ narbar darkmode ---------------------- */
 .navbar.darkmode{
     background-color: #1F1F1F;
 }
+
 #toggle-button.darkmode{
     color: #999999;
 }

@@ -35,14 +35,15 @@
 
 /* Style the background of the scrollbar track */
   .navbar::-webkit-scrollbar-track {
-      background: #f1f1f1; /* Light grey background */
+      background: #d3d1d1; /* Light grey background */
       border-radius: 10px; /* Round corners of the scrollbar track */
   }
 
   /* Style the draggable scrolling handle (thumb) */
   .navbar::-webkit-scrollbar-thumb {
-      background: #888; /* Dark grey scroll thumb */
+      background: #676666; /* Dark grey scroll thumb */
       border-radius: 10px; /* Round corners of the scroll thumb */
+      
   }
 
   /* Handle hover effect for the scrollbar thumb */

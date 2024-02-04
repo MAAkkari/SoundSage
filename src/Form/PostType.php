@@ -20,7 +20,8 @@ class PostType extends AbstractType
             ->add('texte', TextareaType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'A quoi pensez-vous ?'
+                    'placeholder' => 'A quoi pensez-vous ?',
+                    'id' => 'myTextarea'
                 ],
             ])
             // ->add('image', FileType::class, [
