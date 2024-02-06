@@ -106,9 +106,6 @@
         </script>
 
         
-
-        
-
         <div class="main-content" id="content" data-turbo-frame="content">
             {% block body %}{% endblock %}
         </div>
@@ -116,18 +113,18 @@
             <div class="track-info">
                 <img id="albumCover" src="{{asset('uploads/defaultTrack.jpg')}}" alt="Default Album Cover">
                 <div>
-                    <a id="songName" href="#" target="_blank">Select a Song</a>
+                    <a id="songName" href="" target="_blank">Select a Song</a>
                     <br>
-                    <a id="artistName" href="#" target="_blank">Artist Name</a>
+                    <a id="artistName" href="" target="_blank">Artist Name</a>
                 </div>
             </div>
 
             <audio id="audioPlayer"  type="audio/mpeg"></audio>
             <div class="controls">
                 <div class="player-flex">
-                    <button id="prevBtn"><i class="fa-solid fa-backward"></i></button> <!-- Previous song button -->
-                    <button id="playPauseBtn"><i class="fa-solid fa-play"></i></button>
-                    <button id="nextBtn"><i class="fa-solid fa-forward"></i></button> <!-- Next song button -->
+                    <button onclick="playPreviousTrack()" id="prevBtn"><i class="fa-solid fa-backward"></i></button> 
+                    <button  id="playPauseBtn"><i class="fa-solid fa-play"></i></button>
+                    <button onclick="playNextTrack()" id="nextBtn"><i class="fa-solid fa-forward"></i></button> 
                 </div>
                 <div class="time-info" id="timeInfo">0:00 / 0:00</div>
                 <div class="progress-bar" id="progressBar">
@@ -145,6 +142,7 @@
         </div>
         <script>
             function addToHistory(musiqueId) {
+            
                 fetch('/add-to-history', {
                     method: 'POST',
                     headers: {
@@ -247,11 +245,7 @@
             
         </script>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                document.body.classList.remove('preload');
-            });
-        </script>
+        
        
         
         

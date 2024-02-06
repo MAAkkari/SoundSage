@@ -10,6 +10,9 @@
             let volumeSlider = null;
             let volumeIcon = null;
             let timeInfo = null;
+            let currentTrackIndex = 0;
+            let tracks = [];    
+            let isRepeating = false;
             
             
             // définir/redéfinir les liens des <a> du contenu de #content qui est rechargé en temps réel au changement de page
@@ -92,27 +95,37 @@
             //     const artistName = event.target.getAttribute('data-artist-name');
         
             function changeTrack(trackButton) {
-                
                 console.log("changeTrack() - event = ", trackButton);
-                const trackSource = trackButton.getAttribute('data-track');
-                const albumCover = trackButton.getAttribute('data-album-cover');
-                const songName = trackButton.getAttribute('data-song-name');
-                const artistName = trackButton.getAttribute('data-artist-name');
-
-                console.log("changeTrack() - trackSource = ", trackSource);
-                if (trackSource) {
-                    console.log("changeTrack() - audio = ", audio);
-                    audio.src = trackSource;
+                tracks = JSON.parse(trackButton.getAttribute('data-tracks'));
+                currentTrackIndex = 0;
+                playTrack();
+            }
+            
+            function playTrack() {
+                const track = tracks[currentTrackIndex];
+                console.log("playTrack() - track = ", track);
+            
+                if (track.track) {
+                    console.log("play() - audio = ", audio);
+                    audio.src = track.track;
                     audio.load();
                     audio.play();
                     playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                    addToHistory(track.id); // Call addToHistory with the track's id
                 }
-        
-                
-                document.getElementById('albumCover').src = albumCover;
-                document.getElementById('songName').textContent = songName;
-                document.getElementById('artistName').textContent = artistName;
-                
+            
+                document.getElementById('albumCover').src = track.albumCover;
+                document.getElementById('songName').innerHTML = `<a href="/song/${track.songId}">${track.songName}</a>`;
+                document.getElementById('artistName').innerHTML = `<a href="/groupe/${track.artistId}">${track.artistName}</a>`;
+            }
+            function playNextTrack() {
+                currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+                playTrack();
+            }
+            
+            function playPreviousTrack() {
+                currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+                playTrack();
             }
         
             function seekAudio(e) {
@@ -165,7 +178,7 @@
             }
 
 
-            let isRepeating = false;
+           
             // au premier chargement de la page
             // $(document).ready(function() {
             document.addEventListener('DOMContentLoaded', function() {
@@ -174,6 +187,7 @@
                 console.log("CALL bindPageLinks() - avant");
                 bindPageLinks(true);
                 console.log("CALL bindPageLinks() - après");
+            
             repeatBtn = document.getElementById('repeatBtn');
             audio = document.getElementById('audioPlayer');
             playPauseBtn = document.getElementById('playPauseBtn');
@@ -190,6 +204,13 @@
             });
 
             // trackButtons = document.querySelectorAll('.track-btn');
+            audio.addEventListener('ended', function() {
+                if (!isRepeating) {
+                    playNextTrack();
+                } else {
+                    audio.play();
+                }
+            });
             
         
             playPauseBtn.addEventListener('click', togglePlayPause);

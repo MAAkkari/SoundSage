@@ -180,13 +180,22 @@ body {
     margin-right: 20px;
     
 }
-
 #songName {
     color: #FFFFFF;
     text-decoration: none;
     font-size: 17px;
 }
-#artistName{
+#artistName {
+    color: #7D7979;
+    text-decoration: none;
+    font-size: 15px;
+}
+#songName a{
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 17px;
+}
+#artistName a{
     color: #7D7979;
     text-decoration: none;
     font-size: 15px;
