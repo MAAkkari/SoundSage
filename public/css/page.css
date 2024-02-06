@@ -665,6 +665,186 @@ div.post-head1 > span:hover {
 }
 
 
+/* --------------css de la page favories -------------------- */
+/* Page favoris */
+
+/* ===== version mobile ===== */
+
+/* Section musiques */
+
+section.main1.favoris {
+    padding: 0;
+}
+
+section.main1.favoris > div {
+    margin-bottom: 5px;
+}
+
+main.container1.favoris h1 {
+    padding: 10px;
+}
+
+main.container1.favoris h1 span {
+    color: var(--clr-sweet-blue);
+}
+
+section.main1.favoris > div > h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--clr-sweet-blue);
+    background: linear-gradient(to right, #307bd051, #ffffff);
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+section.main1.favoris > div h2 i {
+    font-size: 22px;
+    color: var(--clr-light-dark);
+}
+
+section.main1.favoris > div .item1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--clr-light-grey);
+}
+
+section.main1.favoris div.musiques1 .item1 > div:first-of-type p:first-child {
+    font-weight: 600;
+}
+
+section.main1.favoris div.musiques1 .item1 > div:first-of-type p:last-of-type {
+    color: var(--clr-light-dark);
+}
+
+section.main1.favoris div.musiques1 .item1 > div:first-of-type {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+section.main1.favoris div.musiques1 .item1 > div:first-of-type button {
+    position: relative;
+}
+
+section.main1.favoris div.musiques1 .item1 > div:first-of-type button:hover i {
+    visibility: visible;
+    opacity: 1;
+}
+
+section.main1.favoris div.musiques1 .item1 > div:first-of-type button i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+    opacity: 0;
+    color: #fff!important;
+    background-color: #111111c5;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+section.main1.favoris div.musiques1 .item1 > div:last-of-type {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+section.main1.favoris i {
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+section.main1.favoris i:hover {
+    color: #2c6aa0!important;
+}
+
+/* Section artistes */
+
+div.artistes1 .item1 > div,
+div.groupes1 .item1 > div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+div.artistes1 .item1 > div > img,
+div.groupes1 .item1 > div > img{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+div.artistes1 .item1 > div > p,
+div.groupes1 .item1 > div > p{
+    font-weight: 600;
+    color: var(--clr-light-dark);
+}
+
+/* Section Albums */
+
+div.albums1 .items > .item1-grid {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--clr-light-grey);
+}
+
+div.albums1 .items > .item1-grid > div:first-of-type {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+div.albums1 .items > .item1-grid img {
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+div.albums1 .items > .item1-grid p:first-of-type {
+    font-weight: 600;
+}
+
+div.albums1 .items > .item1-grid p:last-of-type {
+    color: var(--clr-light-dark);
+}
+
+/* Comportement lorsque le JS intervient pour le dropdown */
+
+section.main1.favoris .items {
+    max-height: 0;
+    overflow-y: auto;
+    transition: max-height 0.2s ease-out;
+}
+
+section.main1.favoris .items.active {
+    max-height: 390px; /* Vous devrez peut-être ajuster cette valeur */
+}
+
+section.main1.favoris h2 i.rotated {
+    transform: rotate(90deg);
+}
+
+
+
+
+
+
+
+
 
 @media screen and (min-width: 768px) {
     section.hero {
@@ -788,7 +968,45 @@ div.post-head1 > span:hover {
         font-size: 14px;
         width:60%;
     }
+     /* Page favoris */
+
+    /* ===== small desktop ===== */
+
+    section.main1.favoris {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    section.main1.favoris .items {
+        max-height: unset;
+        overflow-y: auto;
+    }
+
+    section.main1.favoris .items {
+        max-height: 500px;
+    }
+
+    section.main1.favoris > div > h2 {
+        background: none;
+        cursor: auto;
+    }
+
+    section.main1.favoris > div > h2 i {
+        display: none;
+    }
+
+    section.main1.favoris > div .item1 {
+        min-height: 64px;
+    }
+
+    .artistes1 .items,
+    .groupes1 .items {
+        max-width: 340px;
+    }
 }
+
+
 
 @media screen and (min-width: 1200px){
     /* Page album */
@@ -894,7 +1112,15 @@ div.post-head1 > span:hover {
     .follow_btn{
         max-width:max-content !important;
     }
+    /* Page favoris */
+
+    /* ===== medium desktop ===== */
+
+    section.main1.favoris {
+        gap: 60px 140px;
+    }
 }
+
 
 @media screen and (min-width: 1440px){
     main.container1 {
@@ -903,5 +1129,18 @@ div.post-head1 > span:hover {
     }
     .follow_btn{
         max-width:max-content !important;
+    }
+    /* Page favoris */
+
+    /* ===== large desktop ===== */
+
+    main.container1.favoris {
+        max-width: 1140px;
+        margin-inline: unset;
+    }
+
+    .items.grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
     }
 }

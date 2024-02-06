@@ -3,6 +3,121 @@
 {% block title %}Favoris{% endblock %}
 
 {% block body %}
+
+
+
+
+
+
+<main class="container1 favoris">
+
+    <h1>Vos <span>Favoris</span></h1>
+
+    <section class="main1 favoris">
+            
+        <div class="musiques1">
+            <h2>Musiques <i class="fa-solid fa-angle-right rotated"></i></h2>
+            {% for musique in user.musiquesLiker %}
+            <div class="items active">
+                <div class="item1">
+                    <div>
+                        <button class="carousel-btns track-btn"
+                        data-tracks='[
+                            
+                                {   "musiqueId": "{{ musique.id }}",
+                                    "albumId": "{{ musique.album.id }}",
+                                    "groupeId": "{{ musique.groupes[0].id }}",
+                                    "track": "{{ asset('uploads/files/' ~ musique.fichier) }}",
+                                    "albumCover": "{{ asset('uploads/albums/' ~ musique.album.image) }}",
+                                    "songName": "{{ musique.nom }}",
+                                    "artistName": "{{ musique.groupes[0].nom }}"
+                                }
+                            
+                        ]'
+                        onclick="changeTrack(this);">
+                        <img height="40"  src="{{ asset('uploads/albums/' ~ musique.album.image) }}" alt="jaquette de {{ musique.album.nom }}">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                        <div>
+                            <p><a href="{{path('show_album',{'id':musique.album.id})}}">{{ musique.nom }}</a></p>
+                            <p><a href="#">{{musique.groupes[0].nom}}</a></p>
+                        </div>
+                    </div>
+                    <div>
+                        <button><i class="fa-solid fa-heart" style="color: #307AD0"></i></button>
+                        <p>3:45</p>
+                        <button><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="artistes1">
+            <h2>Artistes <i class="fa-solid fa-angle-right"></i></h2>
+            <div class="items">
+                <div class="item1">
+                    <div>
+                        <img src="image/home.png" alt="" height="50">
+                        <p>Home</p>
+                    </div>
+                    <button><i class="fa-solid fa-heart" style="color: #307AD0"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="albums1">
+            <h2>Albums <i class="fa-solid fa-angle-right"></i></h2>
+            <div class="items grid">
+                <div class="item1-grid">
+                    <div>
+                        <img src="image/1.jpeg" alt="" height="50">
+                        <div>
+                            <p>Kid A</p>
+                            <p>Radiohead</p>
+                        </div>
+                    </div>
+                    <button><i class="fa-solid fa-heart" style="color: #307AD0"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="groupes1">
+            <h2>Groupes <i class="fa-solid fa-angle-right"></i></h2>
+            <div class="items">
+                <div class="item1">
+                    <div>
+                        <img src="image/home.png" alt="" height="50">
+                        <p>Home</p>
+                    </div>
+                    <button><i class="fa-solid fa-heart" style="color: #307AD0"></i></button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+
+    const dropdowns = document.querySelectorAll('.main1.favoris h2');
+    const items = document.querySelectorAll('.main1.favoris .items');
+
+    dropdowns.forEach((dropdown, index) => {
+        dropdown.addEventListener('click', () => {
+            items[index].classList.toggle('active');
+            dropdown.querySelector('i').classList.toggle('rotated');
+        });
+    });
+    
+</script>
+
+
+
+
+
+
 <h1>Vos Favoris</h1>
 <div>
     <h2>Musiques</h2>

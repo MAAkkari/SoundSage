@@ -16,41 +16,26 @@
             
             
             // définir/redéfinir les liens des <a> du contenu de #content qui est rechargé en temps réel au changement de page
-        function bindPageLinks(isFirstCall) {
+            function bindPageLinks(nodeOnWhichBindLinks) {
                 console.log("bindPageLinks() - start");
-                let nodeOnWhichBindLinks = null;
-
-                if (isFirstCall) {
+            
+                // If no node is provided, default to the entire document
+                if (!nodeOnWhichBindLinks) {
                     nodeOnWhichBindLinks = document;
-                } else {
-                    nodeOnWhichBindLinks = document.getElementById("content");
                 }
-
-                // pour chacun des <a> concernées, définir/redéfinir son comportement au déclenchament de l'évènement
-                // $(document).on('click', 'a:not(.exclude-from-interception)', function(e) {
-                // document.getElementById("#content").querySelectorAll("a:not(.exclude-from-interception)").forEach(aElt => aElt.addEventListener('click', function(e) {
+            
                 nodeOnWhichBindLinks.querySelectorAll("a:not(.exclude-from-interception)").forEach(aElt => aElt.addEventListener('click', async function(e) {
                     console.log("document.on.click - start");
                     const href = $(this).attr('href');
-                
+            
                     if (doLoadInternally(href)) {
                         e.preventDefault();
                         await loadPage(href);
-                        
-                        // if (isFirstCall) {
-                            bindPageLinks(false);
-                        // }
                     }
                     console.log("document.on.click - end");
-                    
-                    
                 }));
-
-                // trackButtons = document.querySelectorAll('.track-btn');
-                // trackButtons.forEach(button => button.addEventListener('click', changeTrack));
+            
                 console.log("bindPageLinks() - end");
-                
-                
             }
             
           
@@ -59,13 +44,15 @@
             async function loadPage(url) {
                 await $('#content').load(url + ' #content', function() {
                     // This callback function is executed after the content is loaded successfully.
-                    // Here you should call the darkmode() function to apply dark mode to new elements.
                     applyDarkMode(); 
                     const savedColor = localStorage.getItem('themeColor');
                     if (savedColor) {
                         applyThemeColor(savedColor); // Re-apply the theme color to newly loaded content
-                    }// Re-apply dark mode to newly loaded content.
+                    }
                     resetButtonPositions();
+            
+                    // Call bindPageLinks to bind the click event listener to the new links
+                    bindPageLinks(document.getElementById('content'));
                 });
             }
         
@@ -86,13 +73,7 @@
                 }
             }
         
-            // function changeTrack(event) {
-            //     console.log("changeTrack() - start");
-            //     console.log("changeTrack() - event = ", event);
-            //     const trackSource = event.target.getAttribute('data-track');
-            //     const albumCover = event.target.getAttribute('data-album-cover');
-            //     const songName = event.target.getAttribute('data-song-name');
-            //     const artistName = event.target.getAttribute('data-artist-name');
+            
         
             function changeTrack(trackButton) {
                 console.log("changeTrack() - event = ", trackButton);
@@ -111,12 +92,12 @@
                     audio.load();
                     audio.play();
                     playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                    addToHistory(track.id); // Call addToHistory with the track's id
+                    addToHistory(track.musiqueId); // Call addToHistory with the track's id
                 }
             
                 document.getElementById('albumCover').src = track.albumCover;
-                document.getElementById('songName').innerHTML = `<a href="/song/${track.songId}">${track.songName}</a>`;
-                document.getElementById('artistName').innerHTML = `<a href="/groupe/${track.artistId}">${track.artistName}</a>`;
+                document.getElementById('songName').innerHTML = `<a href="/album/${track.albumId}">${track.songName}</a>`;
+                document.getElementById('artistName').innerHTML = `<a href="/groupe/${track.groupeId}">${track.artistName}</a>`;
             }
             function playNextTrack() {
                 currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
@@ -185,9 +166,9 @@
                 // l'import de ce fichier js est possible dans le <head> (et pas forcément juste avant la fin du <body>) car il ne contient que des déclarations de fonctions (et non des appels) (sauf le premier bloc mais qui lui n'est déclenché que lorsque le document / le DOM est prêt)
                 
                 console.log("CALL bindPageLinks() - avant");
-                bindPageLinks(true);
+                bindPageLinks();
                 console.log("CALL bindPageLinks() - après");
-            
+              
             repeatBtn = document.getElementById('repeatBtn');
             audio = document.getElementById('audioPlayer');
             playPauseBtn = document.getElementById('playPauseBtn');
