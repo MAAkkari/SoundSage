@@ -20,7 +20,7 @@ class PlaylistType extends AbstractType
             ->add('image', FileType::class, [
                 'label' => 'Image',
                 'required' => false,
-                'mapped' => false, // Add this line
+                'mapped' => false,
             ])
             ->add('public', CheckboxType::class, [
                 'required' => false,

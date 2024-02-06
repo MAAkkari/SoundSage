@@ -2,7 +2,7 @@
             // variables globales
 
             // let trackButtons = null;
-            
+            let repeatBtn = null;
             let audio = null;
             let playPauseBtn = null;
             let progressBar = null;
@@ -13,7 +13,7 @@
             
             
             // définir/redéfinir les liens des <a> du contenu de #content qui est rechargé en temps réel au changement de page
-            function bindPageLinks(isFirstCall) {
+        function bindPageLinks(isFirstCall) {
                 console.log("bindPageLinks() - start");
                 let nodeOnWhichBindLinks = null;
 
@@ -165,16 +165,16 @@
             }
 
 
-            
+            let isRepeating = false;
             // au premier chargement de la page
             // $(document).ready(function() {
-        document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function() {
                 // l'import de ce fichier js est possible dans le <head> (et pas forcément juste avant la fin du <body>) car il ne contient que des déclarations de fonctions (et non des appels) (sauf le premier bloc mais qui lui n'est déclenché que lorsque le document / le DOM est prêt)
                 
                 console.log("CALL bindPageLinks() - avant");
                 bindPageLinks(true);
                 console.log("CALL bindPageLinks() - après");
-            
+            repeatBtn = document.getElementById('repeatBtn');
             audio = document.getElementById('audioPlayer');
             playPauseBtn = document.getElementById('playPauseBtn');
             progressBar = document.getElementById('progressBar');
@@ -182,6 +182,12 @@
             volumeSlider = document.getElementById('volumeSlider');
             volumeIcon = document.getElementById('volumeIcon');
             timeInfo = document.getElementById('timeInfo');
+
+            repeatBtn.addEventListener('click', function() {
+                isRepeating = !isRepeating;
+                repeatBtn.classList.toggle('active-repeat', isRepeating);
+                audio.loop = isRepeating;
+            });
 
             // trackButtons = document.querySelectorAll('.track-btn');
             

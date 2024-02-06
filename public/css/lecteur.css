@@ -33,7 +33,52 @@ body {
     align-items: center;
     width:40%;
 }
+.player-flex{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    width:140px;
+}
+.repeat_et_volume{
+    display:flex;
+    width:max-content;
+    column-gap: 40px;
+}
+#repeatBtn{
+    background-color: transparent;
+    border: none;
+    font-size: 22px;
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.active-repeat{
+    color: #307AD0 !important;
+}
 
+#prevBtn:hover{
+    color: rgb(152, 152, 152);
+}
+#nextBtn:hover{
+    color: rgb(152, 152, 152);
+}
+#prevBtn, #nextBtn{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-radius: 1000px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s;
+    width:35px;
+    height:35px;
+    margin-bottom: -10px;
+    transition: color 0.3s;
+}
 #playPauseBtn, .track-btn {
     display:flex;
     justify-content: center;
@@ -54,7 +99,7 @@ body {
 
 
 #playPauseBtn:hover, .track-btn:hover {
-    background-color: #0f74e7;
+    background-color: #1272e0;
 }
 
 .progress-bar {

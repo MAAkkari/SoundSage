@@ -109,7 +109,7 @@
 
         
 
-        <div class="main-content" id="content">
+        <div class="main-content" id="content" data-turbo-frame="content">
             {% block body %}{% endblock %}
         </div>
         <div class="custom-audio-player">
@@ -124,16 +124,22 @@
 
             <audio id="audioPlayer"  type="audio/mpeg"></audio>
             <div class="controls">
-                
-                <button id="playPauseBtn"><i class="fa-solid fa-play"></i></button>
+                <div class="player-flex">
+                    <button id="prevBtn"><i class="fa-solid fa-backward"></i></button> <!-- Previous song button -->
+                    <button id="playPauseBtn"><i class="fa-solid fa-play"></i></button>
+                    <button id="nextBtn"><i class="fa-solid fa-forward"></i></button> <!-- Next song button -->
+                </div>
                 <div class="time-info" id="timeInfo">0:00 / 0:00</div>
                 <div class="progress-bar" id="progressBar">
                     <div class="progress" id="progress"></div>
                 </div>
             </div>
-            <div class="volume-control">
-                <i id="volumeIcon" class="fa fa-volume-up"></i>
-                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+            <div class="repeat_et_volume">
+                <button id="repeatBtn"><i class="fa-solid fa-repeat"></i></button> <!-- Repeat button -->
+                <div class="volume-control">
+                    <i id="volumeIcon" class="fa fa-volume-up"></i>
+                    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+                </div>
             </div>
 
         </div>
