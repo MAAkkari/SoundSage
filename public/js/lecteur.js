@@ -17,17 +17,15 @@
             
             // définir/redéfinir les liens des <a> du contenu de #content qui est rechargé en temps réel au changement de page
             function bindPageLinks(nodeOnWhichBindLinks) {
-                console.log("bindPageLinks() - start");
-            
-                // If no node is provided, default to the entire document
+                //si aucun noeud n'est passé en paramètre, on prend le document
                 if (!nodeOnWhichBindLinks) {
                     nodeOnWhichBindLinks = document;
                 }
             
                 nodeOnWhichBindLinks.querySelectorAll("a:not(.exclude-from-interception)").forEach(aElt => aElt.addEventListener('click', async function(e) {
-                    console.log("document.on.click - start");
+                  
                     const href = $(this).attr('href');
-            
+                    console.log("document.on.click - start");
                     if (doLoadInternally(href)) {
                         e.preventDefault();
                         await loadPage(href);
@@ -43,26 +41,26 @@
             
             async function loadPage(url) {
                 await $('#content').load(url + ' #content', function() {
-                    // This callback function is executed after the content is loaded successfully.
-                    applyDarkMode(); 
                     const savedColor = localStorage.getItem('themeColor');
+                    // on reaplique le dark mode si il est actif
+                    applyDarkMode(); 
+                    // on réapplique la couleur du thème personnalisé si elle est sauvegardée
                     if (savedColor) {
-                        applyThemeColor(savedColor); // Re-apply the theme color to newly loaded content
+                        applyThemeColor(savedColor);
                     }
+                    // on reinitalise les positions ce certains boutons controler par du js
                     resetButtonPositions();
-            
-                    // Call bindPageLinks to bind the click event listener to the new links
+                    // On applique l'ecouteur d'evenement sur les liens des pages chargées
                     bindPageLinks(document.getElementById('content'));
                 });
             }
         
             function doLoadInternally(url) {
-               
                 return !url.match(/^http[s]?:\/\//);
             }
 
             
-        
+            // verifie si le lecteur est en pause ou en lecture, si il est en pause, il le lance, si il est en lecture, il le met en pause et inverse l'icone du bouton play/pause
             function togglePlayPause() {
                 if (audio.paused) {
                     audio.play();
@@ -76,42 +74,48 @@
             
         
             function changeTrack(trackButton) {
-                console.log("changeTrack() - event = ", trackButton);
                 tracks = JSON.parse(trackButton.getAttribute('data-tracks'));
                 currentTrackIndex = 0;
                 playTrack();
             }
             
+            
             function playTrack() {
+                // On récupère les information de la musique qui correspond à l'index courant
                 const track = tracks[currentTrackIndex];
                 console.log("playTrack() - track = ", track);
-            
+                // On met à jour l'audio avec la musique a jouer, on change le bouton play en pause, et on appel la fonction addToHistory
                 if (track.track) {
                     console.log("play() - audio = ", audio);
                     audio.src = track.track;
                     audio.load();
                     audio.play();
                     playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                    addToHistory(track.musiqueId); // Call addToHistory with the track's id
+                    addToHistory(track.musiqueId); // Appeler la fonction addToHistory pour ajouter la musique à l'historique et ajouter +1 au nombre de lecture de la musique
                 }
-            
+                // On met à jour l'image de l'album, le nom de la musique et le nom de l'artiste
                 document.getElementById('albumCover').src = track.albumCover;
                 document.getElementById('songName').innerHTML = `<a href="/album/${track.albumId}">${track.songName}</a>`;
                 document.getElementById('artistName').innerHTML = `<a href="/groupe/${track.groupeId}">${track.artistName}</a>`;
             }
+
+            //ajout +1 a l'index de lecture pour passé à la musique suivante, boucle sur la liste des musiques si on est à la fin
             function playNextTrack() {
                 currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
                 playTrack();
             }
-            
+            //enelve -1 a l'index de lecture pour passé à la musique suivante, boucle sur la liste des musiques si on est au debut
             function playPreviousTrack() {
                 currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
                 playTrack();
             }
         
             function seekAudio(e) {
+                // Récupère la position de la progressBar par rapport à la fenêtre
                 const rect = progressBar.getBoundingClientRect();
+                // On calcule la position du click par rapport à la progressBar
                 const clickPosition = (e.pageX - rect.left) / progressBar.offsetWidth;
+                // On met à jour la position de la musique
                 audio.currentTime = clickPosition * audio.duration;
             }
         
@@ -159,16 +163,13 @@
             }
 
 
-           
             // au premier chargement de la page
-            // $(document).ready(function() {
             document.addEventListener('DOMContentLoaded', function() {
-                // l'import de ce fichier js est possible dans le <head> (et pas forcément juste avant la fin du <body>) car il ne contient que des déclarations de fonctions (et non des appels) (sauf le premier bloc mais qui lui n'est déclenché que lorsque le document / le DOM est prêt)
-                
-                console.log("CALL bindPageLinks() - avant");
+                console.log("document.on.DOMContentLoaded - start");
                 bindPageLinks();
-                console.log("CALL bindPageLinks() - après");
-              
+                console.log("document.on.DOMContentLoaded - end");
+                
+
             repeatBtn = document.getElementById('repeatBtn');
             audio = document.getElementById('audioPlayer');
             playPauseBtn = document.getElementById('playPauseBtn');
@@ -184,7 +185,7 @@
                 audio.loop = isRepeating;
             });
 
-            // trackButtons = document.querySelectorAll('.track-btn');
+            // quand la musique est terminée, si la répétition n'est pas activée, on passe à la musique suivante, sinon on relance la musique
             audio.addEventListener('ended', function() {
                 if (!isRepeating) {
                     playNextTrack();
@@ -192,7 +193,7 @@
                     audio.play();
                 }
             });
-            
+        
         
             playPauseBtn.addEventListener('click', togglePlayPause);
             // trackButtons.forEach(button => button.addEventListener('click', changeTrack));

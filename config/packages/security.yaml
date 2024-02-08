@@ -33,6 +33,12 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        # - { path: ^/admin, roles: ROLE_ADMIN } # Exemple existant pour l'admin
+        # - { path: ^/historique, roles: IS_AUTHENTICATED_REMEMBERED }
+        # - { path: ^/playlist, roles: IS_AUTHENTICATED_REMEMBERED }
+        # - { path: ^/favoris, roles: IS_AUTHENTICATED_REMEMBERED }
+        # - { path: ^/profile, roles: IS_AUTHENTICATED_REMEMBERED }
+        # - { path: ^/, roles: PUBLIC_ACCESS } # Accès public pour toutes les autres routes
 
 when@test:
     security:

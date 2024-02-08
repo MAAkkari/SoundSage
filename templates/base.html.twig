@@ -113,9 +113,9 @@
             <div class="track-info">
                 <img id="albumCover" src="{{asset('uploads/defaultTrack.jpg')}}" alt="Default Album Cover">
                 <div>
-                    <a id="songName" href="" target="_blank">Select a Song</a>
+                    <a id="songName" href="" target="_blank">Musique</a>
                     <br>
-                    <a id="artistName" href="" target="_blank">Artist Name</a>
+                    <a id="artistName" href="" target="_blank">Artiste</a>
                 </div>
             </div>
 
@@ -132,24 +132,27 @@
                 </div>
             </div>
             <div class="repeat_et_volume">
-                <button id="repeatBtn"><i class="fa-solid fa-repeat"></i></button> <!-- Repeat button -->
+                <button id="repeatBtn"><i class="fa-solid fa-repeat"></i></button> 
                 <div class="volume-control">
                     <i id="volumeIcon" class="fa fa-volume-up"></i>
                     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
                 </div>
             </div>
-
         </div>
         <script>
-            function addToHistory(musiqueId) {
             
+            function addToHistory(musiqueId) {
+                // on envoie une requete POST pour ajouter la musique a l'historique
                 fetch('/add-to-history', {
                     method: 'POST',
+                    // on envoie les données en format x-www-form-urlencoded (comme un formulaire)
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
+                    // on envoie l'id de la musique
                     body: 'musiqueId=' + musiqueId
                 })
+                //
                 .then(response => {
                     if (response.ok) {
                         console.log('Historique mis a jour');
