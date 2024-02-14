@@ -41,7 +41,7 @@
     row-gap: 15px;
 }
 .historique_header_name{
-    padding-top: 30px;
+    padding-top: 30px !important;
 }
 .footer-section a, .footer-section p{
     color : #FFFFFF

@@ -13,6 +13,9 @@ div.post-head1 > div > img {
     transition: all 0.5s;
     
 }
+.fa-trash{
+    color: var(--theme-color) !important;
+}
 .oeuvre1 a{
     font-family: "open sans";
     font-weight: 600;
