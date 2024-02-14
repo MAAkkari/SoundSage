@@ -144,7 +144,7 @@ body.darkmode{
     background-color: #1F1F1F;
 }
 
-#toggle-button.darkmode{
+.toggle-button.darkmode{
     color: #999999;
 }
 .navbar-nav a.darkmode span{

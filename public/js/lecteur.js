@@ -195,6 +195,7 @@
 
             // au premier chargement de la page
             document.addEventListener('turbo:load', function() {
+                
                 console.log("document.on.DOMContentLoaded - start");
                 bindPageLinks();
                 console.log("document.on.DOMContentLoaded - end");

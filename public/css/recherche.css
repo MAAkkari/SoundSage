@@ -165,6 +165,6 @@ font-family: 'Roboto Slab', serif; */
 }
 .searchComponent{
     position: absolute;
-    z-index: 1000;
+    z-index: 998;
     max-width: 30%;
 }

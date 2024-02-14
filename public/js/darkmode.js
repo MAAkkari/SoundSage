@@ -30,15 +30,18 @@ function initializeDarkMode() {
 
 // Setting up the event listener for the dark mode toggle button
 document.addEventListener('DOMContentLoaded', function() {
-    const dark_btn = document.querySelector('.dark');
-    if (dark_btn) {
-        dark_btn.addEventListener('click', function() {
-            document.body.classList.toggle('darkmode'); // Toggle dark mode for the body element
-            applyDarkMode(); // Apply or remove dark mode from all relevant elements based on the new state
+    const dark_btns = document.querySelectorAll('.dark'); // Select all dark mode buttons
+    if (dark_btns.length > 0) {
+        dark_btns.forEach(function(btn) { // Iterate over each button
+            btn.addEventListener('click', function() {
+                document.body.classList.toggle('darkmode'); // Toggle dark mode for the body element
+                applyDarkMode(); // Apply or remove dark mode from all relevant elements based on the new state
 
-            // Update the localStorage setting based on the current state
-            localStorage.setItem('darkMode', document.body.classList.contains('darkmode'));
+                // Update the localStorage setting based on the current state
+                localStorage.setItem('darkMode', document.body.classList.contains('darkmode'));
+            });
         });
     }
     initializeDarkMode(); // Apply dark mode on initial load if it was previously enabled
 });
+

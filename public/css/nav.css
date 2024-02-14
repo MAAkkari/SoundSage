@@ -79,7 +79,7 @@
     margin-top: 30px;
   }
   
-  #toggle-button {
+  .toggle-button {
     background: none;
     border: none;
     color: rgb(0, 0, 0);
@@ -90,7 +90,7 @@
     font-size: 25px;
     font-weight: 900;
   }
-  .collapsed #toggle-button {
+  .collapsed .toggle-button {
     width:40px;
   }
   .left{animation:  rotateAnimation2 0.5s forwards;}
@@ -158,6 +158,9 @@
   }
   
   .navbar.collapsed .link-text {
+    opacity: 0;
+  }
+  .navbar.collapsed .li_buttons{
     opacity: 0;
   }
   .navbar.collapsed .nav-titre {
