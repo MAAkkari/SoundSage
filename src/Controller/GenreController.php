@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\AlbumRepository;
 use App\Repository\GenreRepository;
 use App\Repository\GroupeRepository;
+use App\Repository\MusiqueRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,4 +28,23 @@ class GenreController extends AbstractController
             'genres' => $genres
         ]);
     }
+
+    #[Route('/genre/{id}', name: 'show_genre')]
+    public function show(GenreRepository $gr, GroupeRepository $gr2,AlbumRepository $ar, MusiqueRepository $mr , $id): Response
+    {
+        $genre = $gr->find($id);
+        $groupes = $genre->getGroupes();
+        $albums = $genre->getAlbums();
+        $musiques = $genre->getMusiques();
+        
+
+        return $this->render('genre/show.html.twig', [
+            'genre' => $genre,
+            'groupes' => $groupes,
+            'albums' => $albums,
+            'musiques' => $musiques
+        ]);
+    }
 }
+
+

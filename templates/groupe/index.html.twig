@@ -16,14 +16,14 @@
 <div class="GroupeListAccueil GroupeListGroupe">
     {% for groupe in populaires %}
     <div class="GroupeItem">
-        <a  href="#">
+        <a href="{{path('show_groupe',{'id':groupe.id})}}">
             <figure>
                 <div class="img_container">
                 <img class="imgGroupeAccueil" src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="image de {{groupe.nom}}">
                 </div>
             </figure>
         </a>
-        <a class="record_label" href="#">{{groupe.nom}}</a>
+        <a class="record_label" href="{{path('show_groupe',{'id':groupe.id})}}">{{groupe.nom}}</a>
     </div>
     {% endfor %}
 </div>

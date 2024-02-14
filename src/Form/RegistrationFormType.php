@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -26,15 +27,23 @@ class RegistrationFormType extends AbstractType
             ->add('image', FileType::class, [
                 'label' => 'Photo de profil (optionnel)',
                 'required' => false,
+                'data_class' => null,
             ])
             ->add('plainPassword', RepeatedType::class, [
+                'required' => false,
                 'mapped'=>false,
                         'type' => PasswordType::class,
                         'invalid_message' => 'The password fields must match.',
                         'options' => ['attr' => ['class' => 'password-field']],
-                        'required' => true,
+                        // 'required' => true,
                         'first_options'  => ['label' => 'Password'],
                         'second_options' => ['label' => 'Repeat Password'],
+                        'constraints' => [
+                            new Regex([
+                                'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/',
+                                'message' => 'Your password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&).',
+                            ]),
+                        ],
                     ])
             ->add('email', EmailType::class)
             ->add('agreeTerms', CheckboxType::class, [

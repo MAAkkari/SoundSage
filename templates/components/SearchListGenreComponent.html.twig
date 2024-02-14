@@ -11,12 +11,12 @@
         <div class="all_items_List" >
             {% for item in this.getSearchResults() %}
                 <div class="single_genre">
-                    <a href='#'>
+                    <a onclick="handleLinkClick(event)" href='{{path('show_genre',{'id':item.id})}}'>
                         <figure>
                             <img class="genreImg " src="{{ asset('uploads/genres/' ~ item.photo) }}" alt="photo de {{item.nom}}">
                         </figure>
                     </a>
-                    <a class="groupe_label" href='#'>{{item.nom}}</a>
+                    <a onclick="handleLinkClick(event)" class="groupe_label" href='{{path('show_genre',{'id':item.id})}}'>{{item.nom}}</a>
                 </div>
             {% else %}
                 <p>Aucun résultat trouvé</p>

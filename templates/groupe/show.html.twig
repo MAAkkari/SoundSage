@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{groupe.nom}}{% endblock %}
+
+{% block body %}
+{{include('include/header.html.twig')}}
+
+
+
+<section class="genre_albums">
+    <div class="header-info">
+        <h1> <span>Albums de </span>{{ groupe.nom }}</h1>
+    </div>
+    <div class="all_items_List show_list" >
+        {% for item in albums %}
+            <div class="single_groupe">
+                <a href='{{path('show_album',{'id':item.id})}}'>
+                    <figure>
+                        <img class="groupeImg" src="{{ asset('uploads/albums/' ~ item.image) }}" alt="photo de {{item.nom}}">
+                    </figure>
+                </a>
+                <a class="groupe_label" href='{{path('show_album',{'id':item.id})}}'>{{item.nom}}</a>
+            </div>
+        {% else %}
+            <p>Aucun résultat trouvé</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

@@ -7,12 +7,14 @@ use App\Entity\Groupe;
 use App\Form\PostType;
 use App\Entity\Commentaire;
 use App\Form\CommentaireType;
+use App\Repository\AlbumRepository;
 use App\Repository\GroupeRepository;
 use App\Repository\MusiqueRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GroupeController extends AbstractController
@@ -34,6 +36,21 @@ class GroupeController extends AbstractController
             'groupes'=> $groupes
         ]);
     }
+
+
+    #[Route('/groupe/{id}', name: 'show_groupe')]
+    public function show(Groupe $groupe , GroupeRepository $gr, MusiqueRepository $mr, AlbumRepository $ar): Response{
+        $TopMusique = $gr->findPlusEcouter($groupe->getId());
+        $albums = $groupe->getAlbums();
+        
+        
+        return $this->render('groupe/show.html.twig', [
+            'groupe'=> $groupe,
+            'albums'=>$albums
+        ]);
+    }
+
+
     #[Route('/page', name: 'app_page')]
     public function page(GroupeRepository $gr): Response {
         $user = $this->getUser();
@@ -52,21 +69,27 @@ class GroupeController extends AbstractController
         ]);
     }
     #[Route('/page/{id}', name: 'show_page')]
-    public function showPage( Groupe $groupe , GroupeRepository $gr, MusiqueRepository $mr, Request $request , EntityManagerInterface $entityManager ): Response{
-        $user = $this->getUser();
-        $post = new Post();
-        $formPost = $this->createForm(PostType::class, $post);
-        $formPost->handleRequest($request);
-            if($formPost->isSubmitted() && $formPost->isValid()){
-                $post = $formPost->getData();
-                $post->setAuteur($user);
-                $post->setGroupe($groupe);
-                $post->setDateCreation(new \DateTime());
-                $entityManager->persist($post); 
-                $entityManager->flush();
-                $this->addFlash("success","Post Ajouté avec succès !");
-                return $this->redirect($request->headers->get('referer'));
-            }
+public function showPage(Groupe $groupe, GroupeRepository $gr, MusiqueRepository $mr, Request $request, EntityManagerInterface $entityManager): Response
+{
+    $user = $this->getUser();
+    $post = new Post();
+    $formPost = $this->createForm(PostType::class, $post);
+    $formPost->handleRequest($request);
+    if ($formPost->isSubmitted() && $formPost->isValid()) {
+        $post = $formPost->getData();
+        $post->setAuteur($user);
+        $post->setGroupe($groupe);
+        $post->setDateCreation(new \DateTime());
+        $entityManager->persist($post);
+        $entityManager->flush();
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(['message' => 'Post Ajouté avec succès !']);
+        } else {
+            $this->addFlash("success", "Post Ajouté avec succès !");
+            return $this->redirect($request->headers->get('referer'));
+        }
+    }
 
 
 
@@ -91,10 +114,10 @@ class GroupeController extends AbstractController
         }
         
         return $this->render('groupe/showPage.html.twig', [
-            'groupe'=> $groupe,
-            'user'=>$user,
-            'musiquesPopulaires'=>$musiquesPopulaires,
-            'formAddPost'=>$formPost->createView(),
+            'groupe' => $groupe,
+            'user' => $user,
+            'musiquesPopulaires' => $musiquesPopulaires,
+            'formAddPost' => $formPost->createView(),
             'commentForms' => $commentForms,
         ]);
     }

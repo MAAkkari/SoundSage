@@ -12,12 +12,12 @@
             {% for item in this.getSearchResults() %}
                 <div class="single_groupe">
                     
-                    <a href='{{path('show_page',{'id':item.id})}}'>
+                    <a onclick="handleLinkClick(event)" href='{{path('show_page',{'id':item.id})}}'>
                         <figure>
                             <img class="groupeImg" src="{{ asset('uploads/groupes/' ~ item.photo) }}" alt="photo de {{item.nom}}">
                         </figure>
                     </a>
-                    <a class="groupe_label" href='{{path('show_page',{'id':item.id})}}'>{{item.nom}}</a>
+                    <a onclick="handleLinkClick(event)" class="groupe_label" href='{{path('show_page',{'id':item.id})}}'>{{item.nom}}</a>
                 </div>
             {% else %}
                 <p>Aucun résultat trouvé</p>

@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function applyThemeColor(color) {
+    document.documentElement.style.setProperty('--theme-color', color);
+    document.documentElement.style.setProperty('--theme-color-light', color + '33');
     // Existing code for spans, navIcons, and logos
     const spans = document.querySelectorAll('h1 span');
     const navIcons = document.querySelectorAll('.icon');
@@ -77,10 +79,13 @@ function applyThemeColor(color) {
         }
     `;
 }
-
+http://127.0.0.1:8000/page
 
 // Function to reset colors to original
 function resetThemeColor() {
+    document.documentElement.style.setProperty('--theme-color-light', 'rgba(48, 123, 208, 0.31)');
+    
+    document.documentElement.style.setProperty('--theme-color', '#307AD0'); // Reset to original color
     // Reset inline styles for spans, navIcons, logos, etc.
     const elementsToReset = document.querySelectorAll(' .theme-color .fa-heart,theme-color, .i-theme, h1 span, .icon, .logo path, .color-picker-trigger, #playPauseBtn, #progress, #volumeSlider, .carousel-btns ');
     elementsToReset.forEach(element => {

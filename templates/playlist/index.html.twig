@@ -28,7 +28,7 @@
         <div class="playlist_list_block">
 
             <div class="playlist-info-list">
-                <a href="#">
+                <a href="{{path('show_playlist',{'id':playlist.id})}}">
                     <figure>
                         {% if playlist.image != null %}
                             <img class="imgPlaylistIcon" src="{{ asset('uploads/playlists/' ~ playlist.image) }}" alt="image de {{ playlist.nom }}">

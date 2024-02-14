@@ -39,22 +39,38 @@
                         }) }}
                         
                         <button class=" carousel-btns track-btn" 
-                            data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
-                            data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
-                            data-song-name="{{ album.musiques[0].nom }}"
-                            data-artist-name="{{ album.groupes[0].nom }}"
-                            onclick=" addToHistory({{ album.musiques[0].id }}); changeTrack(this);">
+                        data-tracks='[
+                            {% for musique in album.musiques %}
+                                {   "musiqueId": "{{ musique.id }}",
+                                    "albumId": "{{ album.id }}",
+                                    "groupeId": "{{ album.groupes[0].id }}",
+                                    "track": "{{ asset('uploads/files/' ~ musique.fichier) }}",
+                                    "albumCover": "{{ asset('uploads/albums/' ~ album.image) }}",
+                                    "songName": "{{ musique.nom }}",
+                                    "artistName": "{{ album.groupes[0].nom }}"
+                                }{{ not loop.last ? ',' : '' }}
+                            {% endfor %}
+                        ]'
+                        onclick="changeTrack(this);">
                             <i class="fa-solid fa-play"></i>
                         </button>
 
                         <button class=" carousel-btns playlist_menu_btn" onclick=" document.getElementById('menu-contextuel{{album.id}}').classList.toggle('menu-actif')"><i class="fa-solid fa-plus"></i></button>
                     {% else %}
                     <button class="carousel-btns track-btn" 
-                        data-track="{{ asset('uploads/files/' ~ album.musiques[0].fichier) }}"
-                        data-album-cover="{{ asset('uploads/albums/' ~ album.image) }}"
-                        data-song-name="{{ album.musiques[0].nom }}"
-                        data-artist-name="{{ album.groupes[0].nom }}"
-                        onclick=" changeTrack(this);">
+                    data-tracks='[
+                        {% for musique in album.musiques %}
+                            {   "musiqueId": "{{ musique.id }}",
+                                "albumId": "{{ album.id }}",
+                                "groupeId": "{{ album.groupes[0].id }}",
+                                "track": "{{ asset('uploads/files/' ~ musique.fichier) }}",
+                                "albumCover": "{{ asset('uploads/albums/' ~ album.image) }}",
+                                "songName": "{{ musique.nom }}",
+                                "artistName": "{{ album.groupes[0].nom }}"
+                            }{{ not loop.last ? ',' : '' }}
+                        {% endfor %}
+                    ]'
+                    onclick="changeTrack(this);">
                         <i class="fa-solid fa-play"></i>
                     </button>
                         
@@ -69,12 +85,12 @@
 
                         {% set groupeCount = album.groupes|length %}
                         {% if groupeCount == 1 %}
-                        <a class="album_auteur" href="#"> {{ album.groupes[0].nom }}</a>
+                        <a class="album_auteur" href="{{path('show_groupe',{'id':album.groupes[0].id})}}"> {{ album.groupes[0].nom }}</a>
                         {% else %}
                         <div class="inline">
                             
                             {% for key, groupe in album.groupes %}
-                                <a class="album_auteur" href="#">{{ groupe.nom }}</a>
+                                <a class="album_auteur" href="{{path('show_groupe',{'id':groupe.id})}}">{{ groupe.nom }}</a>
                                 {% if not loop.last %} <p>&nbsp ft.&nbsp</p> {% endif %}
                             {% endfor %}
                             

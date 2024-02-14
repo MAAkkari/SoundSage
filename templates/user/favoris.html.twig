@@ -6,97 +6,119 @@
 
 
 
+<div class="no_header_search">
+    {{ component('SearchComponent', {
+        'searchType': 'all',
+    }) }} 
+</div>
 
 
 
 <main class="container1 favoris">
-
     <h1>Vos <span>Favoris</span></h1>
 
     <section class="main1 favoris">
-            
+        <!-- Musiques Section -->
         <div class="musiques1">
             <h2>Musiques <i class="fa-solid fa-angle-right rotated"></i></h2>
-            {% for musique in user.musiquesLiker %}
             <div class="items active">
-                <div class="item1">
+                {% for musique in user.musiquesLiker %}
+                <div class="item1 playlist_icons_list theme-color">
                     <div>
-                        <button class="carousel-btns track-btn"
+                        <button class="track-btn" 
                         data-tracks='[
-                            
-                                {   "musiqueId": "{{ musique.id }}",
-                                    "albumId": "{{ musique.album.id }}",
-                                    "groupeId": "{{ musique.groupes[0].id }}",
-                                    "track": "{{ asset('uploads/files/' ~ musique.fichier) }}",
-                                    "albumCover": "{{ asset('uploads/albums/' ~ musique.album.image) }}",
-                                    "songName": "{{ musique.nom }}",
-                                    "artistName": "{{ musique.groupes[0].nom }}"
-                                }
-                            
-                        ]'
-                        onclick="changeTrack(this);">
-                        <img height="40"  src="{{ asset('uploads/albums/' ~ musique.album.image) }}" alt="jaquette de {{ musique.album.nom }}">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
+                                
+                                    {   "musiqueId": "{{ musique.id }}",
+                                        "albumId": "{{ musique.album.id }}",
+                                        "groupeId": "{{ musique.album.groupes[0].id }}",
+                                        "track": "{{ asset('uploads/files/' ~ musique.fichier) }}",
+                                        "albumCover": "{{ asset('uploads/albums/' ~ musique.album.image) }}",
+                                        "songName": "{{ musique.nom }}",
+                                        "artistName": "{{ musique.album.groupes[0].nom }}"
+                                    }
+                                
+                                ]'
+                                onclick="changeTrack(this);">
+                            <img src="{{ asset('uploads/albums/' ~ musique.album.image) }}" alt="" height="40"><i class="fa-solid fa-play"></i>
+                        </button>
                         <div>
-                            <p><a href="{{path('show_album',{'id':musique.album.id})}}">{{ musique.nom }}</a></p>
-                            <p><a href="#">{{musique.groupes[0].nom}}</a></p>
+                            <p>{{ musique.nom }}</p>
+                            <p>{{ musique.groupes[0].nom }}</p>
                         </div>
                     </div>
                     <div>
-                        <button><i class="fa-solid fa-heart" style="color: #307AD0"></i></button>
-                        <p>3:45</p>
-                        <button><i class="fa-solid fa-plus"></i></button>
+                        {% if user in musique.likerPar %}
+                        {% set liked1 = true %}
+                        {% else %}
+                        {% set liked1 = false %}
+                        {% endif %}
+                        {{ component('LikeButtonComponent', {
+                            'entityType': 'Musique',
+                            'entityId': musique.id,
+                            'isLiked':liked1,
+                        }) }}
+                        <p>{{ musique.duree // 60 }}:{{ '%02d'|format(musique.duree % 60) }}</p>
                     </div>
                 </div>
-            </div>
-            {% endfor %}
-        </div>
-
-        <div class="artistes1">
-            <h2>Artistes <i class="fa-solid fa-angle-right"></i></h2>
-            <div class="items">
-                <div class="item1">
-                    <div>
-                        <img src="image/home.png" alt="" height="50">
-                        <p>Home</p>
-                    </div>
-                    <button><i class="fa-solid fa-heart" style="color: #307AD0"></i></button>
-                </div>
+                {% endfor %}
             </div>
         </div>
 
-        <div class="albums1">
-            <h2>Albums <i class="fa-solid fa-angle-right"></i></h2>
-            <div class="items grid">
-                <div class="item1-grid">
-                    <div>
-                        <img src="image/1.jpeg" alt="" height="50">
-                        <div>
-                            <p>Kid A</p>
-                            <p>Radiohead</p>
-                        </div>
-                    </div>
-                    <button><i class="fa-solid fa-heart" style="color: #307AD0"></i></button>
-                </div>
-            </div>
-        </div>
-
+        
         <div class="groupes1">
             <h2>Groupes <i class="fa-solid fa-angle-right"></i></h2>
             <div class="items">
-                <div class="item1">
+                {% for groupe in user.groupesLiker %}
+                <div class="item1 playlist_icons_list theme-color">
                     <div>
-                        <img src="image/home.png" alt="" height="50">
-                        <p>Home</p>
+                        <img src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{ groupe.nom }}" height="50">
+                        <p>{{ groupe.nom }}</p>
                     </div>
-                    <button><i class="fa-solid fa-heart" style="color: #307AD0"></i></button>
+                    {% if user in groupe.likerPar %}
+                    {% set liked2 = true %}
+                    {% else %}
+                    {% set liked2 = false %}
+                    {% endif %}
+                    {{ component('LikeButtonComponent', {
+                        'entityType': 'Groupe',
+                        'entityId': groupe.id,
+                        'isLiked':liked2,
+                    }) }}
                 </div>
+                {% endfor %}
             </div>
         </div>
 
-    </section>
+        <!-- Albums Section -->
+        <div class="albums1">
+            <h2>Albums <i class="fa-solid fa-angle-right"></i></h2>
+            <div class="items grid">
+                {% for album in user.albumsLiker %}
+                <div class="item1-grid playlist_icons_list theme-color">
+                    <div>
+                        <img src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}" height="50">
+                        <div>
+                            <p>{{ album.nom }}</p>
+                            <p>{{ album.groupes[0].nom }}</p>
+                        </div>
+                    </div>
+                    {% if user in album.likerPar %}
+                    {% set liked3 = true %}
+                    {% else %}
+                    {% set liked3 = false %}
+                    {% endif %}
+                    {{ component('LikeButtonComponent', {
+                        'entityType': 'Album',
+                        'entityId': album.id,
+                        'isLiked':liked3,
+                    }) }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
 
+       
+    </section>
 </main>
 
 <script>
@@ -113,91 +135,4 @@
     
 </script>
 
-
-
-
-
-
-<h1>Vos Favoris</h1>
-<div>
-    <h2>Musiques</h2>
-    {% for musique in user.musiquesLiker %}
-    <div>
-        {{ musique.nom }}
-        <a href="#">{{musique.groupes[0].nom}}</a>
-    </div>
-    <button class="track-btn" 
-        data-track="{{ asset('uploads/files/' ~ musique.fichier) }}"
-        data-album-cover="{{ asset('uploads/albums/' ~ musique.album.image) }}"
-        data-song-name="{{ musique.nom }}"
-        data-artist-name="{{ musique.album.groupes[0].nom }}"
-        onclick="addToHistory({{ musique.id }})">
-        <i class="fa-solid fa-play"></i>
-    </button>
-
-    {% if user in musique.likerPar %}
-    {% set liked1 = true %}
-    {% else %}
-    {% set liked1 = false %}
-    {% endif %}
-    {{ component('LikeButtonComponent', {
-        'entityType': 'Musique',
-        'entityId': musique.id,
-        'isLiked':liked1,
-    }) }}
-    
-    <p>{{ musique.duree // 60 }}:{{ '%02d'|format(musique.duree % 60) }}</p>
-        
-    {% endfor %}
-</div>
-<div>
-    <h1>Groupes et Artistes</h1>
-    {% for groupe in user.groupesLiker %}
-        <div>
-            <a href="#">
-                <figure>
-                    <img class="artistIcon" src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="photo de {{ groupe.nom }}">
-                </figure>
-            </a>
-            <a href="#">{{groupe.nom}}</a>
-            {% if user in groupe.likerPar %}
-            {% set liked2 = true %}
-            {% else %}
-            {% set liked2 = false %}
-            {% endif %}
-            {{ component('LikeButtonComponent', {
-                'entityType': 'Groupe',
-                'entityId': groupe.id,
-                'isLiked':liked2,
-            }) }}
-        </div>
-    {% endfor %}
-</div>
-
-    <h1>Albums</h1>
-    <div>
-        {% for album in user.albumsLiker %}
-        <div>
-            <a href="{{path('show_album',{'id':album.id})}}">
-                <figure>
-                    <img class="imgAlbumIcon" src="{{ asset('uploads/albums/' ~ album.image) }}" alt="jaquette de {{ album.nom }}">
-                </figure>
-            </a>
-            <div>
-                <a href="{{path('show_album',{'id':album.id})}}">{{album.nom}}</a>
-                <a href="#">{{album.groupes[0].nom}}</a>
-            </div>
-            {% if user in album.likerPar %}
-            {% set liked3 = true %}
-            {% else %}
-            {% set liked3 = false %}
-            {% endif %}
-            {{ component('LikeButtonComponent', {
-                'entityType': 'Album',
-                'entityId': album.id,
-                'isLiked':liked3,
-            }) }}
-        </div>
-        {% endfor %}
-    </div>
 {% endblock %}

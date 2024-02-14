@@ -1,4 +1,5 @@
 
+
 .footer{
     background-color: #333;
     height: 300px;
@@ -61,3 +62,77 @@
     color : #FFFFFF;
 }
 
+@media screen and (max-width: 800px) {
+
+    .footer {
+        height: auto;
+        padding: 10px;
+    }
+
+    .footer_content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-section {
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer_line {
+        display: none; /* Hide the dividers on smaller screens */
+    }
+
+    .social_media {
+        justify-content: center;
+        margin-top: 15px;
+    }
+
+    .footer-section a, .footer-section p {
+        font-size: 14px; /* Adjust font size for readability */
+    }
+
+    .footer-bottom {
+        position: relative; /* Adjust the position */
+        bottom: 0;
+        padding-top: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .profile_btn{
+        display: none;
+    }
+    .navbar_container_index{
+        z-index: 10000;
+        position: relative;
+    }
+    .dark{
+        display: none;
+    }
+    .footer-section h3 {
+        font-size: 16px;
+    }
+    .main-content {
+        padding-left: 0px !important; /* Same as the collapsed width of the sidebar */
+      }
+    .social_media i {
+        font-size: 20px; /* Adjust icon size for better tap targets */
+    }
+
+    .footer-section a, .footer-section p {
+        font-size: 12px; /* Smaller font size for very small screens */
+    }
+    .barre-recherche{
+        max-width:250px;
+    }
+    .toggle_desktop{
+        
+    }
+    .navbar.collapsed {
+        width: 0px; /* Collapsed width */
+      }
+    .navbar.collapsed + #content {
+    padding-left: 0px !important; /* Same as the collapsed width of the sidebar */
+    }
+}

@@ -89,7 +89,32 @@
                     {% set liked = false %}
                     {% endif %}
                     <tr class="theme-color ">
-                        <td>{{ loop.index }}</td>
+                        
+                        <td>
+                            <span class="index-display"> {{ loop.index }} </span>
+                            
+                            <button class="carousel-btns track-btn hover-or-none"
+                            data-tracks='[
+                                
+                                    {   "musiqueId": "{{ musique.id }}",
+                                        "albumId": "{{ album.id }}",
+                                        "groupeId": "{{ album.groupes[0].id }}",
+                                        "track": "{{ asset('uploads/files/' ~ musique.fichier) }}",
+                                        "albumCover": "{{ asset('uploads/albums/' ~ album.image) }}",
+                                        "songName": "{{ musique.nom }}",
+                                        "artistName": "{{ album.groupes[0].nom }}"
+                                    }
+                                
+                                ]'
+                                onclick="changeTrack(this);">
+                                <i class="fa-solid fa-play"></i>
+                            </button>
+
+                        </td>
+
+
+
+
                         <td><p>{{musique.nom}}</p><span>{{ album.groupes[0].nom }}</span></td>
                         <td>
                             {{ component('LikeButtonComponent', {

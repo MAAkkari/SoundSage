@@ -53,7 +53,7 @@ body {
     transition: color 0.3s;
 }
 .active-repeat{
-    color: #307AD0 !important;
+    color: var(--theme-color) !important;
 }
 
 #prevBtn:hover{
@@ -231,4 +231,18 @@ body {
       cursor: pointer;
       background: #307AD0;
       box-shadow: -80px 0 0 80px #307AD0;
+    }
+
+    .hover-or-none{
+        display:none;
+    }
+    .index-display{
+        display: block;
+    }
+    td:hover .hover-or-none {
+        display: block; /* Show button on td hover */
+    }
+
+    td:hover .index-display {
+        display: none; /* Hide loop.index on td hover */
     }

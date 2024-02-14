@@ -66,7 +66,7 @@
                 {% endif %}
             </div>
             <div class="derniers-morceaux1">
-                <h3>Derniers morceaux</h3>
+                <h3>Morceaux populaires</h3>
               
                 {% for musique in musiquesPopulaires %}
                     <div>
@@ -95,7 +95,7 @@
                 
             </div>
             <div class="posts1">
-                {% for post in groupe.posts %}
+                {% for post in groupe.posts|reverse %}
                 <div class="post1">
                     <div class="post-head1">
                         <div>

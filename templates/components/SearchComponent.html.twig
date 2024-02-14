@@ -9,15 +9,17 @@
     </div>
     {% if this.query is not empty %}
         <div id="search-results">
-                {% for type, items in this.getSearchResults() %}
-                    <h3>{{ type|capitalize }}</h3>
-                    <ul>
-                        {% for item in items %}
-                            <li><a href="">{{ item.nom }}</a></li> 
-                        {% else %}
-                            <li>Aucun {{ type }} trouver</li>
-                        {% endfor %}
-                    </ul>
-                {% endfor %}
+            {% for type, items in this.getSearchResults() %}
+                <h3>{{ type|capitalize }}</h3>
+                <ul>
+                    {% for item in items %}
+                        {% set routeName = type == 'groupes' ? 'show_groupe' : (type == 'albums' ? 'show_album' : (type == 'musiques' ? 'show_album' : 'show_genre')) %}
+                        {% set id = type == 'musiques' ? item.album.id : item.id %}
+                        <li><a onclick="handleLinkClick(event)" href="{{path(routeName,{'id': id})}}">{{ item.nom }}</a></li> 
+                    {% else %}
+                        <li>Aucun {{ type }} trouver</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
     {% endif %}
 </div>

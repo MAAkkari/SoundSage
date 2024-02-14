@@ -15,7 +15,7 @@
    
     {% for genre in populaires %}
     
-        <a class="carte_genre" href="#">
+        <a class="carte_genre" href="{{path('show_genre',{'id':genre.id})}}">
             <figure>
                 <img src="{{ asset('uploads/genres/' ~ genre.image) }}" alt="image de {{genre.nom}}">
             </figure>

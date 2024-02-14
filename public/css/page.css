@@ -174,14 +174,14 @@ tr p{
 }
 
 section.main-content1 table tbody > tr i.fa-heart {
-    color: var(--clr-sweet-blue);
+    color: var(--theme-color) !important;
     cursor: pointer;
     font-size: 20px;
     transition: all 0.3s ease;
 }
 
 section.main-content1 table tbody > tr i.fa-plus {
-    color: var(--clr-sweet-blue);
+    color: var(--theme-color) !important;
     cursor: pointer;
     font-size: 20px;
     transition: all 0.3s ease;
@@ -455,7 +455,7 @@ aside.side-content1 > div {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 10px;
-    color: var(--clr-sweet-blue);
+    color: var(--theme-color) !important;
 }
 
 .presentation1 p {
@@ -469,7 +469,7 @@ aside.side-content1 > div {
     align-items: center;
 }
 .presentation1 p.date-naissance1 {
-    color: var(--clr-sweet-blue);
+    color: var(--theme-color) !important;
     font-weight: 600;
     margin-top: 10px;
 }
@@ -496,7 +496,7 @@ aside.side-content1 > div {
 }
 
 .derniers-morceaux1 > div > i {
-    color: var(--clr-sweet-blue);
+    color: var(--theme-color) !important;
     cursor: pointer;
 }
 
@@ -559,7 +559,7 @@ div.poster1 form button {
     top: 46%;
     right: 9px;
     transform: translateY(-50%);
-    background-color: var(--clr-sweet-blue) !important; 
+    background-color: var(--theme-color) !important;
     color: #fff;
     padding: 10px 20px;
     border-radius: 30px;
@@ -607,7 +607,7 @@ div.post-head1 > div > div p:first-child {
 }
 
 div.post-head1 > div > div p:last-child {
-    color: var(--clr-sweet-blue);
+    color: #626262 !important;
     font-size: 14px;
 }
 
@@ -685,15 +685,15 @@ main.container1.favoris h1 {
 }
 
 main.container1.favoris h1 span {
-    color: var(--clr-sweet-blue);
+    color: var(--theme-color) !important;
 }
 
 section.main1.favoris > div > h2 {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: var(--clr-sweet-blue);
-    background: linear-gradient(to right, #307bd051, #ffffff);
+    color: var(--theme-color) !important;
+    background: linear-gradient(to right, var(--theme-color-light), #ffffff);
     padding: 10px 20px;
     cursor: pointer;
 }
@@ -766,7 +766,7 @@ section.main1.favoris i {
 }
 
 section.main1.favoris i:hover {
-    color: #2c6aa0!important;
+    color: var(--theme-color) !important;
 }
 
 /* Section artistes */
@@ -870,7 +870,7 @@ section.main1.favoris h2 i.rotated {
         margin-left: 10px;
         display: block;
         font-size: 18px;
-        color: var(--clr-sweet-blue);
+        color: var(--theme-color) !important;
     }
 
     div.album-title > h1 > button {

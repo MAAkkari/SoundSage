@@ -195,7 +195,7 @@ font-size: 1.8rem !important;
     
 }
 .like_btn{
-    background-color: #307AD0;
+    background-color: var(--theme-color) !important;
     color: white;
     border: none;
     border-radius: 1000px;
@@ -608,7 +608,7 @@ text-align: center;
     animation: fadeIn 0.5s;
 }
 
-/* ----------------page liste des albums----------------- */
+/* ----------------page liste des albums ----------------- */
 
 .search_album{
     padding-left: 2%;
@@ -617,3 +617,19 @@ text-align: center;
 body {
     font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif; 
   }
+
+
+/* ----------------page liste des genres ----------------- */
+
+
+.genre_albums{
+    display:flex;
+    flex-direction: column;
+    width:90%;
+    margin-left: auto ;
+    margin-right: auto ;
+}
+.genre_albums .header-info{
+    margin-left: 0%;
+}
+

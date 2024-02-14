@@ -10,7 +10,7 @@
     }) }} 
 </div>
 <div class="header-info playlist_header">
-    <h1><span>Historique</span></h1>
+    <h1>Votre <span>Historique</span></h1>
 </div>
 
 
@@ -38,11 +38,19 @@
 
                 <div class="playlist-info-list">
                     <button class=" track-btn track-btn2" 
-                        data-track="{{ asset('uploads/files/' ~ historique.musique.fichier) }}"
-                        data-album-cover="{{ asset('uploads/albums/' ~ historique.musique.album.image) }}"
-                        data-song-name="{{ historique.musique.nom }}"
-                        data-artist-name="{{ historique.musique.album.groupes[0].nom }}"
-                        onclick="addToHistory({{ historique.musique.id }}); changeTrack(this);">
+                    data-tracks='[
+                        
+                            {   "musiqueId": "{{ historique.musique.id }}",
+                                "albumId": "{{ historique.musique.album.id }}",
+                                "groupeId": "{{ historique.musique.album.groupes[0].id }}",
+                                "track": "{{ asset('uploads/files/' ~ historique.musique.fichier) }}",
+                                "albumCover": "{{ asset('uploads/albums/' ~ historique.musique.album.image) }}",
+                                "songName": "{{ historique.musique.nom }}",
+                                "artistName": "{{ historique.musique.album.groupes[0].nom }}"
+                            }
+                        
+                    ]'
+                    onclick="changeTrack(this);">
                         <i class="fa-solid fa-play i-theme"></i>
                     </button>
                     <div class="musique_et_groupe">

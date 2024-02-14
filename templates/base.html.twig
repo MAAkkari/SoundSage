@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="description" content="{% block meta_description %}{% endblock %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        
         <title>{% block title %}Welcome!{% endblock %}</title>
         <script src="https://kit.fontawesome.com/a0cb91d4d8.js" crossorigin="anonymous"></script>
         <link rel="icon" href="{{ asset('uploads/small-logo.png') }}">
@@ -63,8 +66,17 @@
                 {% endfor %}
             </h3>
         {% endif %}
+        <button></button>
         <button class="dark"><i class="fa-solid fa-moon"></i></button>
-        <aside>
+        {% if app.user %}
+            <a class="profile_btn" href="{{path('app_logout')}}"><img src="{{ asset('uploads/users/' ~ app.user.image) }}" alt="photo de profil"></i></a>
+        {% else %}
+            <a class="profile_btn" href="{{path('app_login')}}"><i class="fa-solid fa-right-to-bracket"></i></a>
+        {% endif %}
+        <button id="toggle-button" class="" onclick="toggleNavbar()">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <aside class="navbar_container_index">
             <nav class="navbar" id="navbar">
                 <div class="navbar-header">
                     
@@ -113,9 +125,9 @@
             <div class="track-info">
                 <img id="albumCover" src="{{asset('uploads/defaultTrack.jpg')}}" alt="Default Album Cover">
                 <div>
-                    <a id="songName" href="" target="_blank">Musique</a>
+                    <a onclick="handleLinkClick(event)" id="songName" href="" target="_blank">Musique</a>
                     <br>
-                    <a id="artistName" href="" target="_blank">Artiste</a>
+                    <a onclick="handleLinkClick(event)" id="artistName" href="" target="_blank">Artiste</a>
                 </div>
             </div>
 
