@@ -29,6 +29,10 @@ class AddToPlaylistComponent extends AbstractController
     #[LiveProp]
     public ?string $playlistName = null;
 
+    
+    public ?string $status = null;
+    public ?string $message = null;
+
     public function __construct(EntityManagerInterface $entityManager, Security $security)
     {
         $this->entityManager = $entityManager;
@@ -68,9 +72,11 @@ class AddToPlaylistComponent extends AbstractController
         if (!$playlist->getMusiques()->contains($musique)) {
             $playlist->addMusique($musique);
             $this->entityManager->flush();
-            $this->addFlash("success", "Musique ajoutée à la playlist");
+            $this->status = "success";
+            $this->message = "Musique ajoutée à la playlist";
         } else {
-            $this->addFlash("error", "La musique est déjà dans la playlist");
+            $this->status = "error";
+            $this->message = "Musique déjà présente dans la playlist";
         }
     }
 

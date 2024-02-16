@@ -104,6 +104,9 @@
                                 <p> {{post.auteur.pseudo}}</p>
                                 <p>{{ post.dateCreation|date("H:i . d/M/Y") }}</p>
                             </div>
+                            <form action="{{ path('app_start_chat', {'id': post.auteur.id})}}">
+                                <button type="submit">Start Chat</button>
+                            </form>
                         </div>
                         <span class="ellipsis1"><i class="fa-solid fa-ellipsis"></i></span>
                     </div>

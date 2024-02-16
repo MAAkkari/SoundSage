@@ -7,7 +7,7 @@
         <ul>
         {% for playlist in app.user.playlists %}
             <li>
-                <a href='#'>{{ playlist.nom }}</a> 
+                <a href='{{path('show_playlist',{'id':playlist.id})}}'>{{ playlist.nom }}</a> 
                 {{ component('AddToPlaylistComponent', {
                 'albumId': this.albumId,
                 'musiqueId': this.musiqueId,

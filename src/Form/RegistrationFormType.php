@@ -38,12 +38,13 @@ class RegistrationFormType extends AbstractType
                         // 'required' => true,
                         'first_options'  => ['label' => 'Password'],
                         'second_options' => ['label' => 'Repeat Password'],
-                        'constraints' => [
-                            new Regex([
-                                'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/',
-                                'message' => 'Your password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&).',
-                            ]),
-                        ],
+                        // 'constraints' => [
+                        //     new Regex([
+                        //         'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/',
+                        //         'message' => 'Votre mot de passe doit contenir au moins 12 caractères, 
+                        //         une majuscule, une minuscule, un chiffre et un caractère spécial.',
+                        //     ]),
+                        // ],
                     ])
             ->add('email', EmailType::class)
             ->add('agreeTerms', CheckboxType::class, [

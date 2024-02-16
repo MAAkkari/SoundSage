@@ -125,10 +125,11 @@
 {# Trouve les groupes avec le plus de likes sur leurs musiques #}
 
 <a class="voir_plus" href="{{path('app_groupe')}}">voir plus ...</a>
-<div class="GroupeListAccueil">
+
+<section class="GroupeListAccueil">
     {% for groupe in groupes %}
     <div class="GroupeItem">
-        <a  href="{{path('show_groupe',{'id':groupe.id})}}">
+        <a title="{{groupe.nom}}" href="{{path('show_groupe',{'id':groupe.id})}}">
             <figure>
                 <div class="img_container">
                 <img class="imgGroupeAccueil" src="{{ asset('uploads/groupes/' ~ groupe.photo) }}" alt="image de {{groupe.nom}}">
@@ -138,6 +139,6 @@
         <a class="record_label" href="{{path('show_groupe',{'id':groupe.id})}}">{{groupe.nom}}</a>
     </div>
     {% endfor %}
-</div>
+</section>
 
 {% endblock %}

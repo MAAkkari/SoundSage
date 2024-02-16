@@ -31,13 +31,13 @@ td p{
 
 .album-title h1 button > i {
     font-size: 24px;
-    color:#307AD0;
+    color:var(--theme-color) !important;
 }
 main.container1 button{
-    color:#307AD0;
+    color: var(--theme-color) !important;
 }
 .detail i{
-    color:#307AD0;
+    color:var(--theme-color) !important;
     display:none;
 }
 main.container1 button {

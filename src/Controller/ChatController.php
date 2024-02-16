@@ -2,168 +2,114 @@
 
 namespace App\Controller;
 
+use App\Entity\Chat;
+use App\Entity\User;
 use App\Entity\Message;
-use App\Form\MessageType;
-use App\Repository\UserRepository;
+use App\Repository\ChatRepository;
+use Symfony\Component\Mercure\Update;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class ChatController extends AbstractController
 {
-    #[Route('recruteur/startChat/{id}', name: 'send_message', methods: ['POST'])]
-    public function sendMessage(Request $request, EntityManagerInterface $em, UserRepository $userRepository, $id)
+    // Démarrer un chat avec un utilisateur
+    #[Route('/chat/startChat/{id}', name: 'app_start_chat')]
+    public function startChat(User $user, EntityManagerInterface $entityManager, Security $security, ChatRepository $chatRepository): Response
     {
-        $user = $userRepository->find($id);
+        // Récupérer l'utilisateur actuellement connecté
+        $currentUser = $security->getUser();
 
-        if (!$user) {
-            throw $this->createNotFoundException('L\'utilisateur n\'a pas été trouvé.');
+        // Vérifier si un chat existe déjà entre les deux utilisateurs
+        $existingChat = $chatRepository->findChatByUsers($currentUser, $user);
+
+        if ($existingChat) {
+            // Si un chat existe déjà, rediriger l'utilisateur vers ce chat
+            return $this->redirectToRoute('app_chat_view', ['id' => $existingChat->getId()]);
         }
 
-        $message = new Message();
-        $message->setContent($request->request->get('content'));
-        $message->setSender($this->getUser());
-        $message->setReceiver($user);
-        $em->persist($message);
-        $em->flush();
+        // Si aucun chat n'existe, créer un nouveau chat
+        $chat = new Chat();
+        $chat->addUser($currentUser);
+        $chat->addUser($user);
 
-        return $this->redirectToRoute('app_show_candidat', ['id' => $id]);
+        $entityManager->persist($chat);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_chat_view', ['id' => $chat->getId()]);
     }
 
-    #[Route('/discussions', name: 'app_discussions')]
-    public function discussions()
+    // Voir un chat
+    #[Route('/chat/{id}', name: 'app_chat_view')]
+    public function viewChat(Chat $chat, Request $request, EntityManagerInterface $entityManager, Security $security): Response
     {
-        // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
+        // Récupérer les messages du chat
+        $messages = $chat->getMessages();
 
         // Récupérer l'utilisateur actuellement connecté
-        $user = $this->getUser();
+        $user = $security->getUser();
 
-        // Récupérer touses envoyés et reçus par l'utilisateur
-        $sentMessages = $user->getSentMessages();
-        $receivedMessages = $user->getReceivedMessages();
-
-        // Fusionner les messages envoyés et reçus en une seule liste de "discussions"
-        $discussions = array_merge($sentMessages->toArray(), $receivedMessages->toArray());
-
-        // Créer une liste unique des utilisateurs avec lesquels l'utilisateur actuel a eu une discussion
-        $discussedUsers = [];
-        $lastMessages = [];
-        foreach ($discussions as $message) {
-            $otherUser = $message->getSender() == $user ? $message->getReceiver() : $message->getSender();
-
-            // Si l'utilisateur n'est pas encore dans la liste ou si le message est plus récent que le dernier enregistré
-            if (!array_key_exists($otherUser->getId(), $lastMessages) || $message->getCreatedAt() > $lastMessages[$otherUser->getId()]['date']) {
-                $lastMessages[$otherUser->getId()] = [
-                    'message' => $message->getContent(),
-                    'date' => $message->getCreatedAt(),
-                    'sender' => $message->getSender(),
-                ];
-            }
-
-            if (!in_array($otherUser, $discussedUsers)) {
-                $discussedUsers[] = $otherUser;
-            }
-        }
-
-        // Renvoyer vers la vue avec toutes les données nécessaires
-        return $this->render('chat/discussions.html.twig', [
-            'discussedUsers' => $discussedUsers,
-            'lastMessages' => $lastMessages,
+        // Récupérer les chats de l'utilisateur
+        $chats = $user->getChats();
+    
+        // Rendre la vue du chat
+        return $this->render('chat/view.html.twig', [
+            'chat' => $chat,
+            'messages' => $messages,
+            'chats' => $chats,
         ]);
     }
 
-    // Fonction pour afficher les messages d'une discussion
-    #[Route('/discussions/{receiverId}', name: 'discussions')]
-    public function chat(Request $request, UserRepository $userRepository, $receiverId = null, EntityManagerInterface $entityManager): Response
+    // Envoyer un message dans un chat
+    #[Route('/chat/{id}/send', name: 'app_send_message', methods: ['POST'])]
+    public function sendMessage(Chat $chat, Request $request, EntityManagerInterface $entityManager, Security $security, PublisherInterface $publisher): Response
+    {
+        // Créer un nouveau message
+        $message = new Message();
+
+        // Définir le contenu du message à partir de la requête
+        $message->setContent($request->request->get('content'));
+
+        // Définir l'utilisateur du message comme l'utilisateur actuellement connecté
+        $message->setUserMessage($security->getUser());
+
+        // Définir le chat du message
+        $message->setChat($chat);
+
+        // Enregistrer le message dans la base de données
+        $entityManager->persist($message);
+        $entityManager->flush();
+
+        // Publier une mise à jour Mercure
+        $update = new Update(
+            'http://localhost:8000/chat/'.$chat->getId(),
+            json_encode(['message' => $message->getContent(), 'user' => $security->getUser()->getPseudo()])
+        );
+        $publisher($update);
+
+        // Renvoyer une réponse JSON
+        return new JsonResponse(['status' => 'Message sent']);
+    }
+
+    // Lister les chats de l'utilisateur
+    #[Route('/chats', name: 'app_my_chats')]
+    public function myChats(Security $security): Response
     {
         // Récupérer l'utilisateur actuellement connecté
-        $user = $this->getUser();
+        $user = $security->getUser();
 
-        // Récupérer tous les messages envoyés et reçus par l'utilisateur
-        $sentMessages = $user->getSentMessages();
-        $receivedMessages = $user->getReceivedMessages();
+        // Récupérer les chats de l'utilisateur
+        $chats = $user->getChats();
 
-        // Fusionner les messages envoyés et reçus en une seule liste de "discussions"
-        $discussions = array_merge($sentMessages->toArray(), $receivedMessages->toArray());
-
-        // Créer une liste unique des utilisateurs avec lesquels l'utilisateur actuel a eu une discussion
-        $discussedUsers = [];
-        $lastMessages = [];
-        foreach ($discussions as $message) {
-            $otherUser = $message->getSender() == $user ? $message->getReceiver() : $message->getSender();
-
-            // Si l'utilisateur n'est pas encore dans la liste ou si le message est plus récent que le dernier enregistré
-            if (!array_key_exists($otherUser->getId(), $lastMessages) || $message->getCreatedAt() > $lastMessages[$otherUser->getId()]['date']) {
-                $lastMessages[$otherUser->getId()] = [
-                    'message' => $message->getContent(),
-                    'date' => $message->getCreatedAt(),
-                    'sender' => $message->getSender(),
-                ];
-            }
-
-            if (!in_array($otherUser, $discussedUsers)) {
-                $discussedUsers[] = $otherUser;
-            }
-        }
-
-        // Récupérer les messages de la discussion sélectionnée, si une discussion est sélectionnée
-        $selectedMessages = null;
-        if ($receiverId !== null) {
-            $selectedMessages = array_filter($discussions, function($message) use ($receiverId) {
-                return $message->getReceiver()->getId() == $receiverId || $message->getSender()->getId() == $receiverId;
-            });
-
-            // Convertir le tableau de messages en tableau pour pouvoir le trier
-            $selectedMessages = array_values($selectedMessages);
-
-            // Trier les messages par date de création
-            usort($selectedMessages, function($a, $b) {
-                return $a->getCreatedAt() <=> $b->getCreatedAt();
-            });
-
-            // Marquer tous les messages non lus comme lus
-            foreach ($selectedMessages as $message) {
-                if ($message->getReceiver() === $user && !$message->isIsRead()) {
-                    $message->setIsRead(true);
-                }
-            }
-
-            $entityManager->flush();
-        }
-
-        // Créer le formulaire pour un nouveau message
-        $message = new Message();
-        $form = $this->createForm(MessageType::class, $message);
-
-        // Gérer la soumission du formulaire
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Ajouter l'utilisateur actuel comme expéditeur du message
-            $message->setSender($user);
-
-            // Ajouter le destinataire du message
-            $receiver = $userRepository->find($receiverId);
-            $message->setReceiver($receiver);
-
-            // Enregistrer le message dans la base de données
-            $entityManager->persist($message);
-            $entityManager->flush();
-
-            // Rediriger vers la même page pour éviter de soumettre le formulaire deux fois
-            return $this->redirectToRoute('discussions', ['receiverId' => $receiverId]);
-        }
-
-        // Renvoyer vers la vue avec toutes les données nécessaires
-        return $this->render('chat/discussions.html.twig', [
-            'discussedUsers' => $discussedUsers,
-            'selectedMessages' => $selectedMessages,
-            'lastMessages' => $lastMessages,
-            'form' => $form->createView(),
+        // Rendre la vue des chats de l'utilisateur
+        return $this->render('chat/chats.html.twig', [
+            'chats' => $chats,
         ]);
     }
 }

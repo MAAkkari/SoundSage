@@ -4,10 +4,8 @@ namespace App\Entity;
 
 use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\UX\Turbo\Attribute\Broadcast;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
-#[Broadcast(topics:['chat'])]
 class Message
 {
     #[ORM\Id]
@@ -21,18 +19,24 @@ class Message
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
-    private ?bool $isRead = false;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sentMessages')]
-    private ?User $sender = null;
+    #[ORM\Column(nullable: true)]
+    private ?bool $isRead = null;
 
-    #[ORM\ManyToOne(inversedBy: 'receivedMessages')]
-    private ?User $receiver = null;
+    #[ORM\ManyToOne(inversedBy: 'messages')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $userMessage = null;
+
+    #[ORM\ManyToOne(inversedBy: 'messages')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Chat $chat = null;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable(null, new \DateTimeZone('Europe/Paris'));
+        $this->isRead = false;
     }
 
     public function getId(): ?int
@@ -64,38 +68,50 @@ class Message
         return $this;
     }
 
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
     public function isIsRead(): ?bool
     {
         return $this->isRead;
     }
 
-    public function setIsRead(bool $isRead): static
+    public function setIsRead(?bool $isRead): static
     {
         $this->isRead = $isRead;
 
         return $this;
     }
 
-    public function getSender(): ?User
+    public function getUserMessage(): ?User
     {
-        return $this->sender;
+        return $this->userMessage;
     }
 
-    public function setSender(?User $sender): static
+    public function setUserMessage(?User $userMessage): static
     {
-        $this->sender = $sender;
+        $this->userMessage = $userMessage;
 
         return $this;
     }
 
-    public function getReceiver(): ?User
+    public function getChat(): ?Chat
     {
-        return $this->receiver;
+        return $this->chat;
     }
 
-    public function setReceiver(?User $receiver): static
+    public function setChat(?Chat $chat): static
     {
-        $this->receiver = $receiver;
+        $this->chat = $chat;
 
         return $this;
     }
