@@ -1,13 +1,14 @@
 <?php 
 namespace App\components;
 
-use App\Entity\Playlist;
-use App\Entity\Musique;
 use App\Entity\Album;
+use App\Entity\Musique;
+use App\Entity\Playlist;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -72,11 +73,19 @@ class AddToPlaylistComponent extends AbstractController
         if (!$playlist->getMusiques()->contains($musique)) {
             $playlist->addMusique($musique);
             $this->entityManager->flush();
-            $this->status = "success";
-            $this->message = "Musique ajoutée à la playlist";
+            // $this->status = "success";
+            // $this->message = "Musique ajoutée à la playlist";
+            return new JsonResponse([
+                'status' => 'success',
+                'message' => 'Musique ajouter a la playlist',
+            ]);
         } else {
-            $this->status = "error";
-            $this->message = "Musique déjà présente dans la playlist";
+            // $this->status = "error";
+            // $this->message = "Musique déjà présente dans la playlist";
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => 'Musique déjà dans cette playlist',
+            ]);
         }
     }
 
