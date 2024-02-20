@@ -27,66 +27,48 @@ class UserController extends AbstractController
     public function profil(UserRepository $user): Response
     {
         $user = $this->getUser();
-        return $this->render('user/profil.html.twig', [
+        return $this->render('user/profile.html.twig', [
             'user' => $user,
         ]);
     }
-    #[Route('/user/edit', name: 'app_edit')]
-    public function editProfil(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em): Response {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-    
+    #[Route('/user/edit', name: 'app_edit_user')]
+    public function editProfil(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $em): Response {
+        if ($this->getUser() === null) {
+            return $this->redirectToRoute('app_login');
+        }
         $user = $this->getUser();
-        $originalImage = $user->getImage();
-    
+        $currentImage = $user->getImage();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-    
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $file */
-            $file = $form->get('image')->getData();
-    
-            if($file == null){
-                $user->setImage($originalImage);
-            } else {
-                if ($file instanceof UploadedFile) {
-                    $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    // Sanitize the filename
-                    $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                    // Append a unique identifier and the file extension to the filename
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-    
-                    try {
-                        // Move the file to the directory where user images are stored
-                        $file->move(
-                            $this->getParameter('users_uploads_directory'), // Define this parameter in services.yaml
-                            $newFilename
-                        );
-                        
-                        // Update the 'image' property to store the new image file name
-                        $user->setImage($newFilename);
-                    } catch (FileException $e) {
-                        $this->addFlash('error', 'erreur lors de l\'upload de l\'image.');
-                        return $this->render('registration/register.html.twig', [
-                            'registrationForm' => $form->createView(),
-                        ]);
-                    }
-                }
-    
-                // Handle password and other fields...
-    
-                $em->persist($user);
-                $em->flush();
-    
-                return $this->redirectToRoute('app_home');
+
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+            $user->setVerified(0);
+            $user->setRoles(['ROLE_USER']);
+            if($form->get('image')){
+                $file = $form->get('image')->getData();
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                $file->move($this->getParameter('users_uploads_directory'), $fileName);
+                $user->setImage($fileName);
             }
+            else{
+                $user->setImage($currentImage);
+            }
+            $em->persist($user);
+            $em->flush();
+           
         }
-    
-        return $this->render('registration/register.html.twig', [
+        return $this->render('user/edit.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
 
-    #[Route('/user/delete', name: 'app_delete')]
+    #[Route('/user/delete', name: 'app_delete_user')]
     public function deleteUser(EntityManagerInterface $em): Response
     {   if ($this->getUser() === null) {
         return $this->redirectToRoute('app_login');
@@ -94,7 +76,7 @@ class UserController extends AbstractController
         $user = $this->getUser();
         $em->remove($user);
         $em->flush();
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_login');
     }
 
 }

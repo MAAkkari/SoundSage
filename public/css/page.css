@@ -34,7 +34,7 @@ td p{
     color:var(--theme-color) !important;
 }
 main.container1 button{
-    color: var(--theme-color) !important;
+    color: white !important;
 }
 .detail i{
     color:var(--theme-color) !important;

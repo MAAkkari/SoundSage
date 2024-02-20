@@ -34,14 +34,19 @@ class RegistrationController extends AbstractController
             $user->setVerified(0);
             $user->setRoles(['ROLE_USER']);
             
-            if($user->getImage() == null)[
-                $user->setImage('defaultProfilePicture.png')
-            ];
-            $user->setDateCreation(new \DateTime());
+            if($user->getImage() == null){
+                $user->setImage('defaultProfilePicture.png');
+            } else{
+                $file = $form->get('image')->getData();
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                $file->move($this->getParameter('users_uploads_directory'), $fileName);
+                $user->setImage($fileName);
+            };
 
+            $user->setDateCreation(new \DateTime());
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
+           
 
             return $userAuthenticator->authenticateUser(
                 $user,

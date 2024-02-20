@@ -8,9 +8,16 @@
 }
 body {
     padding-bottom: 90px; /* Adjust the value based on the height of your fixed element */
-    
+    height: 100%;
 }
 
+html{
+    height: 100%;
+}
+#content{
+    min-height: 100vh;
+    flex-grow: 1;
+}
 
 .custom-audio-player {
     display:flex;

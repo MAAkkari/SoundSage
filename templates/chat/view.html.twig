@@ -3,108 +3,74 @@
 {% block title %}Chat{% endblock %}
 
 {% block body %}
-    <h1>Chat with
-        {% for user in chat.users %}
-            {% if user.id != app.user.id %}
-                {{ user }}
-            {% endif %}
-        {% endfor %}
-    </h1>
-
+<meta name="user-id" content="{{ app.user.id }}">
     {# <a href="{{ path('app_my_chats')}}">Back to my chats</a> #}
     <main class="chats">
         <aside>
+            <div class="new-chat">
+                <h3>Messages</h3>
+                <div class="pen">
+                    <i class="fas fa-pen"></i>
+                </div>
+            </div>
             <ul>
-                {% for chat in chats %}
-                    <li class="notif2">
-                        <a href="{{ path('app_chat_view', {'id': chat.id}) }}">
-                            {% for user in chat.users %}
-                                {% if user.id != app.user.id %}
-                                    <img src="{{ asset('images/moi.jpg') }}">
-                                    {{ user }}
+                {% if chats is not empty %}
+                    {% for chat in chats %}
+                        <li class="notif2">
+                            <a href="{{ path('app_chat_view', {'id': chat.id}) }}">
+                                {% if chat.users is defined %}
+                                    {% for user in chat.users %}
+                                        {% if user.id != app.user.id %}
+                                            <img src="https://picsum.photos/200/300">
+                                            <article>
+                                                <p>{{ user }}</p>
+                                                <p>
+                                                    {{ chat.messages[0].content | slice(0, 30) }}
+                                                    {% if chat.messages[0].content | length > 30 %}...{% endif %}
+                                                </p>
+                                            </article>
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endif %}
-                            {% endfor %}
-                        </a>
-                    </li>
-                {% endfor %}
+                            </a>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li>Pas de chats disponibles</li>
+                {% endif %}
             </ul>
         </aside>
         <section>
-            <ul id="message-list">
-                {% for message in chat.messages %}
-                    <li class="notif2">
-                        <strong>{{ message.userMessage.pseudo }}</strong>: {{ message.content }}
-                    </li>
-                {% endfor %}
-            </ul>
+            <div>
+                <div class="chat-with">
+                    {# Afficher le nom de l'interlocuteur #}
+                    {% for user in chat.users %}
+                        {% if user.id != app.user.id %}
+                            <div>
+                                <img src="https://picsum.photos/200/200">
+                                <h2>{{ user }}</h2>
+                            </div>
+                            <a href="{{ path('app_my_chats')}}">Back to chats</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <ul id="message-list">
+                    {% for message in chat.messages %}
+                        <li class="{{ message.userMessage.id == app.user.id ? 'notif2 sender' : 'notif2 receiver' }}">
+                            {% if message.userMessage.id != app.user.id %}
+                                <strong><img src="https://picsum.photos/200/200"></strong>
+                            {% endif %}
+                            <article>{{ message.content }}</article>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
             <form id="my-form" action="{{ path('app_send_message', {'id': chat.id}) }}" method="post" data-chat-id="{{ chat.id }}">
-                <input type="text" name="content" required>
-                <button type="submit">Send</button>
+                <textarea name="content" required placeholder="Message..." rows="1" style="resize: none;"></textarea>
+                <button type="submit"><i class="fa-solid fa-circle-right"></i></button>
             </form>
         </section>
     </main>
-
-<style>
-    main.chats {
-        height: 50vh;
-        display: flex;
-        width: 90%;
-    }
-
-    main.chats section p {
-        text-align: center;
-        margin-top: 100px;
-        opacity: 0.5;
-    }
-
-    main.chats aside {
-        width: 300px;
-        border: 1px solid #cccccc49;
-        height: 100%;
-    }
-
-    main.chats aside ul li a {
-        border-bottom: 1px solid #cccccc49;
-        padding: 15px;
-        text-decoration: none;
-        width: 100%;
-    }
-
-    main.chats aside ul li a:hover {
-        background-color: #88888813;
-    }
-
-    main.chats section {
-        width: 700px;
-        border: 1px solid #cccccc49;
-        height: 100%;
-    }
-
-    .notif2 {
-        display: flex;
-        gap: 10px;
-    }
-
-    .notif2 img {
-        height: 50px;
-        width: 50px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-right: 10px;
-    }
-
-    .notif2 span {
-        height: 20px;
-        width: 20px;
-        background-color: red;
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 12px;
-    }
-</style>
 <script>
     document.addEventListener('turbo:load', function() {
         // Envoyer le formulaire en utilisant AJAX
@@ -140,19 +106,38 @@
         const url = new URL('https://localhost/.well-known/mercure');
         url.searchParams.append('topic', 'http://localhost:8000/chat/' + chatId);
     
+        // Récupérer l'ID de l'utilisateur actuel à partir de la balise meta
+        const currentUser = document.querySelector('meta[name="user-id"]').getAttribute('content');
+
         const eventSource = new EventSource(url);
         console.log(url);
+
         eventSource.onmessage = function(event) {
             const data = JSON.parse(event.data);
-    
+        
+            // Afficher l'ID de l'utilisateur actuel dans la console
+            console.log("ID de l'utilisateur actuel:", currentUser);
+        
+            // Vérifier si l'ID de l'utilisateur qui a envoyé le message est le même que l'ID de l'utilisateur actuel
+            const isCurrentUserSender = (data.userId === Number(currentUser));
+        
             const messageList = document.getElementById('message-list');
             const newMessage = document.createElement('li');
-
-            const pseudo = document.createElement('strong');
-            pseudo.textContent = data.user;
-            newMessage.appendChild(pseudo);
-
-            newMessage.append(': ' + data.message);
+            // Inverser les classes dans la condition ternaire
+            newMessage.className = isCurrentUserSender ? 'notif2 sender' : 'notif2 receiver';
+        
+            if (!isCurrentUserSender) {
+                const strongTag = document.createElement('strong');
+                const imgTag = document.createElement('img');
+                imgTag.src = 'https://picsum.photos/200/200'; // Utilisation de l'image de picsum
+                strongTag.appendChild(imgTag);
+                newMessage.appendChild(strongTag);
+            }
+        
+            const articleTag = document.createElement('article');
+            articleTag.textContent = data.message; // Contenu du message
+            newMessage.appendChild(articleTag);
+        
             messageList.appendChild(newMessage);
         };
     });

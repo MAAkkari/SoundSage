@@ -260,4 +260,6 @@
     .navbar.collapsed + #content {
     padding-left: 0px !important; /* Same as the collapsed width of the sidebar */
     }
+   
+   
 }

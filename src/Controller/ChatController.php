@@ -89,7 +89,11 @@ class ChatController extends AbstractController
         // Publier une mise à jour Mercure
         $update = new Update(
             'http://localhost:8000/chat/'.$chat->getId(),
-            json_encode(['message' => $message->getContent(), 'user' => $security->getUser()->getPseudo()])
+            json_encode([
+                'message' => $message->getContent(), 
+                'user' => $security->getUser()->getPseudo(),
+                'userId' => $security->getUser()->getId() // Ajoutez cette ligne
+            ])
         );
         $publisher($update);
 

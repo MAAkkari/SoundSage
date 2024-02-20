@@ -42,7 +42,7 @@
             
 
             
-                function showToast(message) {
+                function showToast(status, message) {
                 const Toast = Swal.mixin({
                     toast: true,
                     position: "top-end",
@@ -55,7 +55,7 @@
                     }
                 });
                 Toast.fire({
-                    icon: 'success',
+                    icon: status,
                     title: message
                 });
                 }
