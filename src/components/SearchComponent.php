@@ -2,6 +2,7 @@
 namespace App\components;
 
 use App\Entity\Post;
+use App\Entity\User;
 use App\Entity\Album;
 use App\Entity\Groupe;
 use App\Entity\Musique;
@@ -39,27 +40,31 @@ class SearchComponent extends AbstractController
 
         if ($this->query !== '') {
             if ($this->searchType === 'all' || $this->searchType === 'groupe') {
-                $results['groupes'] = $this->searchEntity(Groupe::class, $this->query);
+                $results['groupes'] = $this->searchEntity(Groupe::class, 'nom', $this->query);
             }
             if ($this->searchType === 'all' || $this->searchType === 'Musique') {
-                $results['musiques'] = $this->searchEntity(Musique::class, $this->query);
+                $results['musiques'] = $this->searchEntity(Musique::class, 'nom', $this->query);
             }
             if ($this->searchType === 'all' || $this->searchType === 'album') {
-                $results['albums'] = $this->searchEntity(Album::class, $this->query);
+                $results['albums'] = $this->searchEntity(Album::class, 'nom', $this->query);
+            }
+            // Add a condition for searching users
+            if ($this->searchType === 'all' || $this->searchType === 'user') {
+                $results['users'] = $this->searchEntity(User::class, 'pseudo', $this->query); // Use 'pseudo' for users
             }
         }
 
         return $results;
     }
 
-    private function searchEntity(string $entityClass, string $searchTerm): array
-    {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->select('entity')
-                     ->from($entityClass, 'entity')
-                     ->where('entity.nom LIKE :term')
-                     ->setParameter('term', '%' . $searchTerm . '%');
+    private function searchEntity(string $entityClass, string $fieldName, string $searchTerm): array
+{
+    $queryBuilder = $this->entityManager->createQueryBuilder();
+    $queryBuilder->select('entity')
+                 ->from($entityClass, 'entity')
+                 ->where("entity.$fieldName LIKE :term") // Use variable field name
+                 ->setParameter('term', '%' . $searchTerm . '%');
 
-        return $queryBuilder->getQuery()->getResult();
-    }
+    return $queryBuilder->getQuery()->getResult();
+}
 }

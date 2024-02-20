@@ -52,7 +52,32 @@
     height: 100%;
     border-radius: 50%;
 }
+.list-header.darkmode p{
+    
+    color: #c1bdbd;
+}
+.black-line.darkmode{
+    background-color: #b1b1b1;
+}
+.post1.darkmode p{
+    color:white;
+}
+.playlist_nom.darkmode{
+    color: #e2dede;
+}
+.playlist_icons_list.darkmode i{
+    color: #c1bdbd;
 
+}
+.playlist_icons_list.darkmode{
+    color:white;
+}
+.historique_nom_groupe.darkmode{
+    color: #c1bdbd;
+}
+div.poster1.darkmode form textarea{
+    background-color: rgb(30, 29, 29);
+}
 .dark.darkmode:hover {
     box-shadow: 0 0 15px #fff; /* Light glow in dark mode */
     transition: box-shadow 0.2s ease;

@@ -25,8 +25,12 @@
                                             <article>
                                                 <p>{{ user }}</p>
                                                 <p>
+                                                    {% if chat.messages is not empty %}
                                                     {{ chat.messages[0].content | slice(0, 30) }}
                                                     {% if chat.messages[0].content | length > 30 %}...{% endif %}
+                                                {% else %}
+                                                    pas encore de messages.
+                                                {% endif %}
                                                 </p>
                                             </article>
                                         {% endif %}
@@ -50,7 +54,7 @@
                                 <img src="https://picsum.photos/200/200">
                                 <h2>{{ user }}</h2>
                             </div>
-                            <a href="{{ path('app_my_chats')}}">Back to chats</a>
+                            <a href="{{ path('app_my_chats')}}">Mes Chats</a>
                         {% endif %}
                     {% endfor %}
                 </div>

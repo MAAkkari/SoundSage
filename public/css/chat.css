@@ -13,7 +13,7 @@ main.chats section p {
 
 main.chats aside {
     width: 100%;
-    border: 1px solid #cccccc49;
+    border: 1px solid #afacac7a;
     height: 100%;
     display: none;
     /* Rendre scrollable */
@@ -46,7 +46,7 @@ main.chats article p:last-child {
 
 main.chats section {
     width: 700px;
-    border: 1px solid #cccccc49;
+    border: 1px solid #afacac7a;
     height: 100%;
 }
 
@@ -116,7 +116,7 @@ main.chats section {
     align-items: center;
     padding-right: 10px;
     padding: 12px;
-    border-bottom: 1px solid #b2b2b23e;
+    border-bottom: 1px solid #afacac7a;
 }
 
 .chat-with > a {
@@ -152,7 +152,7 @@ main.chats section {
     justify-content: space-between;
     align-items: center;
     padding: 5px;
-    border: 1px solid #b0b0b0af;
+    border: 1px solid #afacac7a;
     border-radius: 40px;
     width: 90%;
     margin: auto;
@@ -209,7 +209,7 @@ main.chats section {
         justify-content: space-between;
         align-items: center;
         padding: 20px;
-        border-bottom: 1px solid #cccccc49;
+        border-bottom: 1px solid #afacac7a;
     }
 
     .new-chat h3 {

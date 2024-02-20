@@ -13,11 +13,17 @@
                 <h3>{{ type|capitalize }}</h3>
                 <ul>
                     {% for item in items %}
-                        {% set routeName = type == 'groupes' ? 'show_groupe' : (type == 'albums' ? 'show_album' : (type == 'musiques' ? 'show_album' : 'show_genre')) %}
-                        {% set id = type == 'musiques' ? item.album.id : item.id %}
-                        <li><a onclick="handleLinkClick(event)" href="{{path(routeName,{'id': id})}}">{{ item.nom }}</a></li> 
+                        {% if type == 'users' %}
+                            {% set routeName = 'show_user' %} {# Adjust with your actual route name for showing a user profile #}
+                            {% set id = item.id %}
+                            <li><a onclick="handleLinkClick(event)" href="{{ path('app_user_profil', {'id': id}) }}">{{ item.pseudo }}</a></li>
+                        {% else %}
+                            {% set routeName = type == 'groupes' ? 'show_groupe' : (type == 'albums' ? 'show_album' : (type == 'musiques' ? 'show_album' : 'show_genre')) %} {# Adjust as necessary if you have a specific route for musiques #}
+                            {% set id = type == 'musiques' ? item.album.id : item.id %}
+                            <li><a onclick="handleLinkClick(event)" href="{{ path(routeName, {'id': id}) }}">{{ item.nom }}</a></li> 
+                        {% endif %}
                     {% else %}
-                        <li>Aucun {{ type }} trouver</li>
+                        <li>Aucun {{ type }} trouvé</li>
                     {% endfor %}
                 </ul>
             {% endfor %}

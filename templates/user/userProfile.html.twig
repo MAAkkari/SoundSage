@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}votre profile{% endblock %}
+
+{% block body %}
+
+{{include('include/header.html.twig')}}
+
+<div class="profile_container">
+    <figure class="photo_de_profil">
+        <img src="{{ asset('uploads/users/' ~ user.image) }}" alt="image de profile de {{user.pseudo}} ">
+    </figure>
+
+    <div class="profile_info">
+
+        <div>
+            <h2>{{user.pseudo}}</h2>
+            <p>inscription: {{ user.dateCreation|date('d F Y')|format('j F Y') }}</p>
+
+        </div>
+        <div class="profile_buttons">
+            <form action="{{ path('app_start_chat', {'id': user.id})}}">
+                <button type="submit">Envoyer un message</button>
+            </form>
+        </div>
+        
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My Chats{% endblock %}
+{% block title %}Messages{% endblock %}
 
 {% block body %}
     <main class="chats">
@@ -23,8 +23,12 @@
                                             <article>
                                                 <p>{{ user }}</p>
                                                 <p>
+                                                    {% if chat.messages is not empty %}
                                                     {{ chat.messages[0].content | slice(0, 30) }}
                                                     {% if chat.messages[0].content | length > 30 %}...{% endif %}
+                                                {% else %}
+                                                    pas encore de messages.
+                                                {% endif %}
                                                 </p>
                                             </article>
                                         {% endif %}
@@ -39,7 +43,7 @@
             </ul>
         </aside>
         <section>
-            <p>Select a chat to see the messages</p>
+            <p>Selectionnez un chat</p>
         </section>
     </main>
 <style>
